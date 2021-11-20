@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '@material-ui/core';
+import { Controller } from 'react-hook-form';
 
 InputField.propTypes = {
   form: PropTypes.object.isRequired, // hai cai quan trong nhat
@@ -11,11 +12,16 @@ InputField.propTypes = {
 };
 
 function InputField(props) {
-  const { form, name, lable, disabled } = props;
+  const { form, name, label, disabled } = props;
   return (
-    <div>
-      <TextField fullWidth />
-    </div>
+    <Controller // Controller dung thay the cho textfield thuong
+      name={name} // cai ni chac chan phai co
+      control={form.control} // cai ni chac chan phai co
+      as={TextField}
+      fullWidth
+      label={label}
+      disabled={disabled}
+    />
   );
 }
 
