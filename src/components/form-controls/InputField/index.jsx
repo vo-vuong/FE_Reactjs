@@ -22,6 +22,8 @@ function InputField(props) {
       control={form.control} // cai ni chac chan phai co
       as={TextField}
       //
+      margin="normal"
+      variant="outlined"
       fullWidth
       label={label}
       disabled={disabled}
