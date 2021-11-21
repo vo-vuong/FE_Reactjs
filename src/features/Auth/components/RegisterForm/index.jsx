@@ -24,9 +24,9 @@ function RegisterForm(props) {
   const schema = yup
     .object({
       fullName: yup.string().required('Nhap fullname').min(3, 'fullName is too short'),
-      email: yup.string().required('Nhap email'),
-      password: yup.string().required('Nhap password'),
-      retypePassword: yup.string().required('Nhap retype password'),
+      // email: yup.string().required('Nhap email'),
+      // password: yup.string().required('Nhap password'),
+      // retypePassword: yup.string().required('Nhap retype password'),
     })
     .required();
   const form = useForm({
@@ -40,7 +40,12 @@ function RegisterForm(props) {
   });
 
   const handleSubmit = (values) => {
-    console.log('form subit', values);
+    const { onSubmit } = props;
+    if (onSubmit) {
+      onSubmit(values);
+    }
+
+    form.reset();
   };
 
   return (
@@ -55,9 +60,9 @@ function RegisterForm(props) {
 
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <InputField name="fullName" label="Full Name" form={form} />
-        <InputField name="email" label="Email" form={form} />
+        {/* <InputField name="email" label="Email" form={form} />
         <InputField name="password" label="Password" form={form} />
-        <InputField name="retypePassword" label="Retype Password" form={form} />
+        <InputField name="retypePassword" label="Retype Password" form={form} /> */}
       </form>
     </div>
   );
