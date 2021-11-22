@@ -36,7 +36,15 @@ function RegisterForm(props) {
 
   const schema = yup
     .object({
-      fullName: yup.string().required('Nhap fullname').min(3, 'fullName is too short'),
+      // .test('Vui lòng nhập trên hai từ', 'Vui lòng nhập trên hai từ', (value) => {
+      //   return value.split(' ').length >= 4;
+      // }), // Tra ve true la valid tra ve false invalid.
+      // username: yup.string().required('Nhap username').min(5, )
+      fullName: yup
+        .string()
+        .required('Vui lòng nhập full name.')
+        .min(8, 'Vui lòng nhập full name lớn hơn 8 kí tự')
+        .max(32, 'Vui lòng nhập full name nhỏ hơn 32 kí tự'),
       email: yup.string().required('Nhap email'),
       password: yup.string().required('Nhap password'),
       retypePassword: yup.string().required('Nhap retype password'),
