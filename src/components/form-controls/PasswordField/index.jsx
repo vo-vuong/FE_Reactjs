@@ -19,8 +19,8 @@ PasswordField.propTypes = {
 
 function PasswordField(props) {
   const { form, name, label, disabled } = props;
-  const { errors, formState } = form;
-  const hasError = formState.touched[name] && errors[name];
+  const { errors } = form;
+  const hasError = errors[name];
 
   const [showPassword, setShowPassword] = useState(false);
 
