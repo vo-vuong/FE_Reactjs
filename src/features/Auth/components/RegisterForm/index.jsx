@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import InputField from '../../../../components/form-controls/InputField';
+import PasswordField from '../../../../components/form-controls/PasswordField';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -17,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(3),
   },
   avatar: {
-    margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main, //theme.palette lay bang mau trong theme material
     margin: '0 auto',
   },
@@ -75,10 +75,10 @@ function RegisterForm(props) {
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <InputField name="fullName" label="Full Name" form={form} />
         <InputField name="email" label="Email" form={form} />
-        <InputField name="password" label="Password" form={form} />
-        <InputField name="retypePassword" label="Retype Password" form={form} />
+        <PasswordField name="password" label="Password" form={form} />
+        <PasswordField name="retypePassword" label="Retype Password" form={form} />
 
-        <Button fullWidth className={classes.submit} variant="contained" color="primary">
+        <Button type="submit" fullWidth className={classes.submit} variant="contained" color="primary">
           Create an account
         </Button>
       </form>
