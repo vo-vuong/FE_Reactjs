@@ -33,28 +33,42 @@ const useStyles = makeStyles((theme) => ({
 
 function RegisterForm(props) {
   const classes = useStyles();
-
-  const schema = yup
-    .object({
-      // .test('Vui lòng nhập trên hai từ', 'Vui lòng nhập trên hai từ', (value) => {
-      //   return value.split(' ').length >= 4;
-      // }), // Tra ve true la valid tra ve false invalid.
-      // username: yup.string().required('Nhap username').min(5, )
-      fullName: yup
-        .string()
-        .required('Vui lòng nhập full name.')
-        .min(8, 'Vui lòng nhập full name lớn hơn 8 kí tự')
-        .max(32, 'Vui lòng nhập full name nhỏ hơn 32 kí tự'),
-      email: yup.string().required('Nhap email'),
-      password: yup.string().required('Nhap password'),
-      retypePassword: yup.string().required('Nhap retype password'),
-    })
-    .required();
+  const phoneRegExp =
+    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+  const schema = yup.object({
+    // .test('Vui lòng nhập trên hai từ', 'Vui lòng nhập trên hai từ', (value) => {
+    //   return value.split(' ').length >= 4;
+    // }), // Tra ve true la valid tra ve false invalid.
+    // username: yup.string().required('Nhap username').min(5, )
+    fullName: yup
+      .string()
+      .required('Vui lòng nhập full name.')
+      .min(8, 'Vui lòng nhập full name lớn hơn 8 kí tự.')
+      .max(32, 'Vui lòng nhập full name nhỏ hơn 32 kí tự.'),
+    username: yup
+      .string()
+      .required('Vui lòng nhập username')
+      .min(5, 'Vui lòng nhập username lớn hơn 5 kí tự.')
+      .max(32, 'Vui lòng nhập username nhỏ hơn 32 kí tự.'),
+    email: yup.string().required('Vui lòng nhập email.').email('Vui lòng nhập email hợp lệ.'),
+    phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+    password: yup
+      .string()
+      .required('Vui lòng nhập password.')
+      .min(5, 'Vui lòng nhập password lớn hơn 5 kí tự.')
+      .max(20, 'Vui lòng nhập password nhỏ hơn 20 kí tự.'),
+    retypePassword: yup
+      .string()
+      .required('Vui lòng nhập retype password')
+      .oneOf([yup.ref('password')], 'Password không khớp.'),
+  });
 
   const form = useForm({
     defaultValues: {
       fullName: '',
+      username: '',
       email: '',
+      phone: '',
       password: '',
       retypePassword: '',
     },
@@ -82,7 +96,9 @@ function RegisterForm(props) {
 
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <InputField name="fullName" label="Full Name" form={form} />
+        <InputField name="username" label="username" form={form} />
         <InputField name="email" label="Email" form={form} />
+        <InputField name="phone" label="phone" form={form} />
         <PasswordField name="password" label="Password" form={form} />
         <PasswordField name="retypePassword" label="Retype Password" form={form} />
 
