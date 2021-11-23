@@ -42,25 +42,25 @@ function RegisterForm(props) {
     // username: yup.string().required('Nhap username').min(5, )
     fullName: yup
       .string()
-      .required('Vui lòng nhập full name.')
-      .min(8, 'Vui lòng nhập full name lớn hơn 8 kí tự.')
-      .max(32, 'Vui lòng nhập full name nhỏ hơn 32 kí tự.'),
+      .required('Vui lòng nhập Họ và tên.')
+      .min(8, 'Vui lòng nhập Họ và tên lớn hơn 8 kí tự.')
+      .max(32, 'Vui lòng nhập Họ và tên nhỏ hơn 32 kí tự.'),
     username: yup
       .string()
-      .required('Vui lòng nhập username')
-      .min(5, 'Vui lòng nhập username lớn hơn 5 kí tự.')
-      .max(32, 'Vui lòng nhập username nhỏ hơn 32 kí tự.'),
-    email: yup.string().required('Vui lòng nhập email.').email('Vui lòng nhập email hợp lệ.'),
+      .required('Vui lòng nhập Tên đăng nhập')
+      .min(5, 'Vui lòng nhập Tên đăng nhập lớn hơn 5 kí tự.')
+      .max(32, 'Vui lòng nhập Tên đăng nhập nhỏ hơn 32 kí tự.'),
+    email: yup.string().required('Vui lòng nhập email.').email('Vui lòng nhập Email hợp lệ.'),
     phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
     password: yup
       .string()
-      .required('Vui lòng nhập password.')
-      .min(5, 'Vui lòng nhập password lớn hơn 5 kí tự.')
-      .max(20, 'Vui lòng nhập password nhỏ hơn 20 kí tự.'),
+      .required('Vui lòng nhập Mật khẩu.')
+      .min(5, 'Vui lòng nhập Mật khẩu lớn hơn 5 kí tự.')
+      .max(20, 'Vui lòng nhập Mật khẩu nhỏ hơn 20 kí tự.'),
     retypePassword: yup
       .string()
-      .required('Vui lòng nhập retype password')
-      .oneOf([yup.ref('password')], 'Password không khớp.'),
+      .required('Vui lòng nhập Xác nhận mật khẩu')
+      .oneOf([yup.ref('password')], 'Mật khẩu không khớp.'),
   });
 
   const form = useForm({
@@ -95,12 +95,12 @@ function RegisterForm(props) {
       </Typography>
 
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <InputField name="fullName" label="Full Name" form={form} />
-        <InputField name="username" label="username" form={form} />
-        <InputField name="email" label="Email" form={form} />
-        <InputField name="phone" label="phone" form={form} />
-        <PasswordField name="password" label="Password" form={form} />
-        <PasswordField name="retypePassword" label="Retype Password" form={form} />
+        <InputField name="fullName" label="Họ và tên*" form={form} />
+        <InputField name="username" label="Tên đăng nhập*" form={form} />
+        <InputField name="email" label="Email*" form={form} />
+        <InputField name="phone" label="Số điện thoại*" form={form} />
+        <PasswordField name="password" label="Mật khẩu*" form={form} />
+        <PasswordField name="retypePassword" label="Xác nhận mật khẩu*" form={form} />
 
         <Button type="submit" fullWidth className={classes.submit} variant="contained" color="primary">
           Create an account
