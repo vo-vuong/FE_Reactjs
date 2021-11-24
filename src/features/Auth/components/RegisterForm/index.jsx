@@ -1,4 +1,4 @@
-import { Avatar, Button, makeStyles, Typography } from '@material-ui/core';
+import { Avatar, Button, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -15,6 +15,7 @@ RegisterForm.propTypes = {
 const useStyles = makeStyles((theme) => ({
   // return ra object nen co dau ngoac o ngoai
   root: {
+    position: 'relative',
     paddingTop: theme.spacing(3),
   },
   avatar: {
@@ -28,6 +29,13 @@ const useStyles = makeStyles((theme) => ({
 
   submit: {
     margin: theme.spacing(2, 0, 2, 0),
+  },
+
+  progress: {
+    position: 'absolute',
+    top: theme.spacing(1),
+    left: 0,
+    right: 0,
   },
 }));
 
@@ -75,17 +83,20 @@ function RegisterForm(props) {
     resolver: yupResolver(schema),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
-      onSubmit(values);
+      await onSubmit(values);
     }
 
     form.reset();
   };
 
+  const { isSubmitting } = form.formState;
+
   return (
     <div className={classes.root}>
+      {isSubmitting && <LinearProgress className={classes.progress} />}
       <Avatar className={classes.avatar}>
         <LockOutlined />
       </Avatar>
@@ -102,7 +113,14 @@ function RegisterForm(props) {
         <PasswordField name="password" label="Mật khẩu*" form={form} />
         <PasswordField name="retypePassword" label="Xác nhận mật khẩu*" form={form} />
 
-        <Button type="submit" fullWidth className={classes.submit} variant="contained" color="primary">
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          fullWidth
+          className={classes.submit}
+          variant="contained"
+          color="primary"
+        >
           Create an account
         </Button>
       </form>
