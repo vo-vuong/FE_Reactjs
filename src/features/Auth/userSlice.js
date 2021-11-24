@@ -6,10 +6,12 @@ export const register = createAsyncThunk('users/register', async (payload) => {
   // call API to register
   const data = await userApi.register(payload);
   // save data to local storage
-  localStorage.setItem('access_token', data.jwt);
-  localStorage.setItem('user', JSON.stringify(data.user));
-
-  return data.user; //cho nay return ra payload cho action*  Vi vay cho nay return ra user data
+  // localStorage.setItem('token', data.jwt);
+  localStorage.setItem('user', JSON.stringify(data.data.object));
+  // data tra ra khi request to server
+  // console.log(data);
+  // console.log(data.data.object);
+  return data.data.object; //cho nay return ra payload cho action*  Vi vay cho nay return ra user data
 });
 
 const userSlice = createSlice({

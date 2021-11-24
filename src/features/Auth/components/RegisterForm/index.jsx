@@ -89,7 +89,7 @@ function RegisterForm(props) {
       await onSubmit(values);
     }
 
-    form.reset();
+    // form.reset();  Bo vi khi loi thi khong reset form  ma khi thanh cong thi dong form roi
   };
 
   const { isSubmitting } = form.formState;

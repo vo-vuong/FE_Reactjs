@@ -31,7 +31,8 @@ function Register(props) {
       console.log('New user', user);
       enqueueSnackbar('Bạn đã đăng kí thành công.', { variant: 'success' });
     } catch (error) {
-      console.log('Failed to register:', error);
+      // console.log('Failed to register:', error);
+      enqueueSnackbar(error.message, { variant: 'error' });
     }
   };
 
