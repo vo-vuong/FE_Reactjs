@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import userApi from 'api/userApi';
 
-const register = createAsyncThunk('users/register', async (payload) => {
+export const register = createAsyncThunk('users/register', async (payload) => {
   // neu can dispatch mot action khac thi sai thunkAPI. thunkAPI them o phan tham so
   // call API to register
   const data = await userApi.register(payload);
@@ -9,7 +9,7 @@ const register = createAsyncThunk('users/register', async (payload) => {
   localStorage.setItem('access_token', data.jwt);
   localStorage.setItem('user', JSON.stringify(data.user));
 
-  return {}; //cho nay return ra payload cho action*  Vi vay cho nay return ra user data
+  return data.user; //cho nay return ra payload cho action*  Vi vay cho nay return ra user data
 });
 
 const userSlice = createSlice({
