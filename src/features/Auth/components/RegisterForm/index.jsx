@@ -40,7 +40,7 @@ function RegisterForm(props) {
     //   return value.split(' ').length >= 4;
     // }), // Tra ve true la valid tra ve false invalid.
     // username: yup.string().required('Nhap username').min(5, )
-    fullName: yup
+    fullname: yup
       .string()
       .required('Vui lòng nhập Họ và tên.')
       .min(8, 'Vui lòng nhập Họ và tên lớn hơn 8 kí tự.')
@@ -65,7 +65,7 @@ function RegisterForm(props) {
 
   const form = useForm({
     defaultValues: {
-      fullName: '',
+      fullname: '',
       username: '',
       email: '',
       phone: '',
@@ -95,7 +95,7 @@ function RegisterForm(props) {
       </Typography>
 
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <InputField name="fullName" label="Họ và tên*" form={form} />
+        <InputField name="fullname" label="Họ và tên*" form={form} />
         <InputField name="username" label="Tên đăng nhập*" form={form} />
         <InputField name="email" label="Email*" form={form} />
         <InputField name="phone" label="Số điện thoại*" form={form} />
