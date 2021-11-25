@@ -7,10 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { Close } from '@material-ui/icons';
+import { AccountCircle, Close } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
 import Login from 'features/Auth/components/Login';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Register from '../../features/Auth/components/Register';
 
@@ -43,6 +44,8 @@ const MODE = {
 };
 
 export default function Header() {
+  const loggedInUser = useSelector((state) => state.user.current);
+  const isLoggedIn = !!loggedInUser.id;
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
 
@@ -67,9 +70,17 @@ export default function Header() {
               Musical 16
             </Link>
           </Typography>
-          <Button color="inherit" onClick={handleClickOpen}>
-            Đăng kí
-          </Button>
+          {!isLoggedIn && (
+            <Button color="inherit" onClick={handleClickOpen}>
+              Đăng nhập
+            </Button>
+          )}
+
+          {isLoggedIn && (
+            <IconButton color="inherit">
+              <AccountCircle />
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
 
