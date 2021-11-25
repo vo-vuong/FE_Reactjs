@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Close } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
+import Login from 'features/Auth/components/Login';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Register from '../../features/Auth/components/Register';
@@ -70,7 +71,8 @@ export default function Header() {
           <Close />
         </IconButton>
         <DialogContent>
-          <Register closeDialog={handleClose} />
+          {/* <Register closeDialog={handleClose} /> */}
+          <Login closeDialog={handleClose} />
         </DialogContent>
       </Dialog>
     </div>
