@@ -61,12 +61,18 @@ export default function Header() {
             </Link>
           </Typography>
           <Button color="inherit" onClick={handleClickOpen}>
-            Register
+            Đăng kí
           </Button>
         </Toolbar>
       </AppBar>
 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
         <IconButton className={classes.closeButton} onClick={handleClose}>
           <Close />
         </IconButton>
