@@ -30,7 +30,15 @@ const userSlice = createSlice({
     current: JSON.parse(localStorage.getItem(StorageKeys.USER)) || {}, // O day set gia tri State luc khoi tao
     setting: {},
   },
-  reducers: {},
+  reducers: {
+    //hinh nhu cai nay la action thi phai (reducers)
+    logout(state) {
+      // clear localstorage
+      localStorage.removeItem(StorageKeys.USER);
+      localStorage.removeItem(StorageKeys.TOKEN);
+      state.current = {};
+    },
+  },
   extraReducers: {
     // [register.fulfilled] thuc ra cung la mot cai chuoi.
     [register.fulfilled]: (state, action) => {
@@ -43,5 +51,6 @@ const userSlice = createSlice({
   },
 });
 
-const { reducer } = userSlice;
+const { actions, reducer } = userSlice;
+export const { logout } = actions;
 export default reducer;
