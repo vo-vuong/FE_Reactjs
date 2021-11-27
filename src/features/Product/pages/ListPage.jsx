@@ -14,6 +14,15 @@ const useStyles = makeStyles((theme) => ({
   right: {
     flex: '1 1 0',
   },
+
+  pagination: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    justifyContent: 'center',
+
+    marginTop: '20px',
+    paddingBottom: '10px',
+  },
 }));
 ListPage.propTypes = {};
 
@@ -66,13 +75,15 @@ function ListPage(props) {
             <Paper elevation={0}>
               {loading ? <ProductSkeletonList /> : <ProductList data={productList} />}
 
-              <Pagination
-                variant="outlined"
-                color="primary"
-                count={pagination.totalPage}
-                page={pagination.page}
-                onChange={handlePageChange}
-              ></Pagination>
+              <Box className={classes.pagination}>
+                <Pagination
+                  variant="outlined"
+                  color="primary"
+                  count={pagination.totalPage}
+                  page={pagination.page}
+                  onChange={handlePageChange}
+                ></Pagination>
+              </Box>
             </Paper>
           </Grid>
         </Grid>
@@ -84,5 +95,8 @@ function ListPage(props) {
 // trong Box co container de trong hai ben
 // trong bosstrap co row column thi trong marial co grid
 // Gird o ngoai la row, hai cai o trong column
+
+// Can giua mot cai chi do nhu pagination, cho cai box o ngoai la flex roi cau hinh cho no.
+// Tang khoang cach giua thang cha va thang con thi dung pading, khac voi 2 item
 
 export default ListPage;
