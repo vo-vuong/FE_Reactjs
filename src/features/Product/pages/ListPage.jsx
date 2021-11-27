@@ -4,6 +4,7 @@ import productApi from 'api/productApi';
 import React, { useEffect, useState } from 'react';
 import ProductList from '../components/ProductList';
 import ProductSkeletonList from '../components/ProductSkeletonList';
+import ProductSort from '../components/ProductSort';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -38,6 +39,7 @@ function ListPage(props) {
 
   const [filters, setFilters] = useState({
     page: 1, //default filters
+    sort: 'gia-thap-den-cao',
   });
 
   useEffect(() => {
@@ -63,16 +65,24 @@ function ListPage(props) {
     }));
   };
 
+  const handleSortChange = (newSortValue) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      sort: newSortValue,
+    }));
+  };
+
   return (
     <Box>
       <Container>
         <Grid container spacing={1}>
           <Grid item className={classes.left}>
-            <Paper elevation={0}>Left column </Paper>
+            <Paper elevation={0}>Danh mục đây</Paper>
           </Grid>
 
           <Grid item className={classes.right}>
             <Paper elevation={0}>
+              <ProductSort currentSort={filters.sort} onChange={handleSortChange}></ProductSort>
               {loading ? <ProductSkeletonList /> : <ProductList data={productList} />}
 
               <Box className={classes.pagination}>
