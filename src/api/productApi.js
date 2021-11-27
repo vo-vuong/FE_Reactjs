@@ -4,9 +4,9 @@ const productApi = {
   async getAll(params) {
     console.log(params);
     const productList = await axiosClient.get('/product', { params: params });
-
+    // console.log(productList.list);
     return {
-      data: productList,
+      data: productList.list,
       pagination: { page: productList.page, totalPage: productList.totalPage },
     };
   },

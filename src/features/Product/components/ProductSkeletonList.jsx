@@ -14,7 +14,7 @@ ProductSkeletonList.defaultProps = {
 function ProductSkeletonList({ length }) {
   return (
     <Box>
-      <Grid>
+      <Grid container>
         {Array.from(new Array(length)).map((x, index) => (
           <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
             <Box padding={1}>
@@ -27,6 +27,7 @@ function ProductSkeletonList({ length }) {
       </Grid>
     </Box>
   );
+  // <Grid container> Xem lai tai sao co container no lai chia ra hang ngang dc
 }
 
 export default ProductSkeletonList;
