@@ -1,7 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Grid } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Product from './Product';
 
 ProductList.propTypes = {
@@ -13,7 +12,7 @@ ProductList.defaultProps = {
 };
 
 function ProductList({ data }) {
-  console.log(data);
+  // console.log(data);
   return (
     <Box>
       <Grid container>
