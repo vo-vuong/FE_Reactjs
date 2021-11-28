@@ -6,6 +6,8 @@ import ProductFilters from '../components/ProductFilters';
 import ProductList from '../components/ProductList';
 import ProductSkeletonList from '../components/ProductSkeletonList';
 import ProductSort from '../components/ProductSort';
+import { useHistory, useLocation } from 'react-router';
+import queryString from 'query-string';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -30,6 +32,9 @@ ListPage.propTypes = {};
 
 function ListPage(props) {
   const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
+  const queryParams = queryString.parse(location.search);
   // Thuong phan trang se co 3 state
   const [productList, setProductList] = useState([]);
   const [pagination, setPagination] = useState({
@@ -38,10 +43,23 @@ function ListPage(props) {
   });
   const [loading, setLoading] = useState(true);
 
-  const [filters, setFilters] = useState({
-    page: 1, //default filters
+  // const [filters, setFilters] = useState({
+  //   page: 1, //default filters
+  //   sort: 'gia-thap-den-cao',
+  // });
+  const [filters, setFilters] = useState(() => ({
+    ...queryParams,
+    page: Number.parseInt(queryParams.page) || 1, //default filters
     sort: 'gia-thap-den-cao',
-  });
+  }));
+
+  useEffect(() => {
+    // Sync filters to URL
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
+  }, [history, filters]);
 
   useEffect(() => {
     (async () => {
