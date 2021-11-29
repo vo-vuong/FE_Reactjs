@@ -1,13 +1,13 @@
 import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import productApi from 'api/productApi';
+import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
 import ProductFilters from '../components/ProductFilters';
 import ProductList from '../components/ProductList';
 import ProductSkeletonList from '../components/ProductSkeletonList';
 import ProductSort from '../components/ProductSort';
-import { useHistory, useLocation } from 'react-router';
-import queryString from 'query-string';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -28,9 +28,8 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '10px',
   },
 }));
-ListPage.propTypes = {};
 
-function ListPage(props) {
+function ListPage() {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
