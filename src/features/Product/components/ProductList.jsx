@@ -4,7 +4,7 @@ import React from 'react';
 import Product from './Product';
 
 ProductList.propTypes = {
-  data: PropTypes.number,
+  data: PropTypes.array,
 };
 
 ProductList.defaultProps = {
