@@ -1,7 +1,9 @@
 import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import React from 'react';
-import { useRouteMatch } from 'react-router';
+import { Route, useRouteMatch, Switch } from 'react-router';
 import AddToCartForm from '../components/AddToCartForm';
+import ProductDescription from '../components/ProductDescription';
+import ProductEvaluation from '../components/ProductEvaluation';
 import ProductInfo from '../components/ProductInfo';
 import ProductMenu from '../components/ProductMenu';
 import ProductThumbnail from '../components/ProductThumbnail';
@@ -27,6 +29,7 @@ function DetailPage() {
   // console.log({ match }); get param do tren url
   const {
     params: { productId },
+    url,
   } = useRouteMatch(); // day la destructuring 2 tang
   //Binh thuong khi co productId roi se useEffect get san pham. nhung bay gio se lam custom hook
 
@@ -57,6 +60,13 @@ function DetailPage() {
         </Paper>
 
         <ProductMenu />
+        <Switch>
+          <Route exact path={url}>
+            <ProductDescription product={product} />
+          </Route>
+
+          <Route path={`${url}/evaluation`} component={ProductEvaluation} />
+        </Switch>
       </Container>
     </Box>
   );

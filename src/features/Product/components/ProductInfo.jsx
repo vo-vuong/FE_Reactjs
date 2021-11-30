@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ProductInfo({ product = {} }) {
   const classes = useStyles();
-  const { name, shortdescription, price, detail, quantity } = product;
+  const { name, shortdescription, price, quantity } = product;
 
   return (
     <Box className={classes.root}>
@@ -42,7 +42,6 @@ function ProductInfo({ product = {} }) {
           {quantity}
         </Box>
       </Box>
-      <Box>{detail}</Box>
     </Box>
   );
 }
