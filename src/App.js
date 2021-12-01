@@ -1,3 +1,4 @@
+import CartFeature from 'features/Cart';
 import ProductFeature from 'features/Product';
 import { Route, Switch } from 'react-router';
 import Header from './components/Header';
@@ -9,6 +10,7 @@ function App() {
 
       <Switch>
         <Route path="/products" component={ProductFeature} />
+        <Route path="/cart" component={CartFeature} />
       </Switch>
     </div>
   );
