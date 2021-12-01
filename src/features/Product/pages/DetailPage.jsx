@@ -1,5 +1,7 @@
 import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@material-ui/core';
+import { addToCart } from 'features/Cart/cartSlice';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Route, useRouteMatch, Switch } from 'react-router';
 import AddToCartForm from '../components/AddToCartForm';
 import ProductDescription from '../components/ProductDescription';
@@ -44,6 +46,7 @@ function DetailPage() {
   //Binh thuong khi co productId roi se useEffect get san pham. nhung bay gio se lam custom hook
 
   const { product, loading } = useProductDetail(productId);
+  const dispatch = useDispatch();
 
   if (loading) {
     return (
@@ -52,9 +55,13 @@ function DetailPage() {
       </Box>
     );
   }
-
-  const handleAddToCartSubmit = (formValues) => {
-    console.log('Form submit', formValues);
+  const handleAddToCartSubmit = ({ quantity }) => {
+    const action = addToCart({
+      id: product.id,
+      product,
+      quantity,
+    });
+    dispatch(action);
   };
 
   return (
