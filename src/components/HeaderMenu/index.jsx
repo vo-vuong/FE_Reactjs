@@ -25,7 +25,7 @@ export default function HeaderMenu() {
   return (
     <Container>
       <Paper className={classes.root}>
-        <Tabs value={value} onChange={handleChange} centered indicatorColor={'secondary'}>
+        <Tabs value={value} onChange={handleChange} centered TabIndicatorProps={{ style: { background: 'black' } }}>
           <Tab label="Trang chủ" value="" />
           <Tab label="Sản phẩm" value="products" />
           <Tab label="Bài viết" value="contets" />
