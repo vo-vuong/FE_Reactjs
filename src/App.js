@@ -1,3 +1,4 @@
+import HeaderMenu from 'components/HeaderMenu';
 import CartFeature from 'features/Cart';
 import HomeFeature from 'features/Home';
 import ProductFeature from 'features/Product';
@@ -8,6 +9,7 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <HeaderMenu />
 
       <Switch>
         <Route path="/" component={HomeFeature} exact />

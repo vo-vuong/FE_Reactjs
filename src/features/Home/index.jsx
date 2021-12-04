@@ -10,7 +10,7 @@ HomeFeature.propTypes = {};
 function HomeFeature(props) {
   const match = useRouteMatch();
   return (
-    <Box pt={4}>
+    <Box>
       <Switch>
         <Route path={match.url} exact component={HomePage} />
       </Switch>
