@@ -1,42 +1,15 @@
-import { Box, Container, Grid, Link, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import productApi from 'api/productApi';
+import ImageBanner from 'components/ImageBanner';
 import React, { useEffect, useState } from 'react';
 import FavoriteProductList from '../components/FavoriteProductList';
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  mainFeaturedPost: {
-    width: '100%',
-    height: '50vh',
-    position: 'relative',
-    backgroundColor: theme.palette.grey[800],
-    color: theme.palette.common.white,
-    marginBottom: theme.spacing(4),
-    backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    backgroundColor: 'rgba(0,0,0,.3)',
-  },
-  mainFeaturedPostContent: {
-    position: 'relative',
-    padding: theme.spacing(3),
-    [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(6),
-      paddingRight: 0,
-    },
-  },
-}));
+const useStyles = makeStyles((theme) => ({}));
 
-function HomePage({ post }) {
+function HomePage() {
   const classes = useStyles();
+  const ImgBannerProductStyle = { width: '100%', height: '50vh' };
+  const ImgBannerContentStyle = { width: '100%', height: '200px', marginTop: '20px' };
   const [productList, setProductList] = useState([]);
 
   const filters = {
@@ -61,31 +34,23 @@ function HomePage({ post }) {
   return (
     <Box>
       <Container>
-        <Grid container>
-          <Paper className={classes.mainFeaturedPost}>
-            {/* Increase the priority of the hero background image */}
-            {<img style={{ display: 'none' }} alt="test" src="https://source.unsplash.com/random" />}
-            <div className={classes.overlay} />
-            <Grid container>
-              <Grid item md={6}>
-                <div className={classes.mainFeaturedPostContent}>
-                  <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                    post.title
-                  </Typography>
-                  <Typography variant="h5" color="inherit" paragraph>
-                    post.description
-                  </Typography>
-                  <Link variant="subtitle1" href="#">
-                    post.linkText
-                  </Link>
-                </div>
-              </Grid>
-            </Grid>
-          </Paper>
-        </Grid>
+        <ImageBanner
+          title="Hello Xin chào!!!"
+          description="HI"
+          linkText="Đi đâu đó"
+          link="/hi"
+          style={ImgBannerProductStyle}
+        />
         <Grid container>
           <FavoriteProductList title="Sản phẩm nổi bật" productList={productList} />
         </Grid>
+        <ImageBanner
+          title="Hello Bai viet!!!"
+          description="HI"
+          linkText="Đi đâu đó"
+          link="/hi"
+          style={ImgBannerContentStyle}
+        />
       </Container>
     </Box>
   );
