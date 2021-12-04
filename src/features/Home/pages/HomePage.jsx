@@ -1,6 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Container, Grid, Link, makeStyles, Paper, Typography } from '@material-ui/core';
+import productApi from 'api/productApi';
+import React, { useEffect, useState } from 'react';
+import FavoriteProductList from '../components/FavoriteProductList';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -34,10 +35,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-HomePage.propTypes = {};
-
 function HomePage({ post }) {
   const classes = useStyles();
+  const [productList, setProductList] = useState([]);
+
+  const filters = {
+    page: 1,
+    sort: 'gia-thap-den-cao',
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // goi request len server thi kem try catch
+        const { data } = await productApi.getAll({ filters }); // desturing data
+        setProductList(data.slice(0, 8));
+      } catch (error) {
+        console.log('Failed load product', error);
+      }
+
+      // setLoading(false);
+    })();
+  }, []);
 
   return (
     <Box>
@@ -45,7 +64,7 @@ function HomePage({ post }) {
         <Grid container>
           <Paper className={classes.mainFeaturedPost}>
             {/* Increase the priority of the hero background image */}
-            {<img style={{ display: 'none' }} src="https://source.unsplash.com/random" />}
+            {<img style={{ display: 'none' }} alt="test" src="https://source.unsplash.com/random" />}
             <div className={classes.overlay} />
             <Grid container>
               <Grid item md={6}>
@@ -63,6 +82,9 @@ function HomePage({ post }) {
               </Grid>
             </Grid>
           </Paper>
+        </Grid>
+        <Grid container>
+          <FavoriteProductList title="Sản phẩm nổi bật" productList={productList} />
         </Grid>
       </Container>
     </Box>
