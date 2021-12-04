@@ -1,4 +1,4 @@
-import { Box, Container, Grid, makeStyles } from '@material-ui/core';
+import { Container, Grid, makeStyles } from '@material-ui/core';
 import productApi from 'api/productApi';
 import ImageBanner from 'components/ImageBanner';
 import React, { useEffect, useState } from 'react';
@@ -7,7 +7,6 @@ import FavoriteProductList from '../components/FavoriteProductList';
 const useStyles = makeStyles((theme) => ({}));
 
 function HomePage() {
-  const classes = useStyles();
   const ImgBannerProductStyle = { width: '100%', height: '50vh' };
   const ImgBannerContentStyle = { width: '100%', height: '200px', marginTop: '20px' };
   const [productList, setProductList] = useState([]);
@@ -32,27 +31,25 @@ function HomePage() {
   }, []);
 
   return (
-    <Box>
-      <Container>
-        <ImageBanner
-          title="Hello Xin chào!!!"
-          description="HI"
-          linkText="Đi đâu đó"
-          link="/hi"
-          style={ImgBannerProductStyle}
-        />
-        <Grid container>
-          <FavoriteProductList title="Sản phẩm nổi bật" productList={productList} />
-        </Grid>
-        <ImageBanner
-          title="Hello Bai viet!!!"
-          description="HI"
-          linkText="Đi đâu đó"
-          link="/hi"
-          style={ImgBannerContentStyle}
-        />
-      </Container>
-    </Box>
+    <Container>
+      <ImageBanner
+        title="Hello Xin chào!!!"
+        description="HI"
+        linkText="Đi đâu đó"
+        link="/hi"
+        style={ImgBannerProductStyle}
+      />
+      <Grid container>
+        <FavoriteProductList title="Sản phẩm nổi bật" productList={productList} />
+      </Grid>
+      <ImageBanner
+        title="Hello Bai viet!!!"
+        description="HI"
+        linkText="Đi đâu đó"
+        link="/hi"
+        style={ImgBannerContentStyle}
+      />
+    </Container>
   );
 }
 // Box cai ngoai cung Phan tich layout tu ngoai vao trong. tu trai sang phai

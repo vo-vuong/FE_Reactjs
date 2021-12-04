@@ -1,3 +1,4 @@
+import Footer from 'components/Footer';
 import HeaderMenu from 'components/HeaderMenu';
 import CartFeature from 'features/Cart';
 import HomeFeature from 'features/Home';
@@ -16,6 +17,8 @@ function App() {
         <Route path="/products" component={ProductFeature} />
         <Route path="/cart" component={CartFeature} />
       </Switch>
+
+      <Footer />
     </div>
   );
 }
