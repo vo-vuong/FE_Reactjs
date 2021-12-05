@@ -19,6 +19,7 @@ export default function HeaderMenu() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    history.push('/');
     history.push(newValue);
   };
 
