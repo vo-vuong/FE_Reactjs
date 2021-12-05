@@ -2,7 +2,7 @@ import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@materi
 import { addToCart } from 'features/Cart/cartSlice';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Route, useRouteMatch, Switch } from 'react-router';
+import { Route, Switch, useRouteMatch } from 'react-router';
 import AddToCartForm from '../components/AddToCartForm';
 import ProductDescription from '../components/ProductDescription';
 import ProductEvaluation from '../components/ProductEvaluation';
@@ -39,6 +39,7 @@ function DetailPage() {
   const classes = useStyles();
   // const match = useRouteMatch();
   // console.log({ match }); get param do tren url
+
   const {
     params: { productId },
     url,
