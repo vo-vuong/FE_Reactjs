@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 export default function HeaderMenu() {
   const classes = useStyles();
   const history = useHistory();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState('');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

@@ -38,7 +38,7 @@ export default function Footer() {
         </Grid>
         {Object.keys(content).map(function (key) {
           return (
-            <Grid item className={classes.paper}>
+            <Grid key={key} item className={classes.paper}>
               {content[key]}
             </Grid>
           );
@@ -50,14 +50,14 @@ export default function Footer() {
   return (
     <Box className={classes.root}>
       <Container className={classes.containerFooter}>
-        <Grid container spacing={1}>
-          <Grid item xs={4} spacing={3}>
+        <Grid container>
+          <Grid item xs={4}>
             <FormCustom title="Về chúng tôi" content={contentAbout} />
           </Grid>
-          <Grid item xs={4} spacing={3}>
+          <Grid item xs={4}>
             <FormCustom title="Dịch vụ" content={contentService} />
           </Grid>
-          <Grid item xs={4} spacing={3}>
+          <Grid item xs={4}>
             <FormCustom title="Liên hệ" content={contentInfo} />
           </Grid>
         </Grid>

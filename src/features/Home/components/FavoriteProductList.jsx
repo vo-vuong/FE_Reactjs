@@ -26,7 +26,7 @@ function FavoriteProductList({ title, productList }) {
   return (
     <div>
       <Paper square className={classes.root}>
-        <Tabs className={classes.tabsHome} indicatorColor="primary" textColor="primary">
+        <Tabs value={0} className={classes.tabsHome} TabIndicatorProps={{ style: { background: 'none' } }}>
           <Tab label={title} className={classes.tabHomeChildren} />
         </Tabs>
         <ProductList data={productList} />

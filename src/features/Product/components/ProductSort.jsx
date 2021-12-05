@@ -15,8 +15,7 @@ function ProductSort({ currentSort, onChange }) {
   return (
     <Tabs
       value={currentSort}
-      indicatorColor="primary"
-      textColor="color"
+      TabIndicatorProps={{ style: { background: 'black' } }}
       onChange={handleSortChange}
       aria-label="disabled tabs example"
     >
