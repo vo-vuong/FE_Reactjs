@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import FilterByCategory from './Filters/FilterByCategory';
 
 ProductFilters.propTypes = {
-  filters: PropTypes.bool.isRequired,
+  filters: PropTypes.object.isRequired,
   onChange: PropTypes.func,
 };
 
