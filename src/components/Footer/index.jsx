@@ -38,7 +38,7 @@ export default function Footer() {
         </Grid>
         {Object.keys(content).map(function (key) {
           return (
-            <Grid item className={classes.paper}>
+            <Grid key={key} item className={classes.paper}>
               {content[key]}
             </Grid>
           );
