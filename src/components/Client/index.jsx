@@ -2,7 +2,7 @@ import Footer from 'components/Footer';
 import Header from 'components/Header';
 import HeaderMenu from 'components/HeaderMenu';
 import CartFeature from 'features/Cart';
-import HomePage from 'features/Home/pages/HomePage';
+import HomeFeature from 'features/Home';
 import ProductFeature from 'features/Product';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router';
@@ -19,7 +19,7 @@ function Client(props) {
       <HeaderMenu />
 
       <Switch>
-        <Route exact path={match.url} component={HomePage} />
+        <Route exact path={match.url} component={HomeFeature} />
         <Route path="/products" component={ProductFeature} />
         <Route path="/cart" component={CartFeature} />
       </Switch>
