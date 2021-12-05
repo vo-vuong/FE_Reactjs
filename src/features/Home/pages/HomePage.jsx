@@ -1,22 +1,19 @@
-import { Container, Grid, makeStyles } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import productApi from 'api/productApi';
 import ImageBanner from 'components/ImageBanner';
 import React, { useEffect, useState } from 'react';
 import FavoriteProductList from '../components/FavoriteProductList';
-
-const useStyles = makeStyles((theme) => ({}));
 
 function HomePage() {
   const ImgBannerProductStyle = { width: '100%', height: '50vh' };
   const ImgBannerContentStyle = { width: '100%', height: '200px', marginTop: '20px' };
   const [productList, setProductList] = useState([]);
 
-  const filters = {
-    page: 1,
-    sort: 'gia-thap-den-cao',
-  };
-
   useEffect(() => {
+    const filters = {
+      page: 1,
+      sort: 'gia-thap-den-cao',
+    };
     (async () => {
       try {
         // goi request len server thi kem try catch
