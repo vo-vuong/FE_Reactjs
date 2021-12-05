@@ -1,19 +1,16 @@
-import ProductFeature from 'features/Product';
+import Admin from 'components/Admin';
+import Client from 'components/Client';
 import { Route, Switch } from 'react-router';
-import Header from './components/Header';
 
 function App() {
   return (
     <div className="App">
-      <Header />
-
       <Switch>
-        <Route path="/products" component={ProductFeature} />
+        <Route exact path="/admin" component={Admin} />
+        <Route path="/" component={Client} />
       </Switch>
     </div>
   );
 }
 
 export default App;
-
-// Trong ProductFeature lai co routing de di xuong trang listing.

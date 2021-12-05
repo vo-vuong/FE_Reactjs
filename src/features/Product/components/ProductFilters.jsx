@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import FilterByCategory from './Filters/FilterByCategory';
 
 ProductFilters.propTypes = {
-  filters: PropTypes.bool.isRequired,
+  filters: PropTypes.object.isRequired,
   onChange: PropTypes.func,
 };
 
@@ -15,6 +15,7 @@ function ProductFilters({ filters, onChange }) {
     const newFilters = {
       ...filters,
       category: newCategoryId,
+      page: '1',
     };
 
     onChange(newFilters);
