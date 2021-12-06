@@ -31,6 +31,10 @@ function MenuAdmin(props) {
     history.push('/admin/product-category');
   };
 
+  const handleListProductClick = () => {
+    history.push('/admin/product');
+  };
+
   return (
     <Paper className={classes.root}>
       <MenuList>
@@ -46,7 +50,7 @@ function MenuAdmin(props) {
           </ListItemIcon>
           <Typography variant="inherit">Danh mục sản phẩm</Typography>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleListProductClick}>
           <ListItemIcon>
             <ShopTwoIcon fontSize="small" />
           </ListItemIcon>

@@ -2,6 +2,7 @@ import { Box, makeStyles } from '@material-ui/core';
 import HeaderAdmin from 'components/HeaderAdmin';
 import MenuAdmin from 'components/MenuAdmin';
 import HomeAdminFeature from 'features/HomeAdmin';
+import ProductAdmin from 'features/ProductAdmin';
 import ListCagegoryAdmin from 'features/ProductCategoryAdmin';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router';
@@ -33,7 +34,7 @@ function Admin(props) {
           <Switch>
             <Route exact path={match.url} component={HomeAdminFeature} />
             <Route path="/admin/product-category" component={ListCagegoryAdmin} />
-            <Route path="/admin/product" component={ListCagegoryAdmin} />
+            <Route path="/admin/product" component={ProductAdmin} />
           </Switch>
         </Box>
       </BrowserRouter>
