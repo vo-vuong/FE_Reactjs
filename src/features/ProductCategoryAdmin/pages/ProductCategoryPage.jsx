@@ -1,4 +1,5 @@
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,6 +10,24 @@ import categoryApi from 'api/categoryApi';
 import React, { useEffect, useState } from 'react';
 
 ProductCategoryPage.propTypes = {};
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.grey[800],
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   table: {
-    minWidth: 650,
+    minWidth: 700,
   },
 }));
 
@@ -59,27 +78,26 @@ function ProductCategoryPage(props) {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          {/* <Paper></Paper> */}
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="right">ID</TableCell>
-                  <TableCell align="right">Tên danh mục</TableCell>
-                  <TableCell align="right">Code</TableCell>
-                  <TableCell align="right">Được tạo bởi</TableCell>
+                  <StyledTableCell align="right">ID</StyledTableCell>
+                  <StyledTableCell align="right">Tên danh mục</StyledTableCell>
+                  <StyledTableCell align="right">Code</StyledTableCell>
+                  <StyledTableCell align="right">Được tạo bởi</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {categoryList.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell align="right" scope="row">
+                  <StyledTableRow key={item.id}>
+                    <StyledTableCell align="right" scope="row">
                       {item.id}
-                    </TableCell>
-                    <TableCell align="right">{item.name}</TableCell>
-                    <TableCell align="right">{item.code}</TableCell>
-                    <TableCell align="right">{item.createdBy}</TableCell>
-                  </TableRow>
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{item.name}</StyledTableCell>
+                    <StyledTableCell align="right">{item.code}</StyledTableCell>
+                    <StyledTableCell align="right">{item.createdBy}</StyledTableCell>
+                  </StyledTableRow>
                 ))}
               </TableBody>
             </Table>
