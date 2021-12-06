@@ -1,4 +1,5 @@
 import { Box, Grid, makeStyles } from '@material-ui/core';
+import HeaderAdmin from 'components/HeaderAdmin';
 import MenuAdmin from 'components/MenuAdmin';
 import React from 'react';
 
@@ -17,17 +18,10 @@ function HomeAdminPage(props) {
 
   return (
     <React.Fragment>
+      <HeaderAdmin />
       <MenuAdmin></MenuAdmin>
       <Box>
-        <Grid container spacing={3}>
-          <Grid item xs={2} className={classes.menu}>
-            {/* <Paper className={classes.paper}>xs=6</Paper> */}
-            <Box>a</Box>
-          </Grid>
-          <Grid item xs={10}>
-            a
-          </Grid>
-        </Grid>
+        <Grid container></Grid>
       </Box>
     </React.Fragment>
   );
