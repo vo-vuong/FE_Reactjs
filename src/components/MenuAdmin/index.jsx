@@ -6,6 +6,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import ShopTwoIcon from '@material-ui/icons/ShopTwo';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import React from 'react';
+import { useHistory } from 'react-router';
 
 MenuAdmin.propTypes = {};
 
@@ -20,17 +21,26 @@ const useStyles = makeStyles((theme) => ({
 
 function MenuAdmin(props) {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleHomeClick = () => {
+    history.push('/admin');
+  };
+
+  const handleListCategoryClick = () => {
+    history.push('/admin/product-category');
+  };
 
   return (
     <Paper className={classes.root}>
       <MenuList>
-        <MenuItem dense={true}>
+        <MenuItem dense={true} onClick={handleHomeClick}>
           <ListItemIcon>
             <HomeIcon fontSize="small" />
           </ListItemIcon>
           <Typography variant="inherit">Trang chủ</Typography>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleListCategoryClick}>
           <ListItemIcon>
             <ListAltIcon fontSize="small" />
           </ListItemIcon>
