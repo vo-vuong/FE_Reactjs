@@ -1,6 +1,4 @@
 import { Box, Grid, makeStyles } from '@material-ui/core';
-import HeaderAdmin from 'components/HeaderAdmin';
-import MenuAdmin from 'components/MenuAdmin';
 import React from 'react';
 
 HomeAdminPage.propTypes = {};
@@ -18,8 +16,6 @@ function HomeAdminPage(props) {
 
   return (
     <React.Fragment>
-      <HeaderAdmin />
-      <MenuAdmin></MenuAdmin>
       <Box>
         <Grid container></Grid>
       </Box>
