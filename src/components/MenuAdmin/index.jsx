@@ -13,7 +13,7 @@ MenuAdmin.propTypes = {};
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.grey[300],
-    width: 280,
+    width: '280px',
     height: '100vh',
     paddingTop: '50px',
   },
