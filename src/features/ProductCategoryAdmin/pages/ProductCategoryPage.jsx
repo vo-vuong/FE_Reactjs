@@ -5,7 +5,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import React from 'react';
+import categoryApi from 'api/categoryApi';
+import React, { useEffect, useState } from 'react';
 
 ProductCategoryPage.propTypes = {};
 
@@ -24,20 +25,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 function ProductCategoryPage(props) {
   const classes = useStyles();
+  const [categoryList, setCategoryList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const list = await categoryApi.getAll();
+        console.log({ list });
+        setCategoryList(
+          list.map((x) => ({
+            id: x.id,
+            name: x.name,
+            code: x.code,
+            createdBy: x.createdBy,
+          }))
+        );
+      } catch (error) {
+        console.log('Failed load category', error);
+      }
+    })();
+  }, []);
 
   return (
     <Box className={classes.root}>
@@ -55,23 +64,21 @@ function ProductCategoryPage(props) {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Dessert (100g serving)</TableCell>
-                  <TableCell align="right">Calories</TableCell>
-                  <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                  <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                  <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                  <TableCell align="right">ID</TableCell>
+                  <TableCell align="right">Tên danh mục</TableCell>
+                  <TableCell align="right">Code</TableCell>
+                  <TableCell align="right">Được tạo bởi</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.name}>
-                    <TableCell component="th" scope="row">
-                      {row.name}
+                {categoryList.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell align="right" scope="row">
+                      {item.id}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell align="right">{item.name}</TableCell>
+                    <TableCell align="right">{item.code}</TableCell>
+                    <TableCell align="right">{item.createdBy}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
