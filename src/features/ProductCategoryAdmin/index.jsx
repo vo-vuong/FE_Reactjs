@@ -9,11 +9,9 @@ function ListCagegoryAdmin(props) {
   const match = useRouteMatch();
 
   return (
-    <Box>
-      <Switch>
-        <Route path={match.url} exact component={ProductCategoryPage} />
-      </Switch>
-    </Box>
+    <Switch>
+      <Route path={match.url} exact component={ProductCategoryPage} />
+    </Switch>
   );
 }
 
