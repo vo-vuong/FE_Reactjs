@@ -95,7 +95,7 @@ function LoginForm(props) {
           fullWidth
           className={classes.submit}
           variant="contained"
-          color="primary"
+          color="inherit"
         >
           Đăng nhập
         </Button>

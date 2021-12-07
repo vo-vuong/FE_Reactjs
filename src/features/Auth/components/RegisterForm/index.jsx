@@ -119,7 +119,7 @@ function RegisterForm(props) {
           fullWidth
           className={classes.submit}
           variant="contained"
-          color="primary"
+          color="inherit"
         >
           Đăng kí
         </Button>
