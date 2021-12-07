@@ -24,10 +24,19 @@ export const login = createAsyncThunk('users/login', async (payload) => {
   return data.user; //cho nay return ra payload cho action*  Vi vay cho nay return ra user data
 });
 
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+};
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
     current: JSON.parse(localStorage.getItem(StorageKeys.USER)) || {}, // O day set gia tri State luc khoi tao
+    currentAdmin: parseJwt(localStorage.getItem(StorageKeys.TOKEN)) || {},
     setting: {},
   },
   reducers: {
