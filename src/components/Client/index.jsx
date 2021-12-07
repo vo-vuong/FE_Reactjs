@@ -22,6 +22,7 @@ function Client(props) {
         <Route exact path={match.url} component={HomeFeature} />
         <Route path="/products" component={ProductFeature} />
         <Route path="/cart" component={CartFeature} />
+        <Route path="*" component={() => '404 NOT FOUND'} />
       </Switch>
 
       <Footer />
