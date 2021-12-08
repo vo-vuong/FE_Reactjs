@@ -19,7 +19,7 @@ function LoginAdmin(props) {
       const action = login(values); // values la truy vao cai payload ben userSlice
       const resultAction = await dispatch(action); // gọi api đang ki ben userSlice xong doi no
       unwrapResult(resultAction);
-      history.push('/');
+
       history.push('/admin');
       // close dialog
     } catch (error) {

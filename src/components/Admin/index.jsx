@@ -7,7 +7,6 @@ import ListCagegoryAdmin from 'features/ProductCategoryAdmin';
 import { ProtectedRoute } from 'protected.route';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
 
 Admin.propTypes = {};
 
@@ -26,20 +25,18 @@ function Admin(props) {
 
   return (
     <Box className={classes.root}>
-      <BrowserRouter>
-        <HeaderAdmin />
+      <HeaderAdmin />
 
-        <Box className={classes.page}>
-          <MenuAdmin />
+      <Box className={classes.page}>
+        <MenuAdmin />
 
-          <Switch>
-            <ProtectedRoute exact path={match.url} component={HomeAdminFeature} />
-            <ProtectedRoute path="/admin/product-category" component={ListCagegoryAdmin} />
-            <ProtectedRoute path="/admin/product" component={ProductAdmin} />
-            <Route path="*" component={() => '404 NOT FOUND'} />
-          </Switch>
-        </Box>
-      </BrowserRouter>
+        <Switch>
+          <ProtectedRoute exact path={match.url} component={HomeAdminFeature} />
+          <ProtectedRoute path="/admin/product-category" component={ListCagegoryAdmin} />
+          <ProtectedRoute path="/admin/product" component={ProductAdmin} />
+          <Route path="*" component={() => '404 NOT FOUND'} />
+        </Switch>
+      </Box>
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import { Container } from '@material-ui/core';
+import { Container, Menu, MenuItem } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,6 +10,7 @@ import AlbumIcon from '@material-ui/icons/Album';
 import { logout } from 'features/Auth/userSlice';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +51,7 @@ export default function HeaderAdmin() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
   const [anchorEl, setAnchorEl] = useState(null);
+  const history = useHistory();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -66,6 +68,7 @@ export default function HeaderAdmin() {
   const handleLogoutClick = () => {
     const action = logout();
     dispatch(action);
+    history.push('/admin/login');
   };
 
   const classes = useStyles();
@@ -97,7 +100,7 @@ export default function HeaderAdmin() {
         </Container>
       </AppBar>
 
-      {/* <Menu
+      <Menu
         keepMounted
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -114,7 +117,7 @@ export default function HeaderAdmin() {
       >
         <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
         <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
-      </Menu> */}
+      </Menu>
     </div>
   );
 }
