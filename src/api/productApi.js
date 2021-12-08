@@ -1,3 +1,4 @@
+import axiosAdmin from './axiosAdmin';
 import axiosClient from './axiosClient';
 
 const productApi = {
@@ -9,6 +10,11 @@ const productApi = {
       data: productList.list,
       pagination: { page: productList.page, totalPage: productList.totalPage },
     };
+  },
+
+  getAllAdmin(params) {
+    const url = '/admin/product';
+    return axiosAdmin.get(url, { params });
   },
 
   get(id) {
