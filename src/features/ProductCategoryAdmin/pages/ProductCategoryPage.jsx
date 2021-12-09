@@ -7,12 +7,14 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import categoryApi from 'api/categoryApi';
-import InputField from 'components/form-controls/InputField';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { formatPrice } from 'utils';
 import { formatDateTime } from 'utils/date';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import InputField from 'components/form-controls/InputField';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 ProductCategoryPage.propTypes = {};
 
@@ -46,6 +48,13 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     minWidth: 700,
+  },
+  forminput: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '30ch',
+    },
+    marginBottom: '20px',
   },
 }));
 
@@ -93,6 +102,30 @@ function ProductCategoryPage(props) {
       }
     })();
   };
+  const schema = yup.object({
+    name: yup
+      .string()
+      .required('Vui lòng nhập Tên danh mục sản phẩm.')
+      .min(5, 'Vui lòng nhập Tên danh mục sản phẩm lớn hơn 5 kí tự.')
+      .max(255, 'Vui lòng nhập Tên danh mục sản phẩm nhỏ hơn 255 kí tự.'),
+    code: yup
+      .string()
+      .required('Vui lòng nhập Mã định danh danh mục sản phẩm.')
+      .min(5, 'Vui lòng nhập Mã định danh danh mục sản phẩm lớn hơn 5 kí tự.')
+      .max(255, 'Vui lòng nhập Mã định danh danh mục sản phẩm nhỏ hơn 255 kí tự.'),
+  });
+
+  const form = useForm({
+    defaultValues: {
+      name: '',
+      code: '',
+    },
+
+    resolver: yupResolver(schema),
+  });
+  const handleSubmit = (values) => {
+    console.log(values);
+  };
 
   return (
     <Box className={classes.root}>
@@ -105,6 +138,14 @@ function ProductCategoryPage(props) {
           </Paper>
         </Grid>
         <Grid item xs={12}>
+          <form className={classes.forminput} onSubmit={form.handleSubmit(handleSubmit)}>
+            <InputField name="name" label="Tên danh mục*" form={form} />
+            <InputField name="code" label="Mã định danh*" form={form} />
+
+            <Button size="large" type="submit" fullWidth className={classes.submit} variant="contained" color="inherit">
+              Tạo mới danh mục
+            </Button>
+          </form>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
@@ -127,8 +168,6 @@ function ProductCategoryPage(props) {
                     <StyledTableCell align="right">{item.code}</StyledTableCell>
                     <StyledTableCell align="right">{item.createdBy}</StyledTableCell>
                     <StyledTableCell align="right">{formatDateTime(item.createdDate)}</StyledTableCell>
-
-                    {/* <StyledTableCell align="right">{formatPrice(item.createdDate)}</StyledTableCell> */}
                     <StyledTableCell align="right">
                       <Button onClick={() => handleClick(item.id)} variant="contained" size="small" color="primary">
                         update
