@@ -15,21 +15,17 @@ function Register(props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleRegisterFormSubmit = async (values) => {
-    // console.log('Lam gi do sau khi form submit');
-    // console.log('Form Register Submit:', values);
     try {
       const action = register(values); // values la truy vao cai payload ben userSlice
       const resultAction = await dispatch(action); // gọi api đang ki ben userSlice xong doi no
-      const user = unwrapResult(resultAction);
+      unwrapResult(resultAction);
 
-      // close dialog
       const { closeDialog } = props;
       if (closeDialog) {
         closeDialog();
       }
-      // O day user dang ki thanh cong
-      console.log('New user', user);
-      enqueueSnackbar('Bạn đã đăng kí thành công.', { variant: 'success' });
+
+      enqueueSnackbar('Bạn đã đăng kí thành công. Vui lòng kiểm tra email để kích hoạt.', { variant: 'success' });
     } catch (error) {
       // console.log('Failed to register:', error);
       enqueueSnackbar(error.message, { variant: 'error' });

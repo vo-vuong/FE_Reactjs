@@ -43,6 +43,7 @@ function RegisterForm(props) {
   const classes = useStyles();
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
   const schema = yup.object({
     // .test('Vui lòng nhập trên hai từ', 'Vui lòng nhập trên hai từ', (value) => {
     //   return value.split(' ').length >= 4;
