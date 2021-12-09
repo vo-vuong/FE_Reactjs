@@ -25,7 +25,7 @@ function LoginAdmin(props) {
       if (isLoggedInAdmin) {
         history.push('/admin');
       } else {
-        console.log(isLoggedInAdmin);
+        enqueueSnackbar('Thông tin đăng nhập không hợp lệ', { variant: 'error' });
       }
 
       // close dialog
