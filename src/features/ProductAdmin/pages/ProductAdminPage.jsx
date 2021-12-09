@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import productApi from 'api/productApi';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router';
 
 const columns = [
   { id: 'id', label: 'id', minWidth: 170 },
@@ -50,6 +51,7 @@ export default function ProductAdminPage() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsSate, SetRowsSate] = React.useState([]);
   const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -97,6 +99,10 @@ export default function ProductAdminPage() {
     SetRowsSate(newProductList);
   };
 
+  const handleClick = (id) => {
+    history.push(`/admin/product/${id}`);
+  };
+
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
@@ -120,7 +126,7 @@ export default function ProductAdminPage() {
                     if (column.id === 'action') {
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          <Button variant="contained" size="small" color="primary">
+                          <Button onClick={() => handleClick(rowId)} variant="contained" size="small" color="primary">
                             update
                           </Button>
                           <Button
