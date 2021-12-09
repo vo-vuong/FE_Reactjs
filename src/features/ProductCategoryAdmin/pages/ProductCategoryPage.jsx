@@ -1,4 +1,4 @@
-import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,7 +7,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import categoryApi from 'api/categoryApi';
+import InputField from 'components/form-controls/InputField';
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 
 ProductCategoryPage.propTypes = {};
 
@@ -47,6 +50,8 @@ const useStyles = makeStyles((theme) => ({
 function ProductCategoryPage(props) {
   const classes = useStyles();
   const [categoryList, setCategoryList] = useState([]);
+  const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     (async () => {
@@ -67,6 +72,26 @@ function ProductCategoryPage(props) {
     })();
   }, []);
 
+  const handleClick = (id) => {
+    history.push(`/admin/product-category/${id}`);
+  };
+
+  const handleDelete = (id) => {
+    console.log(id);
+    const newCategoryList = [...categoryList];
+    const index = categoryList.findIndex((row) => row.id === id);
+    newCategoryList.splice(index, 1);
+    (async () => {
+      try {
+        const result = await categoryApi.removeAdmin(id);
+        enqueueSnackbar(result.message, { variant: 'success' });
+        setCategoryList(newCategoryList);
+      } catch (error) {
+        enqueueSnackbar('Không thể xóa danh mục sản phẩm.', { variant: 'error' });
+      }
+    })();
+  };
+
   return (
     <Box className={classes.root}>
       <Grid container spacing={3}>
@@ -86,6 +111,7 @@ function ProductCategoryPage(props) {
                   <StyledTableCell align="right">Tên danh mục</StyledTableCell>
                   <StyledTableCell align="right">Code</StyledTableCell>
                   <StyledTableCell align="right">Được tạo bởi</StyledTableCell>
+                  <StyledTableCell align="right">Thao tác</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -97,6 +123,14 @@ function ProductCategoryPage(props) {
                     <StyledTableCell align="right">{item.name}</StyledTableCell>
                     <StyledTableCell align="right">{item.code}</StyledTableCell>
                     <StyledTableCell align="right">{item.createdBy}</StyledTableCell>
+                    <StyledTableCell align="right">
+                      <Button onClick={() => handleClick(item.id)} variant="contained" size="small" color="primary">
+                        update
+                      </Button>
+                      <Button variant="contained" size="small" color="secondary" onClick={() => handleDelete(item.id)}>
+                        delete
+                      </Button>
+                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

@@ -1,3 +1,4 @@
+import axiosAdmin from './axiosAdmin';
 import axiosClient from './axiosClient';
 
 const categoryApi = {
@@ -24,6 +25,11 @@ const categoryApi = {
   remove(id) {
     const url = `/category/${id}`;
     return axiosClient.delete(url);
+  },
+
+  removeAdmin(id) {
+    const url = `/category/${id}`;
+    return axiosAdmin.delete(url);
   },
 };
 
