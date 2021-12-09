@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import productApi from 'api/productApi';
+import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
 
 const columns = [
@@ -34,11 +35,6 @@ const columns = [
   },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -53,6 +49,7 @@ export default function ProductAdminPage() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsSate, SetRowsSate] = React.useState([]);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     (async () => {
@@ -84,13 +81,20 @@ export default function ProductAdminPage() {
 
   const handleDelete = (rowId) => {
     console.log(rowId);
-    const newContacts = [...rowsSate];
+    const newProductList = [...rowsSate];
+    const index = rowsSate.findIndex((row) => row.id === rowId);
+    newProductList.splice(index, 1);
+    (async () => {
+      try {
+        const result = await productApi.remove(rowId);
+        enqueueSnackbar(result.message, { variant: 'success' });
+        console.log('Fai');
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
+    })();
 
-    const index = rowsSate.findIndex((row) => row.name === rowId);
-
-    newContacts.splice(index, 1);
-
-    SetRowsSate(newContacts);
+    SetRowsSate(newProductList);
   };
 
   return (
@@ -108,7 +112,7 @@ export default function ProductAdminPage() {
           </TableHead>
           <TableBody>
             {rowsSate.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-              const rowId = row['name'];
+              const rowId = row['id'];
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column) => {
