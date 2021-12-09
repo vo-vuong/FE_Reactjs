@@ -11,6 +11,8 @@ import InputField from 'components/form-controls/InputField';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { formatPrice } from 'utils';
+import { formatDateTime } from 'utils/date';
 
 ProductCategoryPage.propTypes = {};
 
@@ -57,13 +59,14 @@ function ProductCategoryPage(props) {
     (async () => {
       try {
         const list = await categoryApi.getAll();
-        console.log({ list });
+        // console.log({ list });
         setCategoryList(
           list.map((x) => ({
             id: x.id,
             name: x.name,
             code: x.code,
             createdBy: x.createdBy,
+            createdDate: x.createdDate,
           }))
         );
       } catch (error) {
@@ -77,7 +80,6 @@ function ProductCategoryPage(props) {
   };
 
   const handleDelete = (id) => {
-    console.log(id);
     const newCategoryList = [...categoryList];
     const index = categoryList.findIndex((row) => row.id === id);
     newCategoryList.splice(index, 1);
@@ -111,6 +113,7 @@ function ProductCategoryPage(props) {
                   <StyledTableCell align="right">Tên danh mục</StyledTableCell>
                   <StyledTableCell align="right">Code</StyledTableCell>
                   <StyledTableCell align="right">Được tạo bởi</StyledTableCell>
+                  <StyledTableCell align="right">Ngày tạo</StyledTableCell>
                   <StyledTableCell align="right">Thao tác</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -123,6 +126,9 @@ function ProductCategoryPage(props) {
                     <StyledTableCell align="right">{item.name}</StyledTableCell>
                     <StyledTableCell align="right">{item.code}</StyledTableCell>
                     <StyledTableCell align="right">{item.createdBy}</StyledTableCell>
+                    <StyledTableCell align="right">{formatDateTime(item.createdDate)}</StyledTableCell>
+
+                    {/* <StyledTableCell align="right">{formatPrice(item.createdDate)}</StyledTableCell> */}
                     <StyledTableCell align="right">
                       <Button onClick={() => handleClick(item.id)} variant="contained" size="small" color="primary">
                         update
