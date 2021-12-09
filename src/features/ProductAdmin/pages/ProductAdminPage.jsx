@@ -90,13 +90,11 @@ export default function ProductAdminPage() {
       try {
         const result = await productApi.remove(rowId);
         enqueueSnackbar(result.message, { variant: 'success' });
-        console.log('Fai');
+        SetRowsSate(newProductList);
       } catch (error) {
-        enqueueSnackbar(error.message, { variant: 'error' });
+        enqueueSnackbar('Không thể xóa sản phẩm.', { variant: 'error' });
       }
     })();
-
-    SetRowsSate(newProductList);
   };
 
   const handleClick = (id) => {
