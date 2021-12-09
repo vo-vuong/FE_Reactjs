@@ -68,8 +68,6 @@ function LoginForm(props) {
     if (onSubmit) {
       await onSubmit(values);
     }
-
-    // form.reset();  Bo vi khi loi thi khong reset form  ma khi thanh cong thi dong form roi
   };
 
   const { isSubmitting } = form.formState;

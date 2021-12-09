@@ -46,8 +46,8 @@ const MODE = {
 
 export default function HeaderAdmin() {
   const dispatch = useDispatch();
-  const loggedInUser = useSelector((state) => state.user.current);
-  const isLoggedIn = !!loggedInUser.id;
+  const loggedInAdmin = useSelector((state) => state.user.currentAdmin);
+  const isLoggedInAdmin = !!(loggedInAdmin.roles === 'ROLE_ADMIN');
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -85,13 +85,13 @@ export default function HeaderAdmin() {
               </Link>
             </Typography>
 
-            {!isLoggedIn && (
+            {!isLoggedInAdmin && (
               <Button color="inherit" onClick={handleClickOpen}>
                 Handle redirect page login
               </Button>
             )}
 
-            {isLoggedIn && (
+            {isLoggedInAdmin && (
               <IconButton color="inherit" onClick={handleUserClick}>
                 <AccountCircle />
               </IconButton>
