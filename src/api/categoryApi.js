@@ -17,6 +17,11 @@ const categoryApi = {
     return axiosAdmin.post(url, data);
   },
 
+  updateAdmin(data) {
+    const url = '/category';
+    return axiosAdmin.post(url, data);
+  },
+
   update(data) {
     const url = `/category/${data.id}`;
     return axiosClient.patch(url, data);

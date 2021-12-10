@@ -9,9 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import categoryApi from 'api/categoryApi';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
 import { formatDateTime } from 'utils/date';
 import FormCategory from '../components/FormCategory';
+import FormCategoryUpdate from '../components/FormCategoryUpdate';
 
 ProductCategoryPage.propTypes = {};
 
@@ -58,8 +58,13 @@ const useStyles = makeStyles((theme) => ({
 function ProductCategoryPage(props) {
   const classes = useStyles();
   const [categoryList, setCategoryList] = useState([]);
-  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
+  const [category, setCategory] = useState({});
+
+  let isCategory = false;
+  if (Object.keys(category).length !== 0) {
+    isCategory = true;
+  }
 
   useEffect(() => {
     (async () => {
@@ -81,10 +86,6 @@ function ProductCategoryPage(props) {
     })();
   }, []);
 
-  const handleClick = (id) => {
-    history.push(`/admin/product-category/${id}`);
-  };
-
   const handleDelete = (id) => {
     (async () => {
       try {
@@ -103,7 +104,6 @@ function ProductCategoryPage(props) {
   const handleCreateCategory = async (values) => {
     try {
       const { message, object } = await categoryApi.addAdmin(values);
-      console.log(object);
       enqueueSnackbar(message, { variant: 'success' });
       const newCategory = {
         id: object.id,
@@ -113,11 +113,38 @@ function ProductCategoryPage(props) {
         createdDate: object.createdDate,
       };
       const newCategorys = [...categoryList, newCategory];
+
       setCategoryList(newCategorys);
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
     }
   };
+
+  const handleUpdate = (item) => {
+    setCategory(item);
+  };
+
+  const handleUpdateCategory = async (values) => {
+    try {
+      const { message, object } = await categoryApi.updateAdmin(values);
+      enqueueSnackbar(message, { variant: 'success' });
+      const editCategory = {
+        id: object.id,
+        name: object.name,
+        code: object.code,
+        createdBy: object.createdBy,
+        createdDate: object.createdDate,
+      };
+      const newCategorys = [...categoryList];
+      const index = categoryList.findIndex((category) => category.id === object.id);
+      newCategorys[index] = editCategory;
+
+      setCategoryList(newCategorys);
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
+  };
+
   return (
     <Box className={classes.root}>
       <Grid container spacing={3}>
@@ -129,7 +156,11 @@ function ProductCategoryPage(props) {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <FormCategory onSubmit={handleCreateCategory} />
+          {isCategory ? (
+            <FormCategoryUpdate category={category} onSubmit={handleUpdateCategory} />
+          ) : (
+            <FormCategory onSubmit={handleCreateCategory} />
+          )}
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
@@ -153,7 +184,7 @@ function ProductCategoryPage(props) {
                     <StyledTableCell align="right">{item.createdBy}</StyledTableCell>
                     <StyledTableCell align="right">{formatDateTime(item.createdDate)}</StyledTableCell>
                     <StyledTableCell align="right">
-                      <Button onClick={() => handleClick(item.id)} variant="contained" size="small" color="primary">
+                      <Button onClick={() => handleUpdate(item)} variant="contained" size="small" color="primary">
                         update
                       </Button>
                       <Button variant="contained" size="small" color="secondary" onClick={() => handleDelete(item.id)}>
