@@ -12,9 +12,9 @@ const categoryApi = {
     return axiosClient.get(url);
   },
 
-  add(data) {
+  addAdmin(data) {
     const url = '/category';
-    return axiosClient.post(url, data);
+    return axiosAdmin.post(url, data);
   },
 
   update(data) {

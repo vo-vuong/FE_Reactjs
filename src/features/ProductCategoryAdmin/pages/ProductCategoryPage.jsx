@@ -11,10 +11,7 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { formatDateTime } from 'utils/date';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import InputField from 'components/form-controls/InputField';
-import { yupResolver } from '@hookform/resolvers/yup';
+import FormCategory from '../components/FormCategory';
 
 ProductCategoryPage.propTypes = {};
 
@@ -89,44 +86,38 @@ function ProductCategoryPage(props) {
   };
 
   const handleDelete = (id) => {
-    const newCategoryList = [...categoryList];
-    const index = categoryList.findIndex((row) => row.id === id);
-    newCategoryList.splice(index, 1);
     (async () => {
       try {
         const result = await categoryApi.removeAdmin(id);
         enqueueSnackbar(result.message, { variant: 'success' });
+        const newCategoryList = [...categoryList];
+        const index = categoryList.findIndex((row) => row.id === id);
+        newCategoryList.splice(index, 1);
         setCategoryList(newCategoryList);
       } catch (error) {
         enqueueSnackbar('Không thể xóa danh mục sản phẩm.', { variant: 'error' });
       }
     })();
   };
-  const schema = yup.object({
-    name: yup
-      .string()
-      .required('Vui lòng nhập Tên danh mục sản phẩm.')
-      .min(5, 'Vui lòng nhập Tên danh mục sản phẩm lớn hơn 5 kí tự.')
-      .max(255, 'Vui lòng nhập Tên danh mục sản phẩm nhỏ hơn 255 kí tự.'),
-    code: yup
-      .string()
-      .required('Vui lòng nhập Mã định danh danh mục sản phẩm.')
-      .min(5, 'Vui lòng nhập Mã định danh danh mục sản phẩm lớn hơn 5 kí tự.')
-      .max(255, 'Vui lòng nhập Mã định danh danh mục sản phẩm nhỏ hơn 255 kí tự.'),
-  });
 
-  const form = useForm({
-    defaultValues: {
-      name: '',
-      code: '',
-    },
-
-    resolver: yupResolver(schema),
-  });
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleCreateCategory = async (values) => {
+    try {
+      const { message, object } = await categoryApi.addAdmin(values);
+      console.log(object);
+      enqueueSnackbar(message, { variant: 'success' });
+      const newCategory = {
+        id: object.id,
+        name: object.name,
+        code: object.code,
+        createdBy: object.createdBy,
+        createdDate: object.createdDate,
+      };
+      const newCategorys = [...categoryList, newCategory];
+      setCategoryList(newCategorys);
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
   };
-
   return (
     <Box className={classes.root}>
       <Grid container spacing={3}>
@@ -138,14 +129,7 @@ function ProductCategoryPage(props) {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <form className={classes.forminput} onSubmit={form.handleSubmit(handleSubmit)}>
-            <InputField name="name" label="Tên danh mục*" form={form} />
-            <InputField name="code" label="Mã định danh*" form={form} />
-
-            <Button size="large" type="submit" fullWidth className={classes.submit} variant="contained" color="inherit">
-              Tạo mới danh mục
-            </Button>
-          </form>
+          <FormCategory onSubmit={handleCreateCategory} />
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
