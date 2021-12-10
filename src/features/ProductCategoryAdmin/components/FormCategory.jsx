@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FormCategory( category ) {
+function FormCategory(category) {
   const classes = useStyles();
 
   const schema = yup.object({
@@ -50,6 +50,8 @@ function FormCategory( category ) {
     if (onSubmit) {
       await onSubmit(values);
     }
+
+    form.reset();
   };
 
   return (

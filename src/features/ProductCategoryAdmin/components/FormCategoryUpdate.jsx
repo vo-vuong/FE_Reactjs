@@ -35,7 +35,7 @@ function FormCategoryUpdate(category) {
       .min(5, 'Vui lòng nhập Mã định danh lớn hơn 5 kí tự.')
       .max(255, 'Vui lòng nhập Mã định danh nhỏ hơn 255 kí tự.'),
   });
-  console.log(category);
+  // console.log(category);
   const form = useForm({
     defaultValues: {
       id: category.category.id,

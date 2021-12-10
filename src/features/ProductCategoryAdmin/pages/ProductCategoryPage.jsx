@@ -143,6 +143,10 @@ function ProductCategoryPage(props) {
     }
   };
 
+  const handleReset = () => {
+    setEditCategorytId(null);
+  };
+
   return (
     <Box className={classes.root}>
       <Grid container spacing={3}>
@@ -155,9 +159,16 @@ function ProductCategoryPage(props) {
         </Grid>
         <Grid item xs={12}>
           {editCategoryId ? (
-            <FormCategoryUpdate category={category} onSubmit={handleUpdateCategory} />
+            <React.Fragment>
+              <FormCategoryUpdate category={category} onSubmit={handleUpdateCategory} />
+              <Button variant="contained" size="small" color="secondary" onClick={() => handleReset()}>
+                Trở về
+              </Button>
+            </React.Fragment>
           ) : (
-            <FormCategory onSubmit={handleCreateCategory} />
+            <React.Fragment>
+              <FormCategory onSubmit={handleCreateCategory} />
+            </React.Fragment>
           )}
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
