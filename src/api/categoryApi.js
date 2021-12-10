@@ -1,3 +1,4 @@
+import axiosAdmin from './axiosAdmin';
 import axiosClient from './axiosClient';
 
 const categoryApi = {
@@ -11,9 +12,14 @@ const categoryApi = {
     return axiosClient.get(url);
   },
 
-  add(data) {
+  addAdmin(data) {
     const url = '/category';
-    return axiosClient.post(url, data);
+    return axiosAdmin.post(url, data);
+  },
+
+  updateAdmin(data) {
+    const url = '/category';
+    return axiosAdmin.post(url, data);
   },
 
   update(data) {
@@ -24,6 +30,11 @@ const categoryApi = {
   remove(id) {
     const url = `/category/${id}`;
     return axiosClient.delete(url);
+  },
+
+  removeAdmin(id) {
+    const url = `/category/${id}`;
+    return axiosAdmin.delete(url);
   },
 };
 
