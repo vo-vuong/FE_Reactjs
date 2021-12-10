@@ -60,6 +60,7 @@ function ProductCategoryPage(props) {
   const [categoryList, setCategoryList] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
   const [category, setCategory] = useState({});
+  const [editCategoryId, setEditCategorytId] = useState(null);
 
   let isCategory = false;
   if (Object.keys(category).length !== 0) {
@@ -115,12 +116,14 @@ function ProductCategoryPage(props) {
       const newCategorys = [...categoryList, newCategory];
 
       setCategoryList(newCategorys);
+      setEditCategorytId(null);
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
     }
   };
 
   const handleUpdate = (item) => {
+    setEditCategorytId(item.id);
     setCategory(item);
   };
 
@@ -140,6 +143,7 @@ function ProductCategoryPage(props) {
       newCategorys[index] = editCategory;
 
       setCategoryList(newCategorys);
+      setEditCategorytId(null);
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
     }
@@ -156,7 +160,7 @@ function ProductCategoryPage(props) {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          {isCategory ? (
+          {editCategoryId ? (
             <FormCategoryUpdate category={category} onSubmit={handleUpdateCategory} />
           ) : (
             <FormCategory onSubmit={handleCreateCategory} />
