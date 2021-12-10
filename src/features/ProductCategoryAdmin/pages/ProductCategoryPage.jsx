@@ -62,16 +62,10 @@ function ProductCategoryPage(props) {
   const [category, setCategory] = useState({});
   const [editCategoryId, setEditCategorytId] = useState(null);
 
-  let isCategory = false;
-  if (Object.keys(category).length !== 0) {
-    isCategory = true;
-  }
-
   useEffect(() => {
     (async () => {
       try {
         const list = await categoryApi.getAll();
-        // console.log({ list });
         setCategoryList(
           list.map((x) => ({
             id: x.id,
@@ -82,7 +76,7 @@ function ProductCategoryPage(props) {
           }))
         );
       } catch (error) {
-        console.log('Failed load category', error);
+        enqueueSnackbar(error.message, { variant: 'error' });
       }
     })();
   }, []);
