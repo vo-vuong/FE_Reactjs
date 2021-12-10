@@ -1,3 +1,4 @@
+import axiosAdmin from './axiosAdmin';
 import axiosClient from './axiosClient';
 
 const productApi = {
@@ -11,9 +12,19 @@ const productApi = {
     };
   },
 
+  getAllAdmin(params) {
+    const url = '/admin/product';
+    return axiosAdmin.get(url, { params });
+  },
+
   get(id) {
     const url = `/product/${id}`;
     return axiosClient.get(url);
+  },
+
+  remove(id) {
+    const url = `/product/${id}`;
+    return axiosAdmin.delete(url);
   },
 };
 

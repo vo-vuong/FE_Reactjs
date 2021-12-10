@@ -9,15 +9,15 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-          <App />
-        </SnackbarProvider>
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+        <App />
+      </SnackbarProvider>
+    </BrowserRouter>
+  </Provider>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 
