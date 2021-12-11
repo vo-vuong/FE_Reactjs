@@ -1,4 +1,5 @@
 import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { green } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -153,7 +154,7 @@ function ProductCategoryPage(props) {
         <Grid item xs={12}>
           <Paper>
             <Typography variant="h4" component="h3" className={classes.title}>
-              Danh mục sản phẩm
+              Trang danh mục sản phẩm
             </Typography>
           </Paper>
         </Grid>
@@ -161,8 +162,8 @@ function ProductCategoryPage(props) {
           {editCategoryId ? (
             <React.Fragment>
               <FormCategoryUpdate category={category} onSubmit={handleUpdateCategory} />
-              <Button variant="contained" size="small" color="secondary" onClick={() => handleReset()}>
-                Trở về
+              <Button variant="contained" size="small" style={{ color: green[500] }} onClick={() => handleReset()}>
+                Hủy cập nhật
               </Button>
             </React.Fragment>
           ) : (
@@ -193,10 +194,10 @@ function ProductCategoryPage(props) {
                     <StyledTableCell align="right">{item.createdBy}</StyledTableCell>
                     <StyledTableCell align="right">{formatDateTime(item.createdDate)}</StyledTableCell>
                     <StyledTableCell align="right">
-                      <Button onClick={() => handleUpdate(item)} variant="contained" size="small" color="primary">
+                      <Button onClick={() => handleUpdate(item)} variant="outlined" size="small" color="primary">
                         update
                       </Button>
-                      <Button variant="contained" size="small" color="secondary" onClick={() => handleDelete(item.id)}>
+                      <Button variant="outlined" size="small" color="secondary" onClick={() => handleDelete(item.id)}>
                         delete
                       </Button>
                     </StyledTableCell>

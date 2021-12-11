@@ -1,4 +1,5 @@
 import { Box, Button, Grid, Typography } from '@material-ui/core';
+import { green } from '@material-ui/core/colors';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -118,11 +119,14 @@ export default function ProductAdminPage() {
         <Grid item xs={12}>
           <Paper>
             <Typography variant="h4" component="h3" className={classes.title}>
-              Danh mục sản phẩm
+              Trang danh sách sản phẩm
             </Typography>
           </Paper>
         </Grid>
         <Grid item xs={12}>
+          <Button variant="contained" size="small" style={{ color: green[500] }}>
+            Tạo mới sản phẩm
+          </Button>
           <Paper className={classes.table}>
             <TableContainer className={classes.container}>
               <Table stickyHeader aria-label="sticky table">
@@ -148,14 +152,14 @@ export default function ProductAdminPage() {
                               <TableCell key={column.id} align={column.align}>
                                 <Button
                                   onClick={() => handleClick(rowId)}
-                                  variant="contained"
+                                  variant="outlined"
                                   size="small"
                                   color="primary"
                                 >
                                   update
                                 </Button>
                                 <Button
-                                  variant="contained"
+                                  variant="outlined"
                                   size="small"
                                   color="secondary"
                                   onClick={() => handleDelete(rowId)}
