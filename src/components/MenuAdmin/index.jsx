@@ -7,6 +7,7 @@ import ShopTwoIcon from '@material-ui/icons/ShopTwo';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import React from 'react';
 import { NavLink, useRouteMatch } from 'react-router-dom';
+import PublicIcon from '@material-ui/icons/Public';
 
 MenuAdmin.propTypes = {};
 
@@ -79,6 +80,15 @@ function MenuAdmin(props) {
               <LibraryBooksIcon fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">Bài viết</Typography>
+          </MenuItem>
+        </NavLink>
+
+        <NavLink to={`${url}/origins`}>
+          <MenuItem>
+            <ListItemIcon>
+              <PublicIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Xuất xứ</Typography>
           </MenuItem>
         </NavLink>
 
