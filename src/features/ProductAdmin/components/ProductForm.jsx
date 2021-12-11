@@ -1,11 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, makeStyles } from '@material-ui/core';
+import { Box, Button, makeStyles, TextField } from '@material-ui/core';
 import InputField from 'components/form-controls/InputField';
 import { React } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
+import MultilineField from 'components/form-controls/MultilineField';
 
 ProductForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -90,16 +91,16 @@ function ProductForm(props) {
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
-      <InputField name="name" label="Tên sản phẩm*" form={form} />
-      <InputField name="shortdescription" label="Mô tả ngắn*" form={form} />
-      <InputField name="detail" label="Mô tả chi tiết*" form={form} />
-      <InputField name="price" label="Giá*" form={form} />
+      <InputField name="name" label="Tên sản phẩm*" size="small" form={form} />
+      <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
+      <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
+      <InputField name="price" label="Giá*" size="small" form={form} />
       <InputField name="originId" label="Xuất xứ*" form={form} />
       <InputField name="quantity" label="Số lượng*" form={form} />
       <InputField name="code" label="Code*" form={form} />
       <InputField name="status" label="Trạng thái*" form={form} />
       <InputField name="categoryId" label="Danh mục sản phẩm*" form={form} />
-      <InputField name="warranty" label="Bảo hành*" form={form} />
+      <InputField name="warranty" label="Bảo hành*" size="small" form={form} />
 
       <Box className={classes.boxButton}>
         <Button type="submit" variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>
