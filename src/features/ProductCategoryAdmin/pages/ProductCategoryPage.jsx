@@ -179,7 +179,7 @@ function ProductCategoryPage(props) {
                   <StyledTableCell align="right">Code</StyledTableCell>
                   <StyledTableCell align="right">Được tạo bởi</StyledTableCell>
                   <StyledTableCell align="right">Ngày tạo</StyledTableCell>
-                  <StyledTableCell align="right">Thao tác</StyledTableCell>
+                  <StyledTableCell align="right">Tùy chọn</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -12,6 +12,7 @@ import productApi from 'api/productApi';
 import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { formatPrice } from 'utils';
 
 const columns = [
   { id: 'id', label: 'id', minWidth: 170 },
@@ -30,18 +31,28 @@ const columns = [
   },
   {
     id: 'action',
-    label: 'a',
+    label: 'Tùy chọn',
     minWidth: 200,
     align: 'center',
   },
 ];
 
 const useStyles = makeStyles({
-  root: {
+  table: {
     width: '100%',
   },
   container: {
     maxHeight: 440,
+  },
+
+  root: {
+    flexGrow: 1,
+    marginLeft: '30px',
+    marginTop: '40px',
+    marginRight: '30px',
+  },
+  title: {
+    width: '100%',
   },
 });
 
@@ -102,64 +113,87 @@ export default function ProductAdminPage() {
   };
 
   return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rowsSate.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-              const rowId = row['id'];
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    if (column.id === 'action') {
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          <Button onClick={() => handleClick(rowId)} variant="contained" size="small" color="primary">
-                            update
-                          </Button>
-                          <Button
-                            variant="contained"
-                            size="small"
-                            color="secondary"
-                            onClick={() => handleDelete(rowId)}
-                          >
-                            delete
-                          </Button>
-                        </TableCell>
-                      );
-                    } else {
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number' ? column.format(value) : value}
-                        </TableCell>
-                      );
-                    }
+    <Box className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper>
+            <Typography variant="h4" component="h3" className={classes.title}>
+              Danh mục sản phẩm
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.table}>
+            <TableContainer className={classes.container}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rowsSate.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    const rowId = row['id'];
+                    console.log(row);
+                    return (
+                      <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                        {columns.map((column) => {
+                          const value = row[column.id];
+                          if (column.id === 'action') {
+                            return (
+                              <TableCell key={column.id} align={column.align}>
+                                <Button
+                                  onClick={() => handleClick(rowId)}
+                                  variant="contained"
+                                  size="small"
+                                  color="primary"
+                                >
+                                  update
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  color="secondary"
+                                  onClick={() => handleDelete(rowId)}
+                                >
+                                  delete
+                                </Button>
+                              </TableCell>
+                            );
+                          } else if (column.id === 'price') {
+                            {
+                              return <TableCell align={column.align}>{formatPrice(value)}</TableCell>;
+                            }
+                          } else {
+                            return (
+                              <TableCell align={column.align}>
+                                {column.format && typeof value === 'number' ? column.format(value) : value}
+                              </TableCell>
+                            );
+                          }
+                        })}
+                      </TableRow>
+                    );
                   })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rowsSate.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={rowsSate.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
