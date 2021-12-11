@@ -7,14 +7,15 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import categoryApi from 'api/categoryApi';
+import categoryContentApi from 'api/categoryContentApi';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { formatDateTime } from 'utils/date';
 import FormCategory from '../components/FormCategory';
 import FormCategoryUpdate from '../components/FormCategoryUpdate';
+import originApi from 'api/originApi';
 
-ProductCategoryPage.propTypes = {};
+OriginPage.propTypes = {};
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductCategoryPage(props) {
+function OriginPage(props) {
   const classes = useStyles();
   const [categoryList, setCategoryList] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
@@ -66,7 +67,7 @@ function ProductCategoryPage(props) {
   useEffect(() => {
     (async () => {
       try {
-        const list = await categoryApi.getAll();
+        const list = await originApi.getAll();
         setCategoryList(
           list.map((x) => ({
             id: x.id,
@@ -85,21 +86,21 @@ function ProductCategoryPage(props) {
   const handleDelete = (id) => {
     (async () => {
       try {
-        const result = await categoryApi.removeAdmin(id);
+        const result = await originApi.removeAdmin(id);
         enqueueSnackbar(result.message, { variant: 'success' });
         const newCategoryList = [...categoryList];
         const index = categoryList.findIndex((row) => row.id === id);
         newCategoryList.splice(index, 1);
         setCategoryList(newCategoryList);
       } catch (error) {
-        enqueueSnackbar('Không thể xóa danh mục sản phẩm.', { variant: 'error' });
+        enqueueSnackbar('Không thể xóa xuất xứ.', { variant: 'error' });
       }
     })();
   };
 
   const handleCreateCategory = async (values) => {
     try {
-      const { message, object } = await categoryApi.addAdmin(values);
+      const { message, object } = await originApi.addAdmin(values);
       enqueueSnackbar(message, { variant: 'success' });
       const newCategory = {
         id: object.id,
@@ -124,7 +125,7 @@ function ProductCategoryPage(props) {
 
   const handleUpdateCategory = async (values) => {
     try {
-      const { message, object } = await categoryApi.updateAdmin(values);
+      const { message, object } = await originApi.updateAdmin(values);
       enqueueSnackbar(message, { variant: 'success' });
       const editCategory = {
         id: object.id,
@@ -154,7 +155,7 @@ function ProductCategoryPage(props) {
         <Grid item xs={12}>
           <Paper>
             <Typography variant="h4" component="h3" className={classes.title}>
-              Trang danh mục sản phẩm
+              Trang xuất xứ
             </Typography>
           </Paper>
         </Grid>
@@ -212,4 +213,4 @@ function ProductCategoryPage(props) {
   );
 }
 
-export default ProductCategoryPage;
+export default OriginPage;
