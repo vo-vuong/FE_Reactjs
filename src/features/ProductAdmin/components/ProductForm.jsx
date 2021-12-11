@@ -1,25 +1,34 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, makeStyles } from '@material-ui/core';
+import { Box, Button, makeStyles } from '@material-ui/core';
 import InputField from 'components/form-controls/InputField';
-import PropTypes from 'prop-types';
 import { React } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
+import PropTypes from 'prop-types';
 
-ProductDetail.propTypes = {
-  product: PropTypes.object,
+ProductForm.propTypes = {
+  onSubmit: PropTypes.func,
 };
 
 const useStyles = makeStyles((theme) => ({
   root: { flexGrow: 1, marginLeft: '30px', marginTop: '40px', marginRight: '30px' },
-
   title: {
     width: '100%',
   },
+  boxButton: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: '10px',
+    marginLeft: '20px',
+  },
 }));
 
-function ProductDetail({ product }) {
+function ProductForm(props) {
   const classes = useStyles();
+  const history = useHistory();
 
   const schema = yup.object({
     name: yup
@@ -48,10 +57,10 @@ function ProductDetail({ product }) {
     categoryId: yup.number().required('Vui lòng nhập Danh mục sản phẩm.').positive().integer(),
     warranty: yup.number().required('Vui lòng nhập Bảo hành sản phẩm.').positive().integer(),
   });
-  console.log(product);
+
   const form = useForm({
     defaultValues: {
-      name: product.name,
+      name: '',
       shortdescription: '',
       detail: '',
       price: '',
@@ -65,10 +74,22 @@ function ProductDetail({ product }) {
 
     resolver: yupResolver(schema),
   });
-  const handleSubmit = () => {};
+
+  const handleBack = () => {
+    history.push('/admin/product');
+  };
+
+  const handleSubmit = async (values) => {
+    const { onSubmit } = props;
+    if (onSubmit) {
+      await onSubmit(values);
+    }
+
+    // form.reset();  Bo vi khi loi thi khong reset form  ma khi thanh cong thi dong form roi
+  };
+
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
-      <input value={product.name}></input>
       <InputField name="name" label="Tên sản phẩm*" form={form} />
       <InputField name="shortdescription" label="Mô tả ngắn*" form={form} />
       <InputField name="detail" label="Mô tả chi tiết*" form={form} />
@@ -80,11 +101,16 @@ function ProductDetail({ product }) {
       <InputField name="categoryId" label="Danh mục sản phẩm*" form={form} />
       <InputField name="warranty" label="Bảo hành*" form={form} />
 
-      <Button type="submit" fullWidth className={classes.submit} variant="contained" color="inherit">
-        Cập nhật
-      </Button>
+      <Box className={classes.boxButton}>
+        <Button type="submit" variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>
+          Tạo mới
+        </Button>
+        <Button variant="contained" color="inherit" onClick={handleBack} className={classes.button}>
+          Trở về
+        </Button>
+      </Box>
     </form>
   );
 }
 
-export default ProductDetail;
+export default ProductForm;
