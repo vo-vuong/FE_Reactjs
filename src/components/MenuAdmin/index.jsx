@@ -6,7 +6,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import ShopTwoIcon from '@material-ui/icons/ShopTwo';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import React from 'react';
-import { useHistory } from 'react-router';
+import { NavLink, useRouteMatch } from 'react-router-dom';
 
 MenuAdmin.propTypes = {};
 
@@ -16,64 +16,80 @@ const useStyles = makeStyles((theme) => ({
     width: '280px',
     height: '100vh',
     paddingTop: '50px',
+
+    '& a': {
+      color: theme.palette.grey[700],
+      textDecoration: 'underline',
+      textDecoration: 'none',
+    },
+
+    '& a.active': {
+      color: theme.palette.primary.main,
+      backgroundColor: theme.palette.grey[700],
+    },
   },
 }));
 
 function MenuAdmin(props) {
   const classes = useStyles();
-  const history = useHistory();
-
-  const handleHomeClick = () => {
-    history.push('/admin');
-  };
-
-  const handleListCategoryClick = () => {
-    history.push('/admin/product-category');
-  };
-
-  const handleListProductClick = () => {
-    history.push('/admin/product');
-  };
+  const { url } = useRouteMatch();
 
   return (
     <Paper className={classes.root}>
       <MenuList>
-        <MenuItem dense={true} onClick={handleHomeClick}>
-          <ListItemIcon>
-            <HomeIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit">Trang chủ</Typography>
-        </MenuItem>
-        <MenuItem onClick={handleListCategoryClick}>
-          <ListItemIcon>
-            <ListAltIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit">Danh mục sản phẩm</Typography>
-        </MenuItem>
-        <MenuItem onClick={handleListProductClick}>
-          <ListItemIcon>
-            <ShopTwoIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit">Sản phẩm</Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <ListAltIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit">Danh mục bài viết</Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <LibraryBooksIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit">Bài viết</Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <SupervisorAccountIcon fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="inherit">Tài khoản</Typography>
-        </MenuItem>
+        <NavLink exact to={`${url}`}>
+          <MenuItem>
+            <ListItemIcon>
+              <HomeIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Trang chủ</Typography>
+          </MenuItem>
+        </NavLink>
+
+        <NavLink to={`${url}/product-category`}>
+          <MenuItem>
+            <ListItemIcon>
+              <ListAltIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Danh mục sản phẩm</Typography>
+          </MenuItem>
+        </NavLink>
+
+        <NavLink to={`${url}/product`}>
+          <MenuItem>
+            <ListItemIcon>
+              <ShopTwoIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Sản phẩm</Typography>
+          </MenuItem>
+        </NavLink>
+
+        <NavLink to={`${url}/contents-category`}>
+          <MenuItem>
+            <ListItemIcon>
+              <ListAltIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Danh mục bài viết</Typography>
+          </MenuItem>
+        </NavLink>
+
+        <NavLink to={`${url}/conents`}>
+          <MenuItem>
+            <ListItemIcon>
+              <LibraryBooksIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Bài viết</Typography>
+          </MenuItem>
+        </NavLink>
+
+        <NavLink to={`${url}/accounts`}>
+          <MenuItem>
+            <ListItemIcon>
+              <SupervisorAccountIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Tài khoản</Typography>
+          </MenuItem>
+        </NavLink>
       </MenuList>
     </Paper>
   );
