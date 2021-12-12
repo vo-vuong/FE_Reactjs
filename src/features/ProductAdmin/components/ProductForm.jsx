@@ -1,11 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, makeStyles } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  makeStyles,
+  Radio,
+  RadioGroup,
+} from '@material-ui/core';
 import InputField from 'components/form-controls/InputField';
 import InputNumberField from 'components/form-controls/InputNumberField';
 import MultilineField from 'components/form-controls/MultilineField';
 import PropTypes from 'prop-types';
 import { React } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -55,7 +64,7 @@ function ProductForm(props) {
       .required('Vui lòng nhập Code.')
       .min(5, 'Vui lòng nhập Code lớn hơn 5 kí tự.')
       .max(255, 'Vui lòng nhập Code nhỏ hơn 255 kí tự.'),
-    status: yup.number().required().positive().integer(),
+    // status: yup.number().required().positive().integer(),
     categoryId: yup.number().required('Vui lòng nhập Danh mục sản phẩm.').positive().integer(),
     warranty: yup.number().required('Vui lòng nhập Bảo hành sản phẩm.').positive().integer(),
   });
@@ -69,7 +78,7 @@ function ProductForm(props) {
       originId: '',
       quantity: '',
       code: '',
-      status: '',
+      status: '1',
       categoryId: '',
       warranty: '',
     },
@@ -82,6 +91,7 @@ function ProductForm(props) {
   };
 
   const handleSubmit = async (values) => {
+    console.log(values);
     const { onSubmit } = props;
     if (onSubmit) {
       await onSubmit(values);
@@ -98,8 +108,21 @@ function ProductForm(props) {
       <InputNumberField name="price" label="Giá*" size="small" form={form} />
       <InputField name="originId" label="Xuất xứ*" form={form} />
       <InputNumberField name="quantity" label="Số lượng*" size="small" form={form} />
-      <InputField name="code" label="Code*" form={form} />
-      <InputField name="status" label="Trạng thái*" form={form} />
+      <InputField name="code" label="Code*" size="small" form={form} />
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Trạng thái</FormLabel>
+        <Controller
+          rules={{ required: true }}
+          control={form.control}
+          name="status"
+          as={
+            <RadioGroup row defaultValue="1">
+              <FormControlLabel value="1" control={<Radio />} label="Còn hàng" />
+              <FormControlLabel value="0" control={<Radio />} label="Hết hàng" />
+            </RadioGroup>
+          }
+        />
+      </FormControl>
       <InputField name="categoryId" label="Danh mục sản phẩm*" form={form} />
       <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} />
 
