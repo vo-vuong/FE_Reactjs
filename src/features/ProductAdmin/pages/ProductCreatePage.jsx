@@ -62,11 +62,10 @@ function ProductCreatePage(props) {
 
   const handleProductFormSubmit = async (values) => {
     try {
-      console.log(values);
       const result = await productApi.addAdmin(values);
       enqueueSnackbar('Đã thêm sản phẩm mới thành công.', { variant: 'success' });
     } catch (error) {
-      // enqueueSnackbar(error.message, { variant: 'error' });
+      enqueueSnackbar(error.message, { variant: 'error' });
       console.log(error);
     }
   };

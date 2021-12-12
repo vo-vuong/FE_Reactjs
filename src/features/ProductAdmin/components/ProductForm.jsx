@@ -20,7 +20,7 @@ import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 
 ProductForm.propTypes = {
-  onSubmit: PropTypes.func,
+  props: PropTypes.object,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -49,49 +49,59 @@ const useStyles = makeStyles((theme) => ({
 function ProductForm(props) {
   const classes = useStyles();
   const history = useHistory();
-  const [productCategory, setProductCategory] = useState(1);
-  const [categoryOrigin, setCategoryOrigin] = useState(1);
-
+  const [productCategory, setProductCategory] = useState(props.categoryList[1]?.id);
+  const [categoryOrigin, setCategoryOrigin] = useState(props.categoryOriginList[1]?.id);
+  // console.log(props);
   const schema = yup.object({
     name: yup
       .string()
       .required('Vui lòng nhập Tên sản phẩm.')
       .min(3, 'Vui lòng nhập Tên sản phẩm lớn hơn 3 kí tự.')
       .max(255, 'Vui lòng nhập Tên sản phẩm nhỏ hơn 255 kí tự.'),
+    // categoryId: yup.number().required('Vui lòng nhập Danh mục sản phẩm.').positive().integer(),
     shortdescription: yup
       .string()
-      .required('Vui lòng nhập Mô tả ngắn')
-      .min(20, 'Vui lòng nhập Mô tả ngắn lớn hơn 20 kí tự.')
+      .required('Vui lòng nhập Mô tả ngắn.')
+      .min(10, 'Vui lòng nhập Mô tả ngắn lớn hơn 10 kí tự.')
       .max(255, 'Vui lòng nhập Mô tả ngắn nhỏ hơn 255 kí tự.'),
-    detail: yup
-      .string()
-      .required('Vui lòng nhập Mô tả chi tiết')
-      .min(20, 'Vui lòng nhập Mô tả chi tiết lớn hơn 20 kí tự.'),
-    // price: yup.number().required().positive().integer(),
+    // detail: yup
+    //   .string()
+    //   .required('Vui lòng nhập Mô tả chi tiết.')
+    //   .min(20, 'Vui lòng nhập Mô tả chi tiết lớn hơn 20 kí tự.'),
+    // price: yup.number().required('Vui lòng nhập giá.').min(0, 'Tối thiểu là 0.').typeError('Vui lòng nhập số.'),
+    // quantity: yup
+    //   .number()
+    //   .required('Vui lòng nhập số lượng sản phẩm.')
+    //   .min(0, 'Tối thiểu là 0.')
+    //   .max(1000, 'Tối đa là 1000 sản phẩm.')
+    //   .typeError('Vui lòng nhập số.'),
+    // warranty: yup
+    //   .number()
+    //   .required('Vui lòng nhập Bảo hành sản phẩm.')
+    //   .min(0, 'Tối thiểu là 0.')
+    //   .max(100, 'Tối đa là 100 tháng bảo hành sản phẩm.')
+    //   .typeError('Vui lòng nhập số.'),
     // originId: yup.number().required().positive().integer(),
-    // quantity: yup.number().required().positive().integer(),
     code: yup
       .string()
       .required('Vui lòng nhập Code.')
-      .min(5, 'Vui lòng nhập Code lớn hơn 5 kí tự.')
+      .min(3, 'Vui lòng nhập Code lớn hơn 3 kí tự.')
       .max(255, 'Vui lòng nhập Code nhỏ hơn 255 kí tự.'),
     // status: yup.number().required().positive().integer(),
-    // categoryId: yup.number().required('Vui lòng nhập Danh mục sản phẩm.').positive().integer(),
-    // warranty: yup.number().required('Vui lòng nhập Bảo hành sản phẩm.').positive().integer(),
   });
 
   const form = useForm({
     defaultValues: {
       name: '',
       shortdescription: '',
-      detail: '',
-      price: '',
-      // originId: '',
-      quantity: '',
+      // detail: '',
+      // price: '',
+      // // originId: '',
+      // quantity: '',
+      // warranty: '',
       code: '',
-      status: '1',
+      // status: '1',
       // categoryId: '',
-      warranty: '',
     },
 
     resolver: yupResolver(schema),
@@ -111,15 +121,16 @@ function ProductForm(props) {
 
   // console.log(props.categoryList);
   const handleSubmit = async (values) => {
-    const object2 = {
-      ...values,
-      categoryId: productCategory,
-      originId: categoryOrigin,
-    };
-    console.log(object2);
+    console.log(form.errors);
+    // const object2 = {
+    //   ...values,
+    //   categoryId: productCategory,
+    //   originId: categoryOrigin,
+    // };
+    // console.log(object2);
     const { onSubmit } = props;
     if (onSubmit) {
-      await onSubmit(object2);
+      await onSubmit(values);
     }
 
     // form.reset();
@@ -129,7 +140,7 @@ function ProductForm(props) {
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <InputField name="name" label="Tên sản phẩm*" size="small" form={form} />
-      <TextField
+      {/* <TextField
         className={classes.customInput}
         id="outlined-select-product-category-native"
         select
@@ -148,23 +159,23 @@ function ProductForm(props) {
             {option.name}
           </option>
         ))}
-      </TextField>
+      </TextField> */}
       <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
-      <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
-      <InputNumberField name="price" label="Giá*" size="small" form={form} />
+      {/* <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} /> */}
+      {/* <InputNumberField name="price" label="Giá*" size="small" form={form} />
       <InputNumberField name="quantity" label="Số lượng*" size="small" form={form} />
-      <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} />
-      <TextField
+      <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} /> */}
+      {/* <TextField
         className={classes.customInput}
         id="outlined-select-currency-native"
         select
-        label="Danh mục Xuất xứ"
+        label="Danh mục xuất xứ"
         size="small"
         fullWidth
         value={categoryOrigin}
         onChange={handleChangeOrigin}
         SelectProps={{
-          natives: true,
+          native: true,
         }}
         variant="outlined"
       >
@@ -173,10 +184,10 @@ function ProductForm(props) {
             {option.name}
           </option>
         ))}
-      </TextField>
+      </TextField> */}
       <InputField name="code" label="Code*" size="small" form={form} />
 
-      <FormControl component="fieldset" fullWidth>
+      {/* <FormControl component="fieldset" fullWidth>
         <FormLabel component="legend">Trạng thái</FormLabel>
         <Controller
           rules={{ required: true }}
@@ -189,16 +200,23 @@ function ProductForm(props) {
             </RadioGroup>
           }
         />
-      </FormControl>
+      </FormControl> */}
 
-      <Box className={classes.boxButton}>
-        <Button type="submit" variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>
-          Tạo mới
-        </Button>
-        <Button variant="contained" color="inherit" onClick={handleBack} className={classes.button}>
-          Trở về
-        </Button>
-      </Box>
+      {/* <Box className={classes.boxButton}> */}
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        className={classes.button}
+        className={classes.submit}
+      >
+        Tạo mới
+      </Button>
+      <Button variant="contained" color="inherit" onClick={handleBack} className={classes.button}>
+        Trở về
+      </Button>
+      {/* </Box> */}
     </form>
   );
 }
