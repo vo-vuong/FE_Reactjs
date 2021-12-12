@@ -14,7 +14,7 @@ import InputField from 'components/form-controls/InputField';
 import InputNumberField from 'components/form-controls/InputNumberField';
 import MultilineField from 'components/form-controls/MultilineField';
 import PropTypes from 'prop-types';
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
@@ -22,25 +22,6 @@ import * as yup from 'yup';
 ProductForm.propTypes = {
   onSubmit: PropTypes.func,
 };
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
 
 const useStyles = makeStyles((theme) => ({
   root: { flexGrow: 1, marginLeft: '30px', marginTop: '40px', marginRight: '30px' },
@@ -60,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 function ProductForm(props) {
   const classes = useStyles();
   const history = useHistory();
-  const [currency, setCurrency] = useState('EUR');
+  const [productCategory, setProductCategory] = useState('1');
 
   const schema = yup.object({
     // name: yup
@@ -112,13 +93,14 @@ function ProductForm(props) {
   };
 
   const handleChange = (event) => {
-    setCurrency(event.target.value);
+    setProductCategory(event.target.value);
   };
 
+  console.log(props.categoryList);
   const handleSubmit = async (values) => {
     const object2 = {
       ...values,
-      categoryId: currency,
+      categoryId: productCategory,
     };
     console.log(object2);
     const { onSubmit } = props;
@@ -135,10 +117,28 @@ function ProductForm(props) {
       <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
       <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
       <InputNumberField name="price" label="Giá*" size="small" form={form} />
+      <TextField
+        id="outlined-select-productCategory-native"
+        select
+        label="Danh mục sản phẩm"
+        fullWidth
+        value={productCategory}
+        onChange={handleChange}
+        SelectProps={{
+          native: true,
+        }}
+        variant="outlined"
+      >
+        {props.categoryList.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.name}
+          </option>
+        ))}
+      </TextField>
       <InputField name="originId" label="Xuất xứ*" form={form} />
       <InputNumberField name="quantity" label="Số lượng*" size="small" form={form} />
       <InputField name="code" label="Code*" size="small" form={form} />
-      <FormControl component="fieldset">
+      <FormControl component="fieldset" fullWidth>
         <FormLabel component="legend">Trạng thái</FormLabel>
         <Controller
           rules={{ required: true }}
@@ -153,24 +153,6 @@ function ProductForm(props) {
         />
       </FormControl>
       {/* <InputField name="categoryId" label="Danh mục sản phẩm*" form={form} /> */}
-      <TextField
-        id="outlined-select-currency-native"
-        select
-        label="Native select"
-        fullWidth
-        value={currency}
-        onChange={handleChange}
-        SelectProps={{
-          native: true,
-        }}
-        variant="outlined"
-      >
-        {currencies.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </TextField>
       <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} />
 
       <Box className={classes.boxButton}>

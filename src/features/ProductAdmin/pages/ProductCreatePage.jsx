@@ -1,9 +1,7 @@
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import productApi from 'api/productApi';
+import categoryApi from 'api/categoryApi';
 import { useSnackbar } from 'notistack';
 import { React, useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router';
-import ProductDetail from '../components/ProductDetail';
 import ProductForm from '../components/ProductForm';
 
 ProductCreatePage.propTypes = {};
@@ -25,27 +23,29 @@ const useStyles = makeStyles((theme) => ({
 function ProductCreatePage(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const [categoryList, setCategoryList] = useState([]);
 
-  //   const {
-  //     params: { productId },
-  //   } = useRouteMatch();
-
-  //   useEffect(() => {
-  //     (async () => {
-  //       try {
-  //         const product = await productApi.get(productId);
-
-  //         setProduct(product);
-  //       } catch (error) {
-  //         console.log('Failed to fetch product ', error);
-  //       }
-  //     })();
-  //   }, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        const list = await categoryApi.getAll();
+        setCategoryList(
+          list.map((x) => ({
+            id: x.id,
+            name: x.name,
+          }))
+        );
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
+    })();
+  }, []);
+  // console.log(categoryList);
 
   const handleProductFormSubmit = async (values) => {
     try {
       //   const { message, object } = await categoryContentApi.addAdmin(values);
-      console.log(values);
+      // console.log(values);
       enqueueSnackbar('message', { variant: 'success' });
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
@@ -63,7 +63,7 @@ function ProductCreatePage(props) {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <ProductForm onSubmit={handleProductFormSubmit} />
+          <ProductForm categoryList={categoryList} onSubmit={handleProductFormSubmit} />
         </Grid>
       </Grid>
     </Box>
