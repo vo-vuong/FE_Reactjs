@@ -1,5 +1,6 @@
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import categoryApi from 'api/categoryApi';
+import originApi from 'api/originApi';
 import { useSnackbar } from 'notistack';
 import { React, useEffect, useState } from 'react';
 import ProductForm from '../components/ProductForm';
@@ -24,6 +25,7 @@ function ProductCreatePage(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [categoryList, setCategoryList] = useState([]);
+  const [categoryOriginList, setCategoryOriginList] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -40,7 +42,22 @@ function ProductCreatePage(props) {
       }
     })();
   }, []);
-  // console.log(categoryList);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const list = await originApi.getAll();
+        setCategoryOriginList(
+          list.map((x) => ({
+            id: x.id,
+            name: x.name,
+          }))
+        );
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
+    })();
+  }, []);
 
   const handleProductFormSubmit = async (values) => {
     try {
@@ -63,7 +80,11 @@ function ProductCreatePage(props) {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <ProductForm categoryList={categoryList} onSubmit={handleProductFormSubmit} />
+          <ProductForm
+            categoryList={categoryList}
+            categoryOriginList={categoryOriginList}
+            onSubmit={handleProductFormSubmit}
+          />
         </Grid>
       </Grid>
     </Box>
