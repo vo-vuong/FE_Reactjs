@@ -40,13 +40,17 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '16px',
     marginBottom: '8px',
   },
+  number: {
+    marginRight: '100px',
+    paddingRight: '100px',
+  },
 }));
 
 function ProductForm(props) {
   const classes = useStyles();
   const history = useHistory();
-  const [productCategory, setProductCategory] = useState('1');
-  const [categoryOrigin, setCategoryOrigin] = useState('1');
+  const [productCategory, setProductCategory] = useState(1);
+  const [categoryOrigin, setCategoryOrigin] = useState(1);
 
   const schema = yup.object({
     // name: yup
@@ -124,11 +128,6 @@ function ProductForm(props) {
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <InputField name="name" label="Tên sản phẩm*" size="small" form={form} />
-      <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
-      <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
-      <InputNumberField name="price" label="Giá*" size="small" form={form} />
-      <InputNumberField name="quantity" label="Số lượng*" size="small" form={form} />
-      <InputField name="code" label="Code*" size="small" form={form} />
       <TextField
         className={classes.customInput}
         id="outlined-select-product-category-native"
@@ -149,6 +148,33 @@ function ProductForm(props) {
           </option>
         ))}
       </TextField>
+      <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
+      <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
+      <InputNumberField name="price" label="Giá*" size="small" form={form} />
+      <InputNumberField name="quantity" label="Số lượng*" size="small" form={form} />
+      <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} />
+      <TextField
+        className={classes.customInput}
+        id="outlined-select-currency-native"
+        select
+        label="Danh mục Xuất xứ"
+        size="small"
+        fullWidth
+        value={categoryOrigin}
+        onChange={handleChangeOrigin}
+        SelectProps={{
+          natives: true,
+        }}
+        variant="outlined"
+      >
+        {props.categoryOriginList.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.name}
+          </option>
+        ))}
+      </TextField>
+      <InputField name="code" label="Code*" size="small" form={form} />
+
       <FormControl component="fieldset" fullWidth>
         <FormLabel component="legend">Trạng thái</FormLabel>
         <Controller
@@ -163,28 +189,6 @@ function ProductForm(props) {
           }
         />
       </FormControl>
-      <TextField
-        className={classes.customInput}
-        id="outlined-select-currency-native"
-        select
-        label="Xuất xứ"
-        size="small"
-        fullWidth
-        value={categoryOrigin}
-        onChange={handleChangeOrigin}
-        SelectProps={{
-          native: true,
-        }}
-        variant="outlined"
-      >
-        {props.categoryOriginList.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.name}
-          </option>
-        ))}
-      </TextField>
-
-      <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} />
 
       <Box className={classes.boxButton}>
         <Button type="submit" variant="contained" color="primary" onClick={handleSubmit} className={classes.button}>
