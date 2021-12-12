@@ -1,6 +1,7 @@
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import categoryApi from 'api/categoryApi';
 import originApi from 'api/originApi';
+import productApi from 'api/productApi';
 import { useSnackbar } from 'notistack';
 import { React, useEffect, useState } from 'react';
 import ProductForm from '../components/ProductForm';
@@ -61,11 +62,12 @@ function ProductCreatePage(props) {
 
   const handleProductFormSubmit = async (values) => {
     try {
-      //   const { message, object } = await categoryContentApi.addAdmin(values);
-      // console.log(values);
-      enqueueSnackbar('message', { variant: 'success' });
+      console.log(values);
+      const result = await productApi.addAdmin(values);
+      enqueueSnackbar('Đã thêm sản phẩm mới thành công.', { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar(error.message, { variant: 'error' });
+      // enqueueSnackbar(error.message, { variant: 'error' });
+      console.log(error);
     }
   };
 

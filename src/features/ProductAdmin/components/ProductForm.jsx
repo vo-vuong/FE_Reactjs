@@ -53,28 +53,28 @@ function ProductForm(props) {
   const [categoryOrigin, setCategoryOrigin] = useState(1);
 
   const schema = yup.object({
-    // name: yup
-    //   .string()
-    //   .required('Vui lòng nhập Tên sản phẩm.')
-    //   .min(3, 'Vui lòng nhập Tên sản phẩm lớn hơn 3 kí tự.')
-    //   .max(255, 'Vui lòng nhập Tên sản phẩm nhỏ hơn 255 kí tự.'),
-    // shortdescription: yup
-    //   .string()
-    //   .required('Vui lòng nhập Mô tả ngắn')
-    //   .min(20, 'Vui lòng nhập Mô tả ngắn lớn hơn 20 kí tự.')
-    //   .max(255, 'Vui lòng nhập Mô tả ngắn nhỏ hơn 255 kí tự.'),
-    // detail: yup
-    //   .string()
-    //   .required('Vui lòng nhập Mô tả chi tiết')
-    //   .min(20, 'Vui lòng nhập Mô tả chi tiết lớn hơn 20 kí tự.'),
+    name: yup
+      .string()
+      .required('Vui lòng nhập Tên sản phẩm.')
+      .min(3, 'Vui lòng nhập Tên sản phẩm lớn hơn 3 kí tự.')
+      .max(255, 'Vui lòng nhập Tên sản phẩm nhỏ hơn 255 kí tự.'),
+    shortdescription: yup
+      .string()
+      .required('Vui lòng nhập Mô tả ngắn')
+      .min(20, 'Vui lòng nhập Mô tả ngắn lớn hơn 20 kí tự.')
+      .max(255, 'Vui lòng nhập Mô tả ngắn nhỏ hơn 255 kí tự.'),
+    detail: yup
+      .string()
+      .required('Vui lòng nhập Mô tả chi tiết')
+      .min(20, 'Vui lòng nhập Mô tả chi tiết lớn hơn 20 kí tự.'),
     // price: yup.number().required().positive().integer(),
     // originId: yup.number().required().positive().integer(),
     // quantity: yup.number().required().positive().integer(),
-    // code: yup
-    //   .string()
-    //   .required('Vui lòng nhập Code.')
-    //   .min(5, 'Vui lòng nhập Code lớn hơn 5 kí tự.')
-    //   .max(255, 'Vui lòng nhập Code nhỏ hơn 255 kí tự.'),
+    code: yup
+      .string()
+      .required('Vui lòng nhập Code.')
+      .min(5, 'Vui lòng nhập Code lớn hơn 5 kí tự.')
+      .max(255, 'Vui lòng nhập Code nhỏ hơn 255 kí tự.'),
     // status: yup.number().required().positive().integer(),
     // categoryId: yup.number().required('Vui lòng nhập Danh mục sản phẩm.').positive().integer(),
     // warranty: yup.number().required('Vui lòng nhập Bảo hành sản phẩm.').positive().integer(),
@@ -122,6 +122,7 @@ function ProductForm(props) {
       await onSubmit(object2);
     }
 
+    // form.reset();
     // form.reset();  Bo vi khi loi thi khong reset form  ma khi thanh cong thi dong form roi
   };
 
