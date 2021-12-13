@@ -131,6 +131,7 @@ function RegisterForm(props) {
               <RadioGroup row defaultValue="1">
                 <FormControlLabel value="1" control={<Radio />} label="Nam" />
                 <FormControlLabel value="0" control={<Radio />} label="Nữ" />
+                <FormControlLabel value="2" control={<Radio />} label="Không xác định" />
               </RadioGroup>
             }
           />
