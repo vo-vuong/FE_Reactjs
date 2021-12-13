@@ -46,6 +46,7 @@ function FormCategory(category) {
   });
 
   const handleSubmit = async (values) => {
+    console.log(form.errors);
     const { onSubmit } = category;
     if (onSubmit) {
       await onSubmit(values);

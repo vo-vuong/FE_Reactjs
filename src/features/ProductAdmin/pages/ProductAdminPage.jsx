@@ -69,7 +69,6 @@ export default function ProductAdminPage() {
     (async () => {
       try {
         const list = await productApi.getAllAdmin();
-        console.log({ list });
         SetRowsSate(
           list.map((x) => ({
             id: x.id,
@@ -113,6 +112,10 @@ export default function ProductAdminPage() {
     history.push(`/admin/product/${id}`);
   };
 
+  const handleCreate = () => {
+    history.push('/admin/product/create');
+  };
+
   return (
     <Box className={classes.root}>
       <Grid container spacing={3}>
@@ -124,7 +127,7 @@ export default function ProductAdminPage() {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" size="small" style={{ color: green[500] }}>
+          <Button variant="contained" size="small" style={{ color: green[500] }} onClick={handleCreate}>
             Tạo mới sản phẩm
           </Button>
           <Paper className={classes.table}>
@@ -142,7 +145,6 @@ export default function ProductAdminPage() {
                 <TableBody>
                   {rowsSate.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const rowId = row['id'];
-                    console.log(row);
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                         {columns.map((column) => {
