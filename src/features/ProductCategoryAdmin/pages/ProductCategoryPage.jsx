@@ -100,6 +100,7 @@ function ProductCategoryPage(props) {
   const handleCreateCategory = async (values) => {
     try {
       const { message, object } = await categoryApi.addAdmin(values);
+      // console.log('error');
       enqueueSnackbar(message, { variant: 'success' });
       const newCategory = {
         id: object.id,
@@ -113,6 +114,7 @@ function ProductCategoryPage(props) {
       setCategoryList(newCategorys);
       setEditCategorytId(null);
     } catch (error) {
+      console.log(error);
       enqueueSnackbar(error.message, { variant: 'error' });
     }
   };

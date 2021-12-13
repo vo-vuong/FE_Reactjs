@@ -52,7 +52,7 @@ function ProductDetail({ product }) {
   const form = useForm({
     defaultValues: {
       name: product.name,
-      shortdescription: 'fsd',
+      shortdescription: '',
       detail: '',
       price: '',
       originId: '',

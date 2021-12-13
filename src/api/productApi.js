@@ -22,6 +22,11 @@ const productApi = {
     return axiosClient.get(url);
   },
 
+  addAdmin(data) {
+    const url = '/product';
+    return axiosAdmin.post(url, data);
+  },
+
   remove(id) {
     const url = `/product/${id}`;
     return axiosAdmin.delete(url);

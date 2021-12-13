@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 
-InputField.propTypes = {
+InputNumberField.propTypes = {
   form: PropTypes.object.isRequired, // hai cai quan trong nhat
   name: PropTypes.string.isRequired, // ptsr la pt proptypes, s tring, r isrequired
 
@@ -11,7 +11,7 @@ InputField.propTypes = {
   disabled: PropTypes.bool,
 };
 
-function InputField(props) {
+function InputNumberField(props) {
   const { form, name, label, disabled, size } = props;
   const { errors } = form;
   const hasError = errors[name];
@@ -24,7 +24,10 @@ function InputField(props) {
         <TextField
           margin="normal"
           variant="outlined"
-          fullWidth
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
           size={size}
           label={label}
           disabled={disabled}
@@ -36,17 +39,8 @@ function InputField(props) {
           onBlur={onBlur}
         />
       )}
-      // as={TextField}
-      // margin="normal"
-      // variant="outlined"
-      // fullWidth
-      // label={label}
-      // disabled={disabled}
-      //
-      // error={!!hasError} // ep boolean gi do
-      // helperText={errors[name]?.message} //luc nao co moi show
     />
   );
 }
 
-export default InputField;
+export default InputNumberField;
