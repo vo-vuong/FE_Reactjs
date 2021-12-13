@@ -1,21 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  makeStyles,
-  Radio,
-  RadioGroup,
-  TextField,
-} from '@material-ui/core';
+import { Box, Button, makeStyles, MenuItem } from '@material-ui/core';
 import InputField from 'components/form-controls/InputField';
 import InputNumberField from 'components/form-controls/InputNumberField';
 import MultilineField from 'components/form-controls/MultilineField';
+import ReactHookFormSelect from 'components/form-controls/SelectField';
 import PropTypes from 'prop-types';
-import { React, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { React } from 'react';
+import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -49,16 +40,16 @@ const useStyles = makeStyles((theme) => ({
 function ProductForm(props) {
   const classes = useStyles();
   const history = useHistory();
-  const [productCategory, setProductCategory] = useState(props.categoryList[1]?.id);
-  const [categoryOrigin, setCategoryOrigin] = useState(props.categoryOriginList[1]?.id);
-  // console.log(props);
+  // const [productCategory, setProductCategory] = useState(null);
+  // const [categoryOrigin, setCategoryOrigin] = useState(null);
+
   const schema = yup.object({
     name: yup
       .string()
       .required('Vui lòng nhập Tên sản phẩm.')
       .min(3, 'Vui lòng nhập Tên sản phẩm lớn hơn 3 kí tự.')
       .max(255, 'Vui lòng nhập Tên sản phẩm nhỏ hơn 255 kí tự.'),
-    // categoryId: yup.number().required('Vui lòng nhập Danh mục sản phẩm.').positive().integer(),
+    categoryId: yup.number().required().typeError('Vui lòng chọn danh mục sản phẩm.'),
     shortdescription: yup
       .string()
       .required('Vui lòng nhập Mô tả ngắn.')
@@ -81,13 +72,12 @@ function ProductForm(props) {
       .min(0, 'Tối thiểu là 0.')
       .max(100, 'Tối đa là 100 tháng bảo hành sản phẩm.')
       .typeError('Vui lòng nhập số.'),
-    // originId: yup.number().required().positive().integer(),
+    originId: yup.number().required().typeError('Vui lòng chọn danh mục xuất xứ.'),
     code: yup
       .string()
       .required('Vui lòng nhập Code.')
       .min(3, 'Vui lòng nhập Code lớn hơn 3 kí tự.')
       .max(255, 'Vui lòng nhập Code nhỏ hơn 255 kí tự.'),
-    // status: yup.number().required().positive().integer(),
   });
 
   const form = useForm({
@@ -96,12 +86,11 @@ function ProductForm(props) {
       shortdescription: '',
       detail: '',
       price: '',
-      // originId: '',
+      originId: '1',
       quantity: '',
       warranty: '',
       code: '',
-      // status: '1',
-      // categoryId: '',
+      categoryId: '1',
     },
 
     resolver: yupResolver(schema),
@@ -111,99 +100,60 @@ function ProductForm(props) {
     history.push('/admin/product');
   };
 
-  const handleChange = (event) => {
-    setProductCategory(event.target.value);
-  };
-
-  const handleChangeOrigin = (event) => {
-    setCategoryOrigin(event.target.value);
-  };
-
-  // console.log(props.categoryList);
   const handleSubmit = async (values) => {
-    console.log(form.errors);
-    // const object2 = {
-    //   ...values,
-    //   categoryId: productCategory,
-    //   originId: categoryOrigin,
-    // };
-    // console.log(object2);
     const { onSubmit } = props;
     if (onSubmit) {
       await onSubmit(values);
     }
-
-    // form.reset();
-    // form.reset();  Bo vi khi loi thi khong reset form  ma khi thanh cong thi dong form roi
+    history.push('/admin/product');
   };
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <InputField name="name" label="Tên sản phẩm*" size="small" form={form} />
-      <TextField
-        className={classes.customInput}
-        id="outlined-select-product-category-native"
-        select
-        label="Danh mục sản phẩm"
+      <ReactHookFormSelect
+        id="outlined-select-product-native"
+        name="categoryId"
         size="small"
         fullWidth
-        value={productCategory}
-        onChange={handleChange}
-        SelectProps={{
-          native: true,
-        }}
+        label="Danh mục sản phẩm"
+        control={form.control}
+        error={!!form.errors.categoryId}
         variant="outlined"
+        margin="normal"
       >
         {props.categoryList.map((option) => (
-          <option key={option.id} value={option.id}>
+          <MenuItem key={option.id} value={option.id}>
             {option.name}
-          </option>
+          </MenuItem>
         ))}
-      </TextField>
+      </ReactHookFormSelect>
       <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
       <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
       <InputNumberField name="price" label="Giá*" size="small" form={form} />
       <InputNumberField name="quantity" label="Số lượng*" size="small" form={form} />
       <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} />
-      <TextField
-        className={classes.customInput}
+      <ReactHookFormSelect
         id="outlined-select-currency-native"
-        select
+        name="originId"
+        fullWidth
         label="Danh mục xuất xứ"
         size="small"
-        fullWidth
-        value={categoryOrigin}
-        onChange={handleChangeOrigin}
-        SelectProps={{
-          native: true,
-        }}
+        control={form.control}
+        error={!!form.errors.originId}
         variant="outlined"
+        margin="normal"
       >
         {props.categoryOriginList.map((option) => (
-          <option key={option.id} value={option.id}>
+          <MenuItem key={option.id} value={option.id}>
             {option.name}
-          </option>
+          </MenuItem>
         ))}
-      </TextField>
+      </ReactHookFormSelect>
       <InputField name="code" label="Code*" size="small" form={form} />
 
-      {/* <FormControl component="fieldset" fullWidth>
-        <FormLabel component="legend">Trạng thái</FormLabel>
-        <Controller
-          rules={{ required: true }}
-          control={form.control}
-          name="status"
-          as={
-            <RadioGroup row defaultValue="1">
-              <FormControlLabel value="1" control={<Radio />} label="Còn hàng" />
-              <FormControlLabel value="0" control={<Radio />} label="Hết hàng" />
-            </RadioGroup>
-          }
-        />
-      </FormControl> */}
-
       <Box className={classes.boxButton}>
-        <Button type="submit" variant="contained" color="primary" className={classes.button} className={classes.submit}>
+        <Button type="submit" variant="contained" color="primary" className={classes.button}>
           Tạo mới
         </Button>
         <Button variant="contained" color="inherit" onClick={handleBack} className={classes.button}>
