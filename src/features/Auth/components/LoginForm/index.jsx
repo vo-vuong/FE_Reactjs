@@ -3,10 +3,10 @@ import { LockOutlined } from '@material-ui/icons';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import InputField from '../../../../components/form-controls/InputField';
-import PasswordField from '../../../../components/form-controls/PasswordField';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import InputField from 'components/form-controls/InputField';
+import PasswordField from 'components/form-controls/PasswordField';
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -45,7 +45,7 @@ function LoginForm(props) {
   const schema = yup.object({
     username: yup
       .string()
-      .required('Vui lòng nhập Tên đăng nhập')
+      .required('Vui lòng nhập Tên đăng nhập.')
       .min(5, 'Vui lòng nhập Tên đăng nhập lớn hơn 5 kí tự.')
       .max(32, 'Vui lòng nhập Tên đăng nhập nhỏ hơn 32 kí tự.'),
     password: yup
@@ -84,7 +84,7 @@ function LoginForm(props) {
       </Typography>
 
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <InputField name="username" label="Tên đăng nhập*" form={form} />
+        <InputField name="username" label="Tên đăng nhập*" size="small" form={form} />
         <PasswordField name="password" label="Mật khẩu*" form={form} />
 
         <Button
