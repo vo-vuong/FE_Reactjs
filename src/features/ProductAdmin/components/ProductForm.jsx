@@ -64,23 +64,23 @@ function ProductForm(props) {
       .required('Vui lòng nhập Mô tả ngắn.')
       .min(10, 'Vui lòng nhập Mô tả ngắn lớn hơn 10 kí tự.')
       .max(255, 'Vui lòng nhập Mô tả ngắn nhỏ hơn 255 kí tự.'),
-    // detail: yup
-    //   .string()
-    //   .required('Vui lòng nhập Mô tả chi tiết.')
-    //   .min(20, 'Vui lòng nhập Mô tả chi tiết lớn hơn 20 kí tự.'),
-    // price: yup.number().required('Vui lòng nhập giá.').min(0, 'Tối thiểu là 0.').typeError('Vui lòng nhập số.'),
-    // quantity: yup
-    //   .number()
-    //   .required('Vui lòng nhập số lượng sản phẩm.')
-    //   .min(0, 'Tối thiểu là 0.')
-    //   .max(1000, 'Tối đa là 1000 sản phẩm.')
-    //   .typeError('Vui lòng nhập số.'),
-    // warranty: yup
-    //   .number()
-    //   .required('Vui lòng nhập Bảo hành sản phẩm.')
-    //   .min(0, 'Tối thiểu là 0.')
-    //   .max(100, 'Tối đa là 100 tháng bảo hành sản phẩm.')
-    //   .typeError('Vui lòng nhập số.'),
+    detail: yup
+      .string()
+      .required('Vui lòng nhập Mô tả chi tiết.')
+      .min(20, 'Vui lòng nhập Mô tả chi tiết lớn hơn 20 kí tự.'),
+    price: yup.number().required('Vui lòng nhập giá.').min(0, 'Tối thiểu là 0.').typeError('Vui lòng nhập số.'),
+    quantity: yup
+      .number()
+      .required('Vui lòng nhập số lượng sản phẩm.')
+      .min(0, 'Tối thiểu là 0.')
+      .max(1000, 'Tối đa là 1000 sản phẩm.')
+      .typeError('Vui lòng nhập số.'),
+    warranty: yup
+      .number()
+      .required('Vui lòng nhập Bảo hành sản phẩm.')
+      .min(0, 'Tối thiểu là 0.')
+      .max(100, 'Tối đa là 100 tháng bảo hành sản phẩm.')
+      .typeError('Vui lòng nhập số.'),
     // originId: yup.number().required().positive().integer(),
     code: yup
       .string()
@@ -94,11 +94,11 @@ function ProductForm(props) {
     defaultValues: {
       name: '',
       shortdescription: '',
-      // detail: '',
-      // price: '',
-      // // originId: '',
-      // quantity: '',
-      // warranty: '',
+      detail: '',
+      price: '',
+      // originId: '',
+      quantity: '',
+      warranty: '',
       code: '',
       // status: '1',
       // categoryId: '',
@@ -140,7 +140,7 @@ function ProductForm(props) {
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <InputField name="name" label="Tên sản phẩm*" size="small" form={form} />
-      {/* <TextField
+      <TextField
         className={classes.customInput}
         id="outlined-select-product-category-native"
         select
@@ -159,13 +159,13 @@ function ProductForm(props) {
             {option.name}
           </option>
         ))}
-      </TextField> */}
+      </TextField>
       <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
-      {/* <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} /> */}
-      {/* <InputNumberField name="price" label="Giá*" size="small" form={form} />
+      <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
+      <InputNumberField name="price" label="Giá*" size="small" form={form} />
       <InputNumberField name="quantity" label="Số lượng*" size="small" form={form} />
-      <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} /> */}
-      {/* <TextField
+      <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} />
+      <TextField
         className={classes.customInput}
         id="outlined-select-currency-native"
         select
@@ -184,7 +184,7 @@ function ProductForm(props) {
             {option.name}
           </option>
         ))}
-      </TextField> */}
+      </TextField>
       <InputField name="code" label="Code*" size="small" form={form} />
 
       {/* <FormControl component="fieldset" fullWidth>
@@ -202,21 +202,14 @@ function ProductForm(props) {
         />
       </FormControl> */}
 
-      {/* <Box className={classes.boxButton}> */}
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={handleSubmit}
-        className={classes.button}
-        className={classes.submit}
-      >
-        Tạo mới
-      </Button>
-      <Button variant="contained" color="inherit" onClick={handleBack} className={classes.button}>
-        Trở về
-      </Button>
-      {/* </Box> */}
+      <Box className={classes.boxButton}>
+        <Button type="submit" variant="contained" color="primary" className={classes.button} className={classes.submit}>
+          Tạo mới
+        </Button>
+        <Button variant="contained" color="inherit" onClick={handleBack} className={classes.button}>
+          Trở về
+        </Button>
+      </Box>
     </form>
   );
 }
