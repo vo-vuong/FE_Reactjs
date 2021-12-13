@@ -1,11 +1,22 @@
-import { Avatar, Button, LinearProgress, makeStyles, Typography } from '@material-ui/core';
-import { LockOutlined } from '@material-ui/icons';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useForm } from 'react-hook-form';
-import InputField from '../../../../components/form-controls/InputField';
-import PasswordField from '../../../../components/form-controls/PasswordField';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  Avatar,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  LinearProgress,
+  makeStyles,
+  Radio,
+  RadioGroup,
+  Typography,
+} from '@material-ui/core';
+import { LockOutlined } from '@material-ui/icons';
+import InputField from 'components/form-controls/InputField';
+import PasswordField from 'components/form-controls/PasswordField';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 RegisterForm.propTypes = {
@@ -45,10 +56,6 @@ function RegisterForm(props) {
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
   const schema = yup.object({
-    // .test('Vui lòng nhập trên hai từ', 'Vui lòng nhập trên hai từ', (value) => {
-    //   return value.split(' ').length >= 4;
-    // }), // Tra ve true la valid tra ve false invalid.
-    // username: yup.string().required('Nhap username').min(5, )
     fullname: yup
       .string()
       .required('Vui lòng nhập Họ và tên.')
@@ -61,6 +68,7 @@ function RegisterForm(props) {
       .max(32, 'Vui lòng nhập Tên đăng nhập nhỏ hơn 32 kí tự.'),
     email: yup.string().required('Vui lòng nhập email.').email('Vui lòng nhập Email hợp lệ.'),
     phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+    address: yup.string().max(255, 'Vui lòng nhập Địa chỉ nhỏ hơn 255 kí tự.'),
     password: yup
       .string()
       .required('Vui lòng nhập Mật khẩu.')
@@ -78,6 +86,8 @@ function RegisterForm(props) {
       username: '',
       email: '',
       phone: '',
+      address: '',
+      sex: '1',
       password: '',
       retypePassword: '',
     },
@@ -85,12 +95,11 @@ function RegisterForm(props) {
   });
 
   const handleSubmit = async (values) => {
+    console.log(values);
     const { onSubmit } = props;
     if (onSubmit) {
       await onSubmit(values);
     }
-
-    // form.reset();  Bo vi khi loi thi khong reset form  ma khi thanh cong thi dong form roi
   };
 
   const { isSubmitting } = form.formState;
@@ -107,10 +116,25 @@ function RegisterForm(props) {
       </Typography>
 
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <InputField name="fullname" label="Họ và tên*" form={form} />
-        <InputField name="username" label="Tên đăng nhập*" form={form} />
-        <InputField name="email" label="Email*" form={form} />
-        <InputField name="phone" label="Số điện thoại*" form={form} />
+        <InputField name="fullname" label="Họ và tên*" size="small" form={form} />
+        <InputField name="username" label="Tên đăng nhập*" size="small" form={form} />
+        <InputField name="email" label="Email*" size="small" form={form} />
+        <InputField name="phone" label="Số điện thoại*" size="small" form={form} />
+        <InputField name="address" label="Địa chỉ" size="small" form={form} />
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Giới tính</FormLabel>
+          <Controller
+            rules={{ required: true }}
+            control={form.control}
+            name="sex"
+            as={
+              <RadioGroup row defaultValue="1">
+                <FormControlLabel value="1" control={<Radio />} label="Nam" />
+                <FormControlLabel value="0" control={<Radio />} label="Nữ" />
+              </RadioGroup>
+            }
+          />
+        </FormControl>
         <PasswordField name="password" label="Mật khẩu*" form={form} />
         <PasswordField name="retypePassword" label="Xác nhận mật khẩu*" form={form} />
 
