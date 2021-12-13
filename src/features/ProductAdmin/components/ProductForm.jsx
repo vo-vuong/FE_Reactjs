@@ -1,11 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, makeStyles, MenuItem } from '@material-ui/core';
+import axios from 'axios';
 import InputField from 'components/form-controls/InputField';
 import InputNumberField from 'components/form-controls/InputNumberField';
 import MultilineField from 'components/form-controls/MultilineField';
 import ReactHookFormSelect from 'components/form-controls/SelectField';
 import PropTypes from 'prop-types';
-import { React } from 'react';
+import { React, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
@@ -42,6 +43,9 @@ function ProductForm(props) {
   const history = useHistory();
   // const [productCategory, setProductCategory] = useState(null);
   // const [categoryOrigin, setCategoryOrigin] = useState(null);
+  // const [fileInputState, setFileInputState] = useState('');
+  const [selectedFile, setSelectedFile] = useState('');
+  const [previewSource, setPreviewSource] = useState();
 
   const schema = yup.object({
     name: yup
@@ -96,17 +100,51 @@ function ProductForm(props) {
     resolver: yupResolver(schema),
   });
 
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+    setSelectedFile(file);
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
+
   const handleBack = () => {
     history.push('/admin/product');
   };
 
   const handleSubmit = async (values) => {
+    console.log('haha');
+    let url = '';
     const { onSubmit } = props;
     if (onSubmit) {
-      await onSubmit(values);
+      if (previewSource) {
+        // uploadImage(previewSource);
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('upload_preset', 'hjgraqmi');
+
+        await axios.post('https://api.cloudinary.com/v1_1/dxsewj5df/image/upload', formData).then((response) => {
+          url = response.data.url;
+        });
+      }
+      const object2 = {
+        ...values,
+        url: [url],
+      };
+      await onSubmit(object2);
     }
     history.push('/admin/product');
   };
+
+  // const uploadImage = (base64EncodedImage) => {
+  //   console.log(base64EncodedImage);
+  // };
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -151,7 +189,8 @@ function ProductForm(props) {
         ))}
       </ReactHookFormSelect>
       <InputField name="code" label="Code*" size="small" form={form} />
-
+      <input type="file" name="image" onChange={handleFileInputChange} />
+      {previewSource && <img src={previewSource} alt="chosen" style={{ height: '300px' }} />}
       <Box className={classes.boxButton}>
         <Button type="submit" variant="contained" color="primary" className={classes.button}>
           Tạo mới
