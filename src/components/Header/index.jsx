@@ -119,9 +119,15 @@ export default function Header() {
     setAnchorEl(null);
   };
 
+  const handleChangePassClick = () => {
+    history.push('/changepassword');
+    setAnchorEl(null);
+  };
+
   const handleLogoutClick = () => {
     const action = logout();
     dispatch(action);
+    setAnchorEl(null);
   };
 
   const handleCartClick = () => {
@@ -192,8 +198,9 @@ export default function Header() {
         }}
         getContentAnchorEl={null}
       >
-        <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-        <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+        <MenuItem onClick={handleCloseMenu}>Tài khoản của tôi</MenuItem>
+        <MenuItem onClick={handleChangePassClick}>Thay đổi mật khẩu</MenuItem>
+        <MenuItem onClick={handleLogoutClick}>Đăng xuất</MenuItem>
       </Menu>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

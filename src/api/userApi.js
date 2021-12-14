@@ -1,4 +1,5 @@
 import axiosClient from './axiosClient';
+import axiosAdmin from './axiosAdmin';
 
 const userApi = {
   register(data) {
@@ -12,6 +13,10 @@ const userApi = {
   forgotpassword(data) {
     const url = '/forgotpassword';
     return axiosClient.post(url, data);
+  },
+  changepassword(data) {
+    const url = '/changepassword';
+    return axiosAdmin.post(url, data);
   },
 };
 
