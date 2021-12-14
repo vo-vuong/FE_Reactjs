@@ -19,7 +19,6 @@ export default function HeaderMenu() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    history.push('/');
     history.push(newValue);
   };
 
@@ -28,9 +27,9 @@ export default function HeaderMenu() {
       <Paper className={classes.root}>
         <Tabs value={value} onChange={handleChange} centered TabIndicatorProps={{ style: { background: 'black' } }}>
           <Tab label="Trang chủ" value="" />
-          <Tab label="Sản phẩm" value="products" />
-          <Tab label="Bài viết" value="contets" />
-          <Tab label="Về chúng tôi" value="info" />
+          <Tab label="Sản phẩm" value="/products" />
+          <Tab label="Bài viết" value="/contents" />
+          <Tab label="Về chúng tôi" value="/info" />
         </Tabs>
       </Paper>
     </Container>
