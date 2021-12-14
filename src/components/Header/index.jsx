@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { AccountCircle, Close, ShoppingCart } from '@material-ui/icons';
 import AlbumIcon from '@material-ui/icons/Album';
 import SearchIcon from '@material-ui/icons/Search';
+import ForgotPass from 'features/Auth/components/ForgotPass';
 import Login from 'features/Auth/components/Login';
 import { logout } from 'features/Auth/userSlice';
 import { cartItemsCountSelector } from 'features/Cart/selectors';
@@ -86,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
 const MODE = {
   LOGIN: 'login',
   REGISTER: 'register',
+  FORGOTPASS: 'forgotpass',
 };
 
 export default function Header() {
@@ -104,6 +106,7 @@ export default function Header() {
 
   const handleClose = (event, reason) => {
     if (reason !== 'backdropClick' && reason !== 'escapeKeyDown') {
+      setMode(MODE.LOGIN);
       setOpen(false);
     }
   };
@@ -219,6 +222,17 @@ export default function Header() {
                   Bạn chưa có tài khoản? Đăng kí ở đây.
                 </Button>
               </Box>
+              <Box textAlign="center">
+                <Button color="primary" onClick={() => setMode(MODE.FORGOTPASS)}>
+                  Quên mật khẩu?
+                </Button>
+              </Box>
+            </>
+          )}
+
+          {mode === MODE.FORGOTPASS && (
+            <>
+              <ForgotPass closeDialog={handleClose} />
             </>
           )}
         </DialogContent>
