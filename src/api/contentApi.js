@@ -5,10 +5,10 @@ const contentApi = {
   async getAll(params) {
     // console.log(params.filters);
     const contentList = await axiosClient.get('/new', { params: params.filters });
-    // console.log(productList.list);
+    // console.log(contentList.list);
     return {
       data: contentList.list,
-      pagination: { page: productList.page, totalPage: productList.totalPage },
+      pagination: { page: contentList.page, totalPage: contentList.totalPage },
     };
   },
 
