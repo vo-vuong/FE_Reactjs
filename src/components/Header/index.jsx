@@ -167,11 +167,14 @@ export default function Header() {
             )}
 
             {isLoggedIn && (
-              <IconButton color="inherit" onClick={handleCartClick}>
-                <Badge badgeContent={cartItemsCount} color="secondary">
-                  <ShoppingCart />
-                </Badge>
-              </IconButton>
+              <>
+                <IconButton color="inherit" onClick={handleCartClick}>
+                  <Badge badgeContent={cartItemsCount} color="secondary">
+                    <ShoppingCart />
+                  </Badge>
+                </IconButton>
+                <Typography>{loggedInUser.userName}</Typography>
+              </>
             )}
 
             {isLoggedIn && (
