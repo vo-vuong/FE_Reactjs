@@ -12,6 +12,7 @@ import { React, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 ProductDetail.propTypes = {
   product: PropTypes.object,
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductDetail({ product }) {
+function ProductDetail(props) {
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
@@ -59,7 +60,7 @@ function ProductDetail({ product }) {
   };
 
   const handleFileInputChange = (e) => {
-    const file = e.target.files[0] || product.images[0].url;
+    const file = e.target.files[0] || props.product.images[0].url;
     previewFile(file);
     setSelectedFile(file);
   };
@@ -132,21 +133,21 @@ function ProductDetail({ product }) {
       .min(3, 'Vui lòng nhập Code lớn hơn 3 kí tự.')
       .max(255, 'Vui lòng nhập Code nhỏ hơn 255 kí tự.'),
   });
-  console.log(product);
-  console.log(product.images[0].url);
+  // console.log(props.product);
+
   const form = useForm({
     defaultValues: {
-      id: product.id || '',
-      name: product.name || '',
-      shortdescription: product.shortdescription || '',
-      detail: product.detail || '',
-      price: product.price || '1',
-      originId: product.originId || '1',
-      quantity: product.quantity || '1',
-      code: product.code || '',
-      categoryId: product.categoryId || '1',
-      warranty: product.warranty || '1',
-      url: product.images[0].url || '',
+      // id: props.product.id || '',
+      name: props.product.name || '',
+      shortdescription: props.product.shortdescription || '',
+      detail: props.product.detail || '',
+      price: props.product.price || '0',
+      originId: props.product.originId || '1',
+      quantity: props.product.quantity || '0',
+      code: props.product.code || '',
+      categoryId: props.product.categoryId || '1',
+      warranty: props.product.warranty || '0',
+      url: props.product.images[0].url || '',
     },
 
     resolver: yupResolver(schema),
@@ -156,7 +157,38 @@ function ProductDetail({ product }) {
     history.push('/admin/product');
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (values) => {
+    const { onSubmit } = props;
+    let url = '';
+    if (onSubmit) {
+      if (previewSource) {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('upload_preset', 'hjgraqmi');
+
+        await axios.post('https://api.cloudinary.com/v1_1/dxsewj5df/image/upload', formData).then((response) => {
+          url = response.data.url;
+        });
+
+        const object2 = {
+          ...values,
+          id: props.product.id,
+          url: [url],
+        };
+        await onSubmit(object2);
+      } else {
+        const object2 = {
+          ...values,
+          id: props.product.id,
+          url: [props.product.images[0].url],
+        };
+        await onSubmit(object2);
+      }
+    }
+
+    // history.push('/admin/product');
+  };
+
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <InputField name="name" label="Tên sản phẩm*" size="small" form={form} />
@@ -201,18 +233,12 @@ function ProductDetail({ product }) {
       </ReactHookFormSelect>
       <InputField name="code" label="Code*" size="small" form={form} />
       <img
-        src={previewSource || product.images[0].url}
+        src={previewSource || props.product.images[0].url}
         className={classes.avatar}
         alt="Chọn file ảnh "
         style={{ height: '130px' }}
       />
-      <input
-        type="file"
-        name="url"
-        onChange={handleFileInputChange}
-        className={classes.avatar}
-        accept="image/png, image/jpeg"
-      />
+      <input type="file" name="url" onChange={handleFileInputChange} accept="image/png, image/jpeg" />
 
       <Box className={classes.boxButton}>
         <Button type="submit" variant="contained" color="primary" className={classes.button}>

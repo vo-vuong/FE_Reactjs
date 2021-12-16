@@ -119,7 +119,6 @@ function ProductForm(props) {
   };
 
   const handleSubmit = async (values) => {
-    console.log('haha');
     let url = '';
     const { onSubmit } = props;
     if (onSubmit) {
