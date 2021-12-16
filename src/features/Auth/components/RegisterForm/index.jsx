@@ -68,7 +68,11 @@ function RegisterForm(props) {
       .max(32, 'Vui lòng nhập Tên đăng nhập nhỏ hơn 32 kí tự.'),
     email: yup.string().required('Vui lòng nhập email.').email('Vui lòng nhập Email hợp lệ.'),
     phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
-    address: yup.string().max(255, 'Vui lòng nhập Địa chỉ nhỏ hơn 255 kí tự.'),
+    address: yup
+      .string()
+      .required('Vui lòng nhập Địa chỉ')
+      .min(5, 'Vui lòng nhập Địa chỉ lớn hơn 8 kí tự.')
+      .max(255, 'Vui lòng nhập Địa chỉ nhỏ hơn 255 kí tự.'),
     password: yup
       .string()
       .required('Vui lòng nhập Mật khẩu.')

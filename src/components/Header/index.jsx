@@ -133,6 +133,7 @@ export default function Header() {
     const action = logout();
     dispatch(action);
     setAnchorEl(null);
+    history.push('/');
   };
 
   const handleCartClick = () => {

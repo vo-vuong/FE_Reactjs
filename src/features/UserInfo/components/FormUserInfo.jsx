@@ -79,7 +79,11 @@ function FormUserInfo(props) {
       .min(8, 'Vui lòng nhập Họ và tên lớn hơn 8 kí tự.')
       .max(32, 'Vui lòng nhập Họ và tên nhỏ hơn 32 kí tự.'),
     phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
-    address: yup.string().max(255, 'Vui lòng nhập Địa chỉ nhỏ hơn 255 kí tự.'),
+    address: yup
+      .string()
+      .required('Vui lòng nhập Địa chỉ')
+      .min(5, 'Vui lòng nhập Địa chỉ lớn hơn 8 kí tự.')
+      .max(255, 'Vui lòng nhập Địa chỉ nhỏ hơn 255 kí tự.'),
     password: yup
       .string()
       .required('Vui lòng nhập Mật khẩu.')
@@ -160,7 +164,7 @@ function FormUserInfo(props) {
           />
           <input
             type="file"
-            name="image"
+            name="url"
             onChange={handleFileInputChange}
             className={classes.avatar}
             accept="image/png, image/jpeg"
