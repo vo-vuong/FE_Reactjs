@@ -159,7 +159,7 @@ function FormUserInfo(props) {
           <img
             src={previewSource || props.userInfo.url}
             className={classes.avatar}
-            alt="chosen"
+            alt="Chọn file ảnh "
             style={{ height: '130px' }}
           />
           <input
