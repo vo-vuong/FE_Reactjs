@@ -178,7 +178,7 @@ export default function Header() {
                     <ShoppingCart />
                   </Badge>
                 </IconButton>
-                <Typography>{loggedInUser.userName}</Typography>
+                <Typography>{loggedInUser.fullname}</Typography>
               </>
             )}
 

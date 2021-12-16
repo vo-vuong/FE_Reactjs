@@ -22,6 +22,11 @@ const userApi = {
     const url = '/userinfo';
     return axiosAdmin.get(url, { params });
   },
+
+  userInfo(data) {
+    const url = '/userinfo';
+    return axiosAdmin.post(url, data);
+  },
 };
 
 export default userApi;

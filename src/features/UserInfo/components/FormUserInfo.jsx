@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import InputField from 'components/form-controls/InputField';
+import PasswordField from 'components/form-controls/PasswordField';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 function FormUserInfo(props) {
   const classes = useStyles();
   const history = useHistory();
+
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
@@ -64,14 +66,20 @@ function FormUserInfo(props) {
       .max(32, 'Vui lòng nhập Họ và tên nhỏ hơn 32 kí tự.'),
     phone: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
     address: yup.string().max(255, 'Vui lòng nhập Địa chỉ nhỏ hơn 255 kí tự.'),
+    password: yup
+      .string()
+      .required('Vui lòng nhập Mật khẩu.')
+      .min(5, 'Vui lòng nhập Mật khẩu lớn hơn 5 kí tự.')
+      .max(20, 'Vui lòng nhập Mật khẩu nhỏ hơn 20 kí tự.'),
   });
-  //   console.log(props.userInfo.fullName);
+
   const form = useForm({
     defaultValues: {
-      fullname: props.userInfo.fullName || '',
+      fullname: props.userInfo.fullname || '',
       phone: props.userInfo.phone || '',
       address: props.userInfo.address || '',
-      sex: props.userInfo.sex + '' || '0',
+      sex: props.userInfo.sex + '' || '1',
+      password: '',
     },
     resolver: yupResolver(schema),
   });
@@ -116,6 +124,7 @@ function FormUserInfo(props) {
             }
           />
         </FormControl>
+        <PasswordField name="password" label="Mật khẩu*" form={form} />
 
         <Button
           disabled={isSubmitting}
