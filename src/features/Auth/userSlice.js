@@ -57,6 +57,10 @@ const userSlice = createSlice({
       state.current = {};
       state.currentAdmin = {};
     },
+
+    refreshCurrent(state) {
+      state.current = JSON.parse(localStorage.getItem(StorageKeys.USER)) || {};
+    },
   },
   extraReducers: {
     // [register.fulfilled] thuc ra cung la mot cai chuoi.
@@ -76,5 +80,5 @@ const userSlice = createSlice({
 });
 
 const { actions, reducer } = userSlice;
-export const { logout } = actions;
+export const { logout, refreshCurrent } = actions;
 export default reducer;

@@ -18,6 +18,15 @@ const userApi = {
     const url = '/changepassword';
     return axiosAdmin.post(url, data);
   },
+  getUser(params) {
+    const url = '/userinfo';
+    return axiosAdmin.get(url, { params });
+  },
+
+  userInfo(data) {
+    const url = '/userinfo';
+    return axiosAdmin.post(url, data);
+  },
 };
 
 export default userApi;
