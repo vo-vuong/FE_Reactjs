@@ -3,7 +3,9 @@ import StorageKeys from 'constants/storage-keys';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import FormUserInfo from './components/FormUserInfo';
+import { refreshCurrent } from 'features/Auth/userSlice';
 
 UserInfo.propTypes = {
   closeDialog: PropTypes.func,
@@ -12,6 +14,7 @@ UserInfo.propTypes = {
 function UserInfo(props) {
   const { enqueueSnackbar } = useSnackbar();
   const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+  const dispatch = useDispatch();
 
   const handleFormUserInfoSubmit = async (values) => {
     try {
@@ -21,6 +24,8 @@ function UserInfo(props) {
         ...values,
       };
       localStorage.setItem(StorageKeys.USER, JSON.stringify(userInforUpdate));
+      const action = refreshCurrent();
+      dispatch(action);
 
       enqueueSnackbar(result.message, { variant: 'success' });
     } catch (error) {
