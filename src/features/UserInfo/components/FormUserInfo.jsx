@@ -11,10 +11,11 @@ import {
   RadioGroup,
   Typography,
 } from '@material-ui/core';
+import axios from 'axios';
 import InputField from 'components/form-controls/InputField';
 import PasswordField from 'components/form-controls/PasswordField';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
@@ -28,11 +29,17 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '400px',
     paddingLeft: '400px',
     position: 'relative',
-    paddingTop: theme.spacing(4),
+    paddingTop: theme.spacing(2),
   },
   title: {
-    margin: theme.spacing(2, 0, 3, 0),
+    margin: theme.spacing(1, 0, 1, 0),
     textAlign: 'center',
+  },
+  avatar: {
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    // width: '30%',
   },
   submit: {
     margin: theme.spacing(2, 0, 2, 0),
@@ -48,12 +55,19 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     minWidth: '500px',
+    position: 'relative',
+  },
+  avatarbody: {
+    position: 'relative',
+    display: 'inline',
   },
 }));
 
 function FormUserInfo(props) {
   const classes = useStyles();
   const history = useHistory();
+  const [selectedFile, setSelectedFile] = useState('');
+  const [previewSource, setPreviewSource] = useState();
 
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -75,6 +89,7 @@ function FormUserInfo(props) {
 
   const form = useForm({
     defaultValues: {
+      url: props.userInfo.url || '',
       fullname: props.userInfo.fullname || '',
       phone: props.userInfo.phone || '',
       address: props.userInfo.address || '',
@@ -84,10 +99,41 @@ function FormUserInfo(props) {
     resolver: yupResolver(schema),
   });
 
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
+
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0] || props.userInfo.url;
+    previewFile(file);
+    setSelectedFile(file);
+  };
+
   const handleSubmit = async (values) => {
     const { onSubmit } = props;
+    let url = '';
     if (onSubmit) {
-      await onSubmit(values);
+      if (previewSource) {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('upload_preset', 'hjgraqmi');
+
+        await axios.post('https://api.cloudinary.com/v1_1/dxsewj5df/image/upload', formData).then((response) => {
+          url = response.data.url;
+        });
+
+        const object2 = {
+          ...values,
+          url: url,
+        };
+        await onSubmit(object2);
+      } else {
+        await onSubmit(values);
+      }
     }
   };
 
@@ -101,11 +147,25 @@ function FormUserInfo(props) {
     <Container className={classes.root}>
       {isSubmitting && <LinearProgress className={classes.progress} />}
 
-      <Typography className={classes.title} component="h1" variant="h5">
-        Quản lý thông tin cá nhân
-      </Typography>
-
       <form onSubmit={form.handleSubmit(handleSubmit)} className={classes.form}>
+        <Typography className={classes.title} component="h1" variant="h5">
+          Quản lý thông tin cá nhân
+        </Typography>
+        <div className={classes.avatarbody}>
+          <img
+            src={previewSource || props.userInfo.url}
+            className={classes.avatar}
+            alt="chosen"
+            style={{ height: '130px' }}
+          />
+          <input
+            type="file"
+            name="image"
+            onChange={handleFileInputChange}
+            className={classes.avatar}
+            accept="image/png, image/jpeg"
+          />
+        </div>
         <InputField name="fullname" label="Họ và tên*" size="small" form={form} />
         <InputField name="phone" label="Số điện thoại*" size="small" form={form} />
         <InputField name="address" label="Địa chỉ" size="small" form={form} />

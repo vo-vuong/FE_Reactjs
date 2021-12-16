@@ -1,11 +1,11 @@
 import userApi from 'api/userApi';
 import StorageKeys from 'constants/storage-keys';
+import { refreshCurrent } from 'features/Auth/userSlice';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import FormUserInfo from './components/FormUserInfo';
-import { refreshCurrent } from 'features/Auth/userSlice';
 
 UserInfo.propTypes = {
   closeDialog: PropTypes.func,
@@ -19,6 +19,7 @@ function UserInfo(props) {
   const handleFormUserInfoSubmit = async (values) => {
     try {
       const result = await userApi.userInfo(values);
+      console.log(values);
       const userInforUpdate = {
         ...userInfo,
         ...values,
@@ -27,9 +28,10 @@ function UserInfo(props) {
       const action = refreshCurrent();
       dispatch(action);
 
-      enqueueSnackbar(result.message, { variant: 'success' });
+      enqueueSnackbar('Cập nhật tài khoản thành công.', { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar(error.message, { variant: 'error' });
+      console.log(error.response.data.message);
+      enqueueSnackbar(error.response.data.message, { variant: 'error' });
     }
   };
 
