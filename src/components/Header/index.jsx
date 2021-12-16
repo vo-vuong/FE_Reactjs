@@ -119,6 +119,11 @@ export default function Header() {
     setAnchorEl(null);
   };
 
+  const handleUserInfoPage = () => {
+    history.push('/user-info');
+    setAnchorEl(null);
+  };
+
   const handleChangePassClick = () => {
     history.push('/changepassword');
     setAnchorEl(null);
@@ -167,11 +172,14 @@ export default function Header() {
             )}
 
             {isLoggedIn && (
-              <IconButton color="inherit" onClick={handleCartClick}>
-                <Badge badgeContent={cartItemsCount} color="secondary">
-                  <ShoppingCart />
-                </Badge>
-              </IconButton>
+              <>
+                <IconButton color="inherit" onClick={handleCartClick}>
+                  <Badge badgeContent={cartItemsCount} color="secondary">
+                    <ShoppingCart />
+                  </Badge>
+                </IconButton>
+                <Typography>{loggedInUser.fullname}</Typography>
+              </>
             )}
 
             {isLoggedIn && (
@@ -198,7 +206,7 @@ export default function Header() {
         }}
         getContentAnchorEl={null}
       >
-        <MenuItem onClick={handleCloseMenu}>Tài khoản của tôi</MenuItem>
+        <MenuItem onClick={handleUserInfoPage}>Tài khoản của tôi</MenuItem>
         <MenuItem onClick={handleChangePassClick}>Thay đổi mật khẩu</MenuItem>
         <MenuItem onClick={handleLogoutClick}>Đăng xuất</MenuItem>
       </Menu>
