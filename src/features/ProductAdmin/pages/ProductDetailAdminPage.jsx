@@ -1,5 +1,6 @@
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import productApi from 'api/productApi';
+import { useSnackbar } from 'notistack';
 import { React, useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import ProductDetail from '../components/ProductDetail';
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ProductDetailAdminPage(props) {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const [product, setProduct] = useState({});
 
   let isProduct = false;
@@ -46,11 +48,12 @@ function ProductDetailAdminPage(props) {
   }, []);
 
   const handleSubmit = async (values) => {
-    // const { onSubmit } = props;
-    // if (onSubmit) {
-    //   await onSubmit(values);
-    // }
-    console.log(values);
+    try {
+      const result = await productApi.addAdmin(values);
+      enqueueSnackbar(result.message, { variant: 'success' });
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
   };
 
   return (
@@ -64,7 +67,7 @@ function ProductDetailAdminPage(props) {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          {isProduct ? <ProductDetail product={product} /> : ''}
+          {isProduct ? <ProductDetail onSubmit={handleSubmit} product={product} /> : ''}
         </Grid>
       </Grid>
     </Box>

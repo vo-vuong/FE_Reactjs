@@ -92,9 +92,9 @@ function ProductForm(props) {
       price: '',
       originId: '1',
       quantity: '',
-      warranty: '',
       code: '',
       categoryId: '1',
+      warranty: '',
     },
 
     resolver: yupResolver(schema),
@@ -119,7 +119,6 @@ function ProductForm(props) {
   };
 
   const handleSubmit = async (values) => {
-    console.log('haha');
     let url = '';
     const { onSubmit } = props;
     if (onSubmit) {
@@ -141,10 +140,6 @@ function ProductForm(props) {
     }
     history.push('/admin/product');
   };
-
-  // const uploadImage = (base64EncodedImage) => {
-  //   console.log(base64EncodedImage);
-  // };
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -189,7 +184,7 @@ function ProductForm(props) {
         ))}
       </ReactHookFormSelect>
       <InputField name="code" label="Code*" size="small" form={form} />
-      <input type="file" name="image" onChange={handleFileInputChange} />
+      <input type="file" name="url" onChange={handleFileInputChange} />
       {previewSource && <img src={previewSource} alt="chosen" style={{ height: '300px' }} />}
       <Box className={classes.boxButton}>
         <Button type="submit" variant="contained" color="primary" className={classes.button}>
