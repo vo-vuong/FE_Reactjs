@@ -1,15 +1,14 @@
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import productApi from 'api/productApi';
+import categoryContentApi from 'api/categoryContentApi';
+import contentApi from 'api/contentApi';
 import { useSnackbar } from 'notistack';
 import { React, useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router';
-import ProductDetail from '../components/ProductDetail';
+import ContentForm from '../components/ContentForm';
 
-ProductDetailAdminPage.propTypes = {};
+ContentsCreatePage.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
   root: { flexGrow: 1, marginLeft: '30px', marginTop: '40px', marginRight: '30px' },
-
   loading: {
     position: 'fixed',
     top: 0,
@@ -21,35 +20,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductDetailAdminPage(props) {
+function ContentsCreatePage(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const [product, setProduct] = useState({});
-
-  let isProduct = false;
-  if (Object.keys(product).length !== 0) {
-    isProduct = true;
-  }
-
-  const {
-    params: { productId },
-  } = useRouteMatch();
+  const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        const product = await productApi.get(productId);
-
-        setProduct(product);
+        const list = await categoryContentApi.getAll();
+        setCategoryList(
+          list.map((x) => ({
+            id: x.id,
+            name: x.name,
+          }))
+        );
       } catch (error) {
-        console.log('Failed to fetch product ', error);
+        enqueueSnackbar(error.message, { variant: 'error' });
       }
     })();
   }, []);
 
-  const handleSubmit = async (values) => {
+  const handleContentFormSubmit = async (values) => {
     try {
-      const result = await productApi.addAdmin(values);
+      console.log(values);
+      const result = await contentApi.addAdmin(values);
+
       enqueueSnackbar(result.message, { variant: 'success' });
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
@@ -62,16 +58,16 @@ function ProductDetailAdminPage(props) {
         <Grid item xs={12}>
           <Paper>
             <Typography variant="h4" component="h3" className={classes.title}>
-              Cập nhật sản phẩm
+              Tạo mới bài viết
             </Typography>
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          {isProduct ? <ProductDetail onSubmit={handleSubmit} product={product} /> : ''}
+          <ContentForm categoryList={categoryList} onSubmit={handleContentFormSubmit} />
         </Grid>
       </Grid>
     </Box>
   );
 }
 
-export default ProductDetailAdminPage;
+export default ContentsCreatePage;

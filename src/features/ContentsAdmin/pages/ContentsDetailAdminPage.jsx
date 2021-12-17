@@ -1,11 +1,11 @@
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import productApi from 'api/productApi';
+import contentApi from 'api/contentApi';
 import { useSnackbar } from 'notistack';
 import { React, useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router';
-import ProductDetail from '../components/ProductDetail';
+import ContentDetail from '../components/ContentDetail';
 
-ProductDetailAdminPage.propTypes = {};
+ContentsDetailAdminPage.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
   root: { flexGrow: 1, marginLeft: '30px', marginTop: '40px', marginRight: '30px' },
@@ -21,35 +21,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductDetailAdminPage(props) {
+function ContentsDetailAdminPage(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const [product, setProduct] = useState({});
+  const [content, setContent] = useState({});
 
-  let isProduct = false;
-  if (Object.keys(product).length !== 0) {
-    isProduct = true;
+  let isContent = false;
+  if (Object.keys(content).length !== 0) {
+    isContent = true;
   }
 
   const {
-    params: { productId },
+    params: { contentId },
   } = useRouteMatch();
 
   useEffect(() => {
     (async () => {
       try {
-        const product = await productApi.get(productId);
+        const content = await contentApi.get(contentId);
 
-        setProduct(product);
+        setContent(content);
       } catch (error) {
-        console.log('Failed to fetch product ', error);
+        console.log('Failed to fetch content.', error);
       }
     })();
   }, []);
 
   const handleSubmit = async (values) => {
     try {
-      const result = await productApi.addAdmin(values);
+      const result = await contentApi.addAdmin(values);
       enqueueSnackbar(result.message, { variant: 'success' });
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
@@ -62,16 +62,16 @@ function ProductDetailAdminPage(props) {
         <Grid item xs={12}>
           <Paper>
             <Typography variant="h4" component="h3" className={classes.title}>
-              Cập nhật sản phẩm
+              Cập nhật bài viết
             </Typography>
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          {isProduct ? <ProductDetail onSubmit={handleSubmit} product={product} /> : ''}
+          {isContent ? <ContentDetail onSubmit={handleSubmit} content={content} /> : ''}
         </Grid>
       </Grid>
     </Box>
   );
 }
 
-export default ProductDetailAdminPage;
+export default ContentsDetailAdminPage;

@@ -1,9 +1,12 @@
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 import HeaderMenu from 'components/HeaderMenu';
+import ChangePass from 'features/Auth/components/ChangePass';
 import CartFeature from 'features/Cart';
+import ContentFeature from 'features/Content';
 import HomeFeature from 'features/Home';
 import ProductFeature from 'features/Product';
+import UserInfo from 'features/UserInfo';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
@@ -21,7 +24,10 @@ function Client(props) {
       <Switch>
         <Route exact path={match.url} component={HomeFeature} />
         <Route path="/products" component={ProductFeature} />
+        <Route path="/contents" component={ContentFeature} />
         <Route path="/cart" component={CartFeature} />
+        <Route path="/changepassword" component={ChangePass} />
+        <Route path="/user-info" component={UserInfo} />
         <Route path="*" component={() => '404 NOT FOUND'} />
       </Switch>
 

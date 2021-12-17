@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { AccountCircle, Close, ShoppingCart } from '@material-ui/icons';
 import AlbumIcon from '@material-ui/icons/Album';
 import SearchIcon from '@material-ui/icons/Search';
+import ForgotPass from 'features/Auth/components/ForgotPass';
 import Login from 'features/Auth/components/Login';
 import { logout } from 'features/Auth/userSlice';
 import { cartItemsCountSelector } from 'features/Cart/selectors';
@@ -86,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
 const MODE = {
   LOGIN: 'login',
   REGISTER: 'register',
+  FORGOTPASS: 'forgotpass',
 };
 
 export default function Header() {
@@ -104,6 +106,7 @@ export default function Header() {
 
   const handleClose = (event, reason) => {
     if (reason !== 'backdropClick' && reason !== 'escapeKeyDown') {
+      setMode(MODE.LOGIN);
       setOpen(false);
     }
   };
@@ -116,9 +119,21 @@ export default function Header() {
     setAnchorEl(null);
   };
 
+  const handleUserInfoPage = () => {
+    history.push('/user-info');
+    setAnchorEl(null);
+  };
+
+  const handleChangePassClick = () => {
+    history.push('/changepassword');
+    setAnchorEl(null);
+  };
+
   const handleLogoutClick = () => {
     const action = logout();
     dispatch(action);
+    setAnchorEl(null);
+    history.push('/');
   };
 
   const handleCartClick = () => {
@@ -158,11 +173,14 @@ export default function Header() {
             )}
 
             {isLoggedIn && (
-              <IconButton color="inherit" onClick={handleCartClick}>
-                <Badge badgeContent={cartItemsCount} color="secondary">
-                  <ShoppingCart />
-                </Badge>
-              </IconButton>
+              <>
+                <IconButton color="inherit" onClick={handleCartClick}>
+                  <Badge badgeContent={cartItemsCount} color="secondary">
+                    <ShoppingCart />
+                  </Badge>
+                </IconButton>
+                <Typography>{loggedInUser.fullname}</Typography>
+              </>
             )}
 
             {isLoggedIn && (
@@ -189,8 +207,9 @@ export default function Header() {
         }}
         getContentAnchorEl={null}
       >
-        <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-        <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+        <MenuItem onClick={handleUserInfoPage}>Tài khoản của tôi</MenuItem>
+        <MenuItem onClick={handleChangePassClick}>Thay đổi mật khẩu</MenuItem>
+        <MenuItem onClick={handleLogoutClick}>Đăng xuất</MenuItem>
       </Menu>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -219,6 +238,17 @@ export default function Header() {
                   Bạn chưa có tài khoản? Đăng kí ở đây.
                 </Button>
               </Box>
+              <Box textAlign="center">
+                <Button color="primary" onClick={() => setMode(MODE.FORGOTPASS)}>
+                  Quên mật khẩu?
+                </Button>
+              </Box>
+            </>
+          )}
+
+          {mode === MODE.FORGOTPASS && (
+            <>
+              <ForgotPass closeDialog={handleClose} />
             </>
           )}
         </DialogContent>

@@ -1,21 +1,30 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, makeStyles, MenuItem } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  makeStyles,
+  MenuItem,
+  Radio,
+  RadioGroup,
+} from '@material-ui/core';
 import categoryApi from 'api/categoryApi';
-import originApi from 'api/originApi';
+import categoryContentApi from 'api/categoryContentApi';
+import axios from 'axios';
 import InputField from 'components/form-controls/InputField';
-import InputNumberField from 'components/form-controls/InputNumberField';
 import MultilineField from 'components/form-controls/MultilineField';
 import ReactHookFormSelect from 'components/form-controls/SelectField';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { React, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import * as yup from 'yup';
 
-ProductDetail.propTypes = {
-  product: PropTypes.object,
+ContentDetail.propTypes = {
+  content: PropTypes.object,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -42,12 +51,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductDetail(props) {
+function ContentDetail(props) {
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const [categoryList, setCategoryList] = useState([]);
-  const [categoryOriginList, setCategoryOriginList] = useState([]);
   const [selectedFile, setSelectedFile] = useState('');
   const [previewSource, setPreviewSource] = useState();
 
@@ -60,7 +68,7 @@ function ProductDetail(props) {
   };
 
   const handleFileInputChange = (e) => {
-    const file = e.target.files[0] || props.product.images[0].url;
+    const file = e.target.files[0] || props.content.url;
     previewFile(file);
     setSelectedFile(file);
   };
@@ -68,24 +76,8 @@ function ProductDetail(props) {
   useEffect(() => {
     (async () => {
       try {
-        const list = await categoryApi.getAll();
+        const list = await categoryContentApi.getAll();
         setCategoryList(
-          list.map((x) => ({
-            id: x.id,
-            name: x.name,
-          }))
-        );
-      } catch (error) {
-        enqueueSnackbar(error.message, { variant: 'error' });
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const list = await originApi.getAll();
-        setCategoryOriginList(
           list.map((x) => ({
             id: x.id,
             name: x.name,
@@ -100,10 +92,10 @@ function ProductDetail(props) {
   const schema = yup.object({
     name: yup
       .string()
-      .required('Vui lòng nhập Tên sản phẩm.')
-      .min(3, 'Vui lòng nhập Tên sản phẩm lớn hơn 3 kí tự.')
-      .max(255, 'Vui lòng nhập Tên sản phẩm nhỏ hơn 255 kí tự.'),
-    categoryId: yup.number().required().typeError('Vui lòng chọn danh mục sản phẩm.'),
+      .required('Vui lòng nhập Tên bài viết.')
+      .min(5, 'Vui lòng nhập Tên bài viết lớn hơn 5 kí tự.')
+      .max(255, 'Vui lòng nhập Tên bài viết nhỏ hơn 255 kí tự.'),
+    categoryNews: yup.number().required().typeError('Vui lòng chọn Danh mục bài viết.'),
     shortdescription: yup
       .string()
       .required('Vui lòng nhập Mô tả ngắn.')
@@ -113,48 +105,29 @@ function ProductDetail(props) {
       .string()
       .required('Vui lòng nhập Mô tả chi tiết.')
       .min(20, 'Vui lòng nhập Mô tả chi tiết lớn hơn 20 kí tự.'),
-    price: yup.number().required('Vui lòng nhập giá.').min(0, 'Tối thiểu là 0.').typeError('Vui lòng nhập số.'),
-    quantity: yup
-      .number()
-      .required('Vui lòng nhập số lượng sản phẩm.')
-      .min(0, 'Tối thiểu là 0.')
-      .max(1000, 'Tối đa là 1000 sản phẩm.')
-      .typeError('Vui lòng nhập số.'),
-    warranty: yup
-      .number()
-      .required('Vui lòng nhập Bảo hành sản phẩm.')
-      .min(0, 'Tối thiểu là 0.')
-      .max(100, 'Tối đa là 100 tháng bảo hành sản phẩm.')
-      .typeError('Vui lòng nhập số.'),
-    originId: yup.number().required().typeError('Vui lòng chọn danh mục xuất xứ.'),
     code: yup
       .string()
       .required('Vui lòng nhập Code.')
       .min(3, 'Vui lòng nhập Code lớn hơn 3 kí tự.')
       .max(255, 'Vui lòng nhập Code nhỏ hơn 255 kí tự.'),
   });
-  // console.log(props.product);
 
   const form = useForm({
     defaultValues: {
-      // id: props.product.id || '',
-      name: props.product.name || '',
-      shortdescription: props.product.shortdescription || '',
-      detail: props.product.detail || '',
-      price: props.product.price || '0',
-      originId: props.product.originId || '1',
-      quantity: props.product.quantity || '0',
-      code: props.product.code || '',
-      categoryId: props.product.categoryId || '1',
-      warranty: props.product.warranty || '0',
-      url: props.product.images[0].url || '',
+      name: props.content.name || '',
+      categoryNews: props.content.categoryNews || '1',
+      status: props.content.status + '' || '1',
+      shortdescription: props.content.shortdescription || '',
+      detail: props.content.detail || '',
+      code: props.content.code || '',
+      url: props.content.url || '',
     },
 
     resolver: yupResolver(schema),
   });
 
   const handleBack = () => {
-    history.push('/admin/product');
+    history.push('/admin/contents');
   };
 
   const handleSubmit = async (values) => {
@@ -172,34 +145,34 @@ function ProductDetail(props) {
 
         const object2 = {
           ...values,
-          id: props.product.id,
-          url: [url],
+          id: props.content.id,
+          url: url,
         };
         await onSubmit(object2);
       } else {
         const object2 = {
           ...values,
-          id: props.product.id,
-          url: [props.product.images[0].url],
+          id: props.content.id,
+          url: props.content.url,
         };
         await onSubmit(object2);
       }
     }
 
-    // history.push('/admin/product');
+    // history.push('/admin/contents');
   };
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
-      <InputField name="name" label="Tên sản phẩm*" size="small" form={form} />
+      <InputField name="name" label="Tên bài viết*" size="small" form={form} />
       <ReactHookFormSelect
-        id="outlined-select-product-native"
-        name="categoryId"
+        id="outlined-select-contents-native"
+        name="categoryNews"
         size="small"
         fullWidth
-        label="Danh mục sản phẩm"
+        label="Danh mục bài viết*"
         control={form.control}
-        error={!!form.errors.categoryId}
+        error={!!form.errors.categoryNews}
         variant="outlined"
         margin="normal"
       >
@@ -209,31 +182,25 @@ function ProductDetail(props) {
           </MenuItem>
         ))}
       </ReactHookFormSelect>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Trạng thái</FormLabel>
+        <Controller
+          rules={{ required: true }}
+          control={form.control}
+          name="status"
+          as={
+            <RadioGroup row>
+              <FormControlLabel value="1" control={<Radio />} label="Hiện" />
+              <FormControlLabel value="0" control={<Radio />} label="Ẩn" />
+            </RadioGroup>
+          }
+        />
+      </FormControl>
       <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
       <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
-      <InputNumberField name="price" label="Giá*" size="small" form={form} />
-      <InputNumberField name="quantity" label="Số lượng*" size="small" form={form} />
-      <InputNumberField name="warranty" label="Bảo hành*" size="small" form={form} />
-      <ReactHookFormSelect
-        id="outlined-select-currency-native"
-        name="originId"
-        fullWidth
-        label="Danh mục xuất xứ"
-        size="small"
-        control={form.control}
-        error={!!form.errors.originId}
-        variant="outlined"
-        margin="normal"
-      >
-        {categoryOriginList.map((option) => (
-          <MenuItem key={option.id} value={option.id}>
-            {option.name}
-          </MenuItem>
-        ))}
-      </ReactHookFormSelect>
       <InputField name="code" label="Code*" size="small" form={form} />
       <img
-        src={previewSource || props.product.images[0].url}
+        src={previewSource || props.content.url}
         className={classes.avatar}
         alt="Chọn file ảnh "
         style={{ height: '130px' }}
@@ -252,4 +219,4 @@ function ProductDetail(props) {
   );
 }
 
-export default ProductDetail;
+export default ContentDetail;
