@@ -2,6 +2,7 @@ import { Box, makeStyles } from '@material-ui/core';
 import HeaderAdmin from 'components/HeaderAdmin';
 import MenuAdmin from 'components/MenuAdmin';
 import ListCategoryContentAdmin from 'features/ContentCategoryAdmin';
+import ContentsAdmin from 'features/ContentsAdmin';
 import HomeAdminFeature from 'features/HomeAdmin';
 import OriginAdmin from 'features/OriginAdmin';
 import ProductAdmin from 'features/ProductAdmin';
@@ -37,6 +38,7 @@ function Admin(props) {
           <ProtectedRoute path="/admin/product-category" component={ListCagegoryAdmin} />
           <ProtectedRoute path="/admin/product" component={ProductAdmin} />
           <ProtectedRoute path="/admin/contents-category" component={ListCategoryContentAdmin} />
+          <ProtectedRoute path="/admin/contents" component={ContentsAdmin} />
           <ProtectedRoute path="/admin/origins" component={OriginAdmin} />
           <Route path="*" component={() => '404 NOT FOUND'} />
         </Switch>

@@ -74,7 +74,7 @@ function MenuAdmin(props) {
           </MenuItem>
         </NavLink>
 
-        <NavLink to={`${url}/conents`}>
+        <NavLink to={`${url}/contents`}>
           <MenuItem>
             <ListItemIcon>
               <LibraryBooksIcon fontSize="small" />
