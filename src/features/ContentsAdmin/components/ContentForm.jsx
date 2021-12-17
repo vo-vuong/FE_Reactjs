@@ -1,12 +1,22 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, makeStyles, MenuItem } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  makeStyles,
+  MenuItem,
+  Radio,
+  RadioGroup,
+} from '@material-ui/core';
 import axios from 'axios';
 import InputField from 'components/form-controls/InputField';
 import MultilineField from 'components/form-controls/MultilineField';
 import ReactHookFormSelect from 'components/form-controls/SelectField';
 import PropTypes from 'prop-types';
 import { React, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -70,9 +80,11 @@ function ContentForm(props) {
     defaultValues: {
       name: '',
       categoryNews: '1',
+      status: '1',
       shortdescription: '',
       detail: '',
       code: '',
+      url: '',
     },
 
     resolver: yupResolver(schema),
@@ -138,6 +150,20 @@ function ContentForm(props) {
           </MenuItem>
         ))}
       </ReactHookFormSelect>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Trạng thái</FormLabel>
+        <Controller
+          rules={{ required: true }}
+          control={form.control}
+          name="status"
+          as={
+            <RadioGroup row defaultValue="1">
+              <FormControlLabel value="1" control={<Radio />} label="Hiện" />
+              <FormControlLabel value="0" control={<Radio />} label="Ẩn" />
+            </RadioGroup>
+          }
+        />
+      </FormControl>
       <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
       <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
       <InputField name="code" label="Code*" size="small" form={form} />

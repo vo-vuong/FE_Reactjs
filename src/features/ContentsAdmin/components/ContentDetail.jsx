@@ -1,5 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, makeStyles, MenuItem } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  makeStyles,
+  MenuItem,
+  Radio,
+  RadioGroup,
+} from '@material-ui/core';
 import categoryApi from 'api/categoryApi';
 import categoryContentApi from 'api/categoryContentApi';
 import axios from 'axios';
@@ -9,7 +19,7 @@ import ReactHookFormSelect from 'components/form-controls/SelectField';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import { React, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -101,12 +111,12 @@ function ContentDetail(props) {
       .min(3, 'Vui lòng nhập Code lớn hơn 3 kí tự.')
       .max(255, 'Vui lòng nhập Code nhỏ hơn 255 kí tự.'),
   });
-  // console.log(props.content);
 
   const form = useForm({
     defaultValues: {
       name: props.content.name || '',
       categoryNews: props.content.categoryNews || '1',
+      status: props.content.status + '' || '1',
       shortdescription: props.content.shortdescription || '',
       detail: props.content.detail || '',
       code: props.content.code || '',
@@ -172,6 +182,20 @@ function ContentDetail(props) {
           </MenuItem>
         ))}
       </ReactHookFormSelect>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Trạng thái</FormLabel>
+        <Controller
+          rules={{ required: true }}
+          control={form.control}
+          name="status"
+          as={
+            <RadioGroup row>
+              <FormControlLabel value="1" control={<Radio />} label="Hiện" />
+              <FormControlLabel value="0" control={<Radio />} label="Ẩn" />
+            </RadioGroup>
+          }
+        />
+      </FormControl>
       <InputField name="shortdescription" label="Mô tả ngắn*" size="small" form={form} />
       <MultilineField name="detail" label="Mô tả chi tiết*" multiline rows={4} form={form} />
       <InputField name="code" label="Code*" size="small" form={form} />
