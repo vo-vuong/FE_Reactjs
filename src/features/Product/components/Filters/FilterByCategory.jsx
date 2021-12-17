@@ -51,7 +51,11 @@ function FilterByCategory({ onChange }) {
 
   const handleCategoryClick = (category) => {
     if (onChange) {
-      onChange(category.id);
+      if (category === 'all') {
+        onChange();
+      } else {
+        onChange(category.id);
+      }
     }
   };
 
@@ -60,6 +64,9 @@ function FilterByCategory({ onChange }) {
       <Typography variant="subtitle2">DANH MỤC SẢN PHẨM</Typography>
 
       <ul className={classes.menu}>
+        <li onClick={() => handleCategoryClick('all')}>
+          <Typography variant="body2">Tất cả danh mục</Typography>
+        </li>
         {categoryList.map((category) => (
           <li key={category.id} onClick={() => handleCategoryClick(category)}>
             <Typography variant="body2">{category.name}</Typography>
