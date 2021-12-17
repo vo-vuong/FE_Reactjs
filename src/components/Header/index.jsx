@@ -135,7 +135,7 @@ export default function Header() {
             <AlbumIcon />
             <Typography variant="h6" className={classes.title}>
               <Link className={classes.link} to="/">
-                Musical 16
+                16Musical
               </Link>
             </Typography>
             <div className={classes.search}>

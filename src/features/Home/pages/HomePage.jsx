@@ -6,7 +6,7 @@ import FavoriteProductList from '../components/FavoriteProductList';
 
 function HomePage() {
   const ImgBannerProductStyle = { width: '100%', height: '50vh' };
-  const ImgBannerContentStyle = { width: '100%', height: '200px', marginTop: '20px' };
+  const ImgBannerContentStyle = { width: '100%', height: '200px', marginTop: '20px' , backgroundImage: 'url(https://images.pexels.com/photos/7520779/pexels-photo-7520779.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)'};
   const [productList, setProductList] = useState([]);
 
   useEffect(() => {

@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Footer() {
   const classes = useStyles();
 
-  const contentAbout = { email: 'musical16@gmail.com', phoneNumber: '0977816666' };
-  const contentService = { email: 'musical16@gmail.com', phoneNumber: '0977816666' };
+  const contentAbout = { email: '16musical@gmail.com', phoneNumber: '0977816666' };
+  const contentService = { category1: "Piano", category2: "Guitar", category3: "Violin", category4: "Phụ kiện", category5: "Các loại nhạc cụ khác"};
   const contentInfo = { address: 'Đại học Duy Tân,Quận Hải Châu,Thành phố Đà Nẵng', phoneNumber: '0977816666' };
 
   function FormCustom({ title, content }) {
@@ -55,7 +55,7 @@ export default function Footer() {
             <FormCustom title="Về chúng tôi" content={contentAbout} />
           </Grid>
           <Grid item xs={4}>
-            <FormCustom title="Dịch vụ" content={contentService} />
+            <FormCustom title="Danh mục" content={contentService} />
           </Grid>
           <Grid item xs={4}>
             <FormCustom title="Liên hệ" content={contentInfo} />
