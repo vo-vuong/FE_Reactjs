@@ -37,6 +37,7 @@ function CartPage(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [cartList, setCartList] = useState([]);
+  const [totalQuantity, setTotalQuantity] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
@@ -50,6 +51,7 @@ function CartPage(props) {
             quantity: x.quantity,
           }))
         );
+        setTotalQuantity(totalQuantity);
         setTotalPrice(totalPrice);
       } catch (error) {
         enqueueSnackbar(error.message, { variant: 'error' });
@@ -63,7 +65,7 @@ function CartPage(props) {
       {/* <Typography className={classes.title} component="h1" variant="h5">
         Quản lý giỏ hàng
       </Typography> */}
-      {totalPrice ? <FormListCart cartList={cartList} totalPrice={totalPrice} /> : ''}
+      {totalPrice ? <FormListCart cartList={cartList} totalPrice={totalPrice} totalQuantity={totalQuantity} /> : ''}
     </Container>
   );
 }
