@@ -17,30 +17,30 @@ import { formatDateTime } from 'utils/date';
 
 const columns = [
   { id: 'id', label: 'id', minWidth: 10 },
-  { id: 'createdBy', label: 'Được mua bởi', minWidth: 100 },
+  { id: 'createdBy', label: 'Được mua bởi', minWidth: 100, align: 'center' },
   {
     id: 'createdDate',
     label: 'Ngày mua',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'phone',
     label: 'Số điện thoại đặt hàng',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'totalPrice',
     label: 'Tổng số tiền',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'status',
     label: 'Trạng thái',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'action',
@@ -176,30 +176,54 @@ function CartAdminPage(props) {
                             );
                           } else if (column.id === 'totalPrice') {
                             {
-                              return <TableCell align={column.align}>{formatPrice(value)}</TableCell>;
+                              return (
+                                <TableCell key={column.id} align={column.align}>
+                                  {formatPrice(value)}
+                                </TableCell>
+                              );
                             }
                           } else if (column.id === 'createdDate') {
                             {
-                              return <TableCell align={column.align}>{formatDateTime(value)}</TableCell>;
+                              return (
+                                <TableCell key={column.id} align={column.align}>
+                                  {formatDateTime(value)}
+                                </TableCell>
+                              );
                             }
                           } else if (column.id === 'status') {
                             {
                               if (value === -1) {
-                                return <TableCell align={column.align}>Đã hủy</TableCell>;
+                                return (
+                                  <TableCell key={column.id} align={column.align}>
+                                    Đã hủy
+                                  </TableCell>
+                                );
                               }
                               if (value === 0) {
-                                return <TableCell align={column.align}>Đang đợi duyệt</TableCell>;
+                                return (
+                                  <TableCell key={column.id} align={column.align}>
+                                    Đang đợi duyệt
+                                  </TableCell>
+                                );
                               }
                               if (value === 1) {
-                                return <TableCell align={column.align}>Đã được duyệt</TableCell>;
+                                return (
+                                  <TableCell key={column.id} align={column.align}>
+                                    Đã được duyệt
+                                  </TableCell>
+                                );
                               }
                               if (value === 2) {
-                                return <TableCell align={column.align}>Đã thanh toán</TableCell>;
+                                return (
+                                  <TableCell key={column.id} align={column.align}>
+                                    Đã thanh toán
+                                  </TableCell>
+                                );
                               }
                             }
                           } else {
                             return (
-                              <TableCell align={column.align}>
+                              <TableCell key={column.id} align={column.align}>
                                 {column.format && typeof value === 'number' ? column.format(value) : value}
                               </TableCell>
                             );
