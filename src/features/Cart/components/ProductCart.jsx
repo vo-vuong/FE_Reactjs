@@ -5,6 +5,9 @@ import { useHistory } from 'react-router-dom';
 import { formatPrice } from 'utils';
 import { STATIC_IMAGE } from 'constants/index';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useSnackbar } from 'notistack';
+import orderApi from 'api/orderApi';
+import cartApi from 'api/cartApi';
 
 ProductCart.propTypes = {};
 
@@ -31,10 +34,22 @@ const useStyles = makeStyles((theme) => ({
 function ProductCart(props) {
   const history = useHistory();
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const thumbnailUrl = props.product.images.length > 0 ? props.product.images[0]?.url : STATIC_IMAGE;
 
   const handleClick = () => {
     history.push(`/products/${props.product.id}`);
+  };
+
+  const handleDeleteCart = async (idCart) => {
+    try {
+      const { message } = await cartApi.remove(idCart);
+      enqueueSnackbar(message, { variant: 'success' });
+      history.push('/');
+      history.push('/cart');
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
   };
   console.log(props);
   return (
@@ -68,7 +83,7 @@ function ProductCart(props) {
 
       <Typography className={classes.item} variant="body2">
         <Box component="span" fontSize="16px" fontWeight="bold">
-          <DeleteIcon></DeleteIcon>
+          <DeleteIcon onClick={() => handleDeleteCart(props.idCart)}></DeleteIcon>
         </Box>
       </Typography>
     </Box>

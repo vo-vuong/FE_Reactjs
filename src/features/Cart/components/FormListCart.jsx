@@ -65,9 +65,9 @@ function FormListCart(props) {
 
       <Grid>
         {props.cartList.map((item) => (
-          <Paper className={classes.itemProductCart}>
-            <Grid item key={item.id}>
-              <ProductCart quantity={item.quantity} product={item.product} />
+          <Paper key={item.id} className={classes.itemProductCart}>
+            <Grid item>
+              <ProductCart quantity={item.quantity} product={item.product} idCart={item.id} />
             </Grid>
           </Paper>
         ))}

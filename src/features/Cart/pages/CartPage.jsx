@@ -65,7 +65,14 @@ function CartPage(props) {
       {/* <Typography className={classes.title} component="h1" variant="h5">
         Quản lý giỏ hàng
       </Typography> */}
-      {totalPrice ? <FormListCart cartList={cartList} totalPrice={totalPrice} totalQuantity={totalQuantity} /> : ''}
+
+      {totalPrice ? (
+        <FormListCart cartList={cartList} totalPrice={totalPrice} totalQuantity={totalQuantity} />
+      ) : (
+        <Typography className={classes.title} component="h1" variant="h5">
+          Giỏ hàng của bạn hiện đang trống
+        </Typography>
+      )}
     </Container>
   );
 }
