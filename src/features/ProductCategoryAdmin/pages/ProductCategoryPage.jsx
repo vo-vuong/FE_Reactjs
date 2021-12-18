@@ -196,7 +196,13 @@ function ProductCategoryPage(props) {
                     <StyledTableCell align="center">{item.createdBy}</StyledTableCell>
                     <StyledTableCell align="center">{formatDateTime(item.createdDate)}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <Button onClick={() => handleUpdate(item)} variant="outlined" size="small" color="primary">
+                      <Button
+                        onClick={() => handleUpdate(item)}
+                        variant="outlined"
+                        size="small"
+                        color="primary"
+                        style={{ marginRight: '5px' }}
+                      >
                         update
                       </Button>
                       <Button variant="outlined" size="small" color="secondary" onClick={() => handleDelete(item.id)}>

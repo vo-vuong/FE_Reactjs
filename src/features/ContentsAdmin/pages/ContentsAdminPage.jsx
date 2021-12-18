@@ -159,6 +159,7 @@ export default function ContentsAdminPage() {
                                   variant="outlined"
                                   size="small"
                                   color="primary"
+                                  style={{ marginRight: '5px' }}
                                 >
                                   update
                                 </Button>

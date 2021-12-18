@@ -39,7 +39,7 @@ const columns = [
   {
     id: 'status',
     label: 'Trạng thái',
-    minWidth: 170,
+    minWidth: 200,
     align: 'center',
   },
   {
@@ -123,6 +123,11 @@ function CartAdminPage(props) {
     // })();
   };
 
+  const handleAgree = (rowId) => {};
+
+  const handleDestroy = (rowId) => {};
+
+  const handleSuccess = (rowId) => {};
   return (
     <Box className={classes.root}>
       <Grid container spacing={3}>
@@ -161,6 +166,7 @@ function CartAdminPage(props) {
                                   variant="outlined"
                                   size="small"
                                   color="inherit"
+                                  style={{ marginRight: '5px' }}
                                 >
                                   Chi tiết
                                 </Button>
@@ -195,28 +201,64 @@ function CartAdminPage(props) {
                               if (value === -1) {
                                 return (
                                   <TableCell key={column.id} align={column.align}>
-                                    Đã hủy
+                                    <Button variant="outlined" size="small" color="inherit" disabled>
+                                      Đã hủy
+                                    </Button>
                                   </TableCell>
                                 );
                               }
                               if (value === 0) {
                                 return (
                                   <TableCell key={column.id} align={column.align}>
-                                    Đang đợi duyệt
+                                    <Button
+                                      style={{ marginRight: '5px' }}
+                                      variant="outlined"
+                                      size="small"
+                                      color="primary"
+                                      onClick={() => handleAgree(rowId)}
+                                    >
+                                      Duyệt đơn
+                                    </Button>
+                                    <Button
+                                      variant="outlined"
+                                      size="small"
+                                      color="secondary"
+                                      onClick={() => handleDestroy(rowId)}
+                                    >
+                                      Hủy đơn
+                                    </Button>
                                   </TableCell>
                                 );
                               }
                               if (value === 1) {
                                 return (
                                   <TableCell key={column.id} align={column.align}>
-                                    Đã được duyệt
+                                    <Button
+                                      style={{ marginRight: '5px' }}
+                                      variant="outlined"
+                                      size="small"
+                                      color="primary"
+                                      onClick={() => handleSuccess(rowId)}
+                                    >
+                                      Thanh toán
+                                    </Button>
+                                    <Button
+                                      variant="outlined"
+                                      size="small"
+                                      color="secondary"
+                                      onClick={() => handleDestroy(rowId)}
+                                    >
+                                      Hủy đơn
+                                    </Button>
                                   </TableCell>
                                 );
                               }
                               if (value === 2) {
                                 return (
                                   <TableCell key={column.id} align={column.align}>
-                                    Đã thanh toán
+                                    <Button variant="outlined" size="small" color="inherit" disabled>
+                                      Đã thanh toán
+                                    </Button>
                                   </TableCell>
                                 );
                               }
