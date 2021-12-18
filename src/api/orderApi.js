@@ -7,6 +7,11 @@ const orderApi = {
     return axiosClient.get(url, { params });
   },
 
+  getAllAdmin(params) {
+    const url = '/manageOrder';
+    return axiosAdmin.get(url, { params });
+  },
+
   get(id) {
     const url = `/order/${id}`;
     return axiosClient.get(url);
