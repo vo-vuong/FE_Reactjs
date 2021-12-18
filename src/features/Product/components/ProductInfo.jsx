@@ -62,7 +62,7 @@ function ProductInfo({ product = {} }) {
       </Box>
       <Box className={classes.ratingBox}>
         <Typography className={classes.code}>Đánh giá</Typography>
-        <Rating name="half-rating-read" defaultValue={rate} precision={0.1} readOnly />
+        <Rating name="half-rating-read" defaultValue={rate || 5} precision={0.1} readOnly />
       </Box>
     </Box>
   );

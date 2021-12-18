@@ -1,7 +1,9 @@
 import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@material-ui/core';
-import { addToCart } from 'features/Cart/cartSlice';
+import cartApi from 'api/cartApi';
+import { useSnackbar } from 'notistack';
+// import { addToCart } from 'features/Cart/cartSlice';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import AddToCartForm from '../components/AddToCartForm';
 import ProductDescription from '../components/ProductDescription';
@@ -37,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailPage() {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   // const match = useRouteMatch();
   // console.log({ match }); get param do tren url
 
@@ -47,7 +50,7 @@ function DetailPage() {
   //Binh thuong khi co productId roi se useEffect get san pham. nhung bay gio se lam custom hook
 
   const { product, loading } = useProductDetail(productId);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   if (loading) {
     return (
@@ -56,13 +59,24 @@ function DetailPage() {
       </Box>
     );
   }
-  const handleAddToCartSubmit = ({ quantity }) => {
-    const action = addToCart({
-      id: product.id,
-      product,
-      quantity,
-    });
-    dispatch(action);
+  const handleAddToCartSubmit = async ({ quantity }) => {
+    // const action = addToCart({
+    //   id: product.id,
+    //   product,
+    //   quantity,
+    // });
+    // dispatch(action);
+    try {
+      const values = {
+        productId: product.id,
+        quantity: quantity,
+      };
+      const result = await cartApi.addClient(values);
+      console.log(values);
+      enqueueSnackbar(result.message, { variant: 'success' });
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
   };
 
   return (
