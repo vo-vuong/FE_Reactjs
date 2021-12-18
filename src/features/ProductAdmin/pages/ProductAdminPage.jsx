@@ -93,14 +93,13 @@ export default function ProductAdminPage() {
   };
 
   const handleDelete = (rowId) => {
-    console.log(rowId);
-    const newProductList = [...rowsSate];
-    const index = rowsSate.findIndex((row) => row.id === rowId);
-    newProductList.splice(index, 1);
     (async () => {
       try {
         const result = await productApi.remove(rowId);
         enqueueSnackbar(result.message, { variant: 'success' });
+        const newProductList = [...rowsSate];
+        const index = rowsSate.findIndex((row) => row.id === rowId);
+        newProductList.splice(index, 1);
         SetRowsSate(newProductList);
       } catch (error) {
         enqueueSnackbar('Không thể xóa sản phẩm.', { variant: 'error' });
