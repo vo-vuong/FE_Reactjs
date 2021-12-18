@@ -8,6 +8,7 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import React from 'react';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import PublicIcon from '@material-ui/icons/Public';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 
 MenuAdmin.propTypes = {};
 
@@ -89,6 +90,15 @@ function MenuAdmin(props) {
               <PublicIcon fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">Xuất xứ</Typography>
+          </MenuItem>
+        </NavLink>
+
+        <NavLink to={`${url}/carts`}>
+          <MenuItem>
+            <ListItemIcon>
+              <TrendingUpIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Quản lý đơn đặt hàng</Typography>
           </MenuItem>
         </NavLink>
 
