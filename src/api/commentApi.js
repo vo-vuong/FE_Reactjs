@@ -17,6 +17,11 @@ const commentApi = {
     return axiosClient.post(url, data);
   },
 
+  addClientReply(data) {
+    const url = '/commentReply';
+    return axiosClient.post(url, data);
+  },
+
   updateAdmin(data) {
     const url = '/comment';
     return axiosAdmin.post(url, data);

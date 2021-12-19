@@ -103,20 +103,31 @@ function DetailPage() {
 
   const handleCommentSubmit = async (values) => {
     try {
-      const { message, object } = await commentApi.addClient({ ...values, productId: productId });
-      const objectResult = {
-        id: object.id,
-        message: object.message,
-        commentReply: object.commentReply,
-        createdDate: object.createdDate,
-        user: object.user,
-      };
-
-      const newCommentList = [...commentList, objectResult];
-
-      setCommentList(newCommentList);
-
-      enqueueSnackbar(message, { variant: 'success' });
+      if (values.hasOwnProperty('productId')) {
+        const { message, object } = await commentApi.addClient(values);
+        const objectResult = {
+          id: object.id,
+          message: object.message,
+          commentReply: object.commentReply,
+          createdDate: object.createdDate,
+          user: object.user,
+        };
+        const newCommentList = [...commentList, objectResult];
+        setCommentList(newCommentList);
+        enqueueSnackbar(message, { variant: 'success' });
+      } else {
+        const { message, object } = await commentApi.addClientReply(values);
+        // const objectResult = {
+        //   id: object.id,
+        //   message: object.message,
+        //   commentReply: object.commentReply,
+        //   createdDate: object.createdDate,
+        //   user: object.user,
+        // };
+        // const newCommentList = [...commentList, objectResult];
+        // setCommentList(newCommentList);
+        enqueueSnackbar(message, { variant: 'success' });
+      }
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
     }
@@ -145,7 +156,11 @@ function DetailPage() {
 
           <Route path={`${url}/evaluation`} component={ProductEvaluation} />
           <Route path={`${url}/comment`}>
-            {commentList ? <ProductComment commentList={commentList} onSubmit={handleCommentSubmit} /> : ''}
+            {commentList ? (
+              <ProductComment commentList={commentList} productId={productId} onSubmit={handleCommentSubmit} />
+            ) : (
+              ''
+            )}
           </Route>
         </Switch>
       </Container>

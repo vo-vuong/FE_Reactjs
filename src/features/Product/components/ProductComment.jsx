@@ -49,6 +49,8 @@ function ProductComment(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   // const thumbnailUrl = props.product.images > 0 ? props.product.images[0]?.url : STATIC_IMAGE;
+  const [commentSubmit, setCommentSubmit] = useState('Thêm');
+  const [commentRepllyId, setCommentRepllyId] = useState();
 
   const schema = yup.object({
     message: yup
@@ -66,12 +68,25 @@ function ProductComment(props) {
     resolver: yupResolver(schema),
   });
 
+  const handleReplly = (item) => {
+    setCommentRepllyId(item.id);
+    setCommentSubmit('Trả lời ' + item.user.fullname);
+    // console.log(item);
+  };
+
   const handleSubmit = async (values) => {
     const { onSubmit } = props;
-    if (onSubmit) {
-      await onSubmit(values);
-    }
 
+    if (onSubmit) {
+      if (commentRepllyId) {
+        await onSubmit({ ...values, commentId: commentRepllyId });
+      } else {
+        console.log(props.productId);
+        await onSubmit({ ...values, productId: props.productId });
+      }
+    }
+    setCommentSubmit('Thêm');
+    setCommentRepllyId();
     form.reset();
   };
 
@@ -93,7 +108,9 @@ function ProductComment(props) {
                 </Box>
 
                 <span>{item.message}</span>
-                <Typography className={classes.replly}>Trả lời</Typography>
+                <Typography className={classes.replly} onClick={() => handleReplly(item)}>
+                  Trả lời
+                </Typography>
               </Box>
             </Box>
             {item.commentReply.map((itemReplly) => (
@@ -106,7 +123,9 @@ function ProductComment(props) {
                   </Box>
 
                   <span>{itemReplly.message}</span>
-                  <Typography className={classes.replly}>Trả lời</Typography>
+                  <Typography className={classes.replly} onClick={() => handleReplly(item)}>
+                    Trả lời
+                  </Typography>
                 </Box>
               </Box>
             ))}
@@ -115,7 +134,7 @@ function ProductComment(props) {
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <MultilineField name="message" label="Bình luận về sản phẩm..." multiline rows={2} form={form} />
           <Button size="small" type="submit" variant="outlined" color="primary" className={classes.button}>
-            Thêm
+            {commentSubmit}
           </Button>
         </form>
       </Box>
