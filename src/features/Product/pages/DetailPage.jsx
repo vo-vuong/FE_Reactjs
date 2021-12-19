@@ -1,11 +1,13 @@
 import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@material-ui/core';
 import cartApi from 'api/cartApi';
+import commentApi from 'api/commentApi';
 import { useSnackbar } from 'notistack';
 // import { addToCart } from 'features/Cart/cartSlice';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import AddToCartForm from '../components/AddToCartForm';
+import ProductComment from '../components/ProductComment';
 import ProductDescription from '../components/ProductDescription';
 import ProductEvaluation from '../components/ProductEvaluation';
 import ProductInfo from '../components/ProductInfo';
@@ -40,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 function DetailPage() {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const [commentList, setCommentList] = useState([]);
   // const match = useRouteMatch();
   // console.log({ match }); get param do tren url
 
@@ -51,6 +54,25 @@ function DetailPage() {
 
   const { product, loading } = useProductDetail(productId);
   // const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { list } = await commentApi.get(productId);
+        setCommentList(
+          list.map((x) => ({
+            id: x.id,
+            message: x.message,
+            commentReply: x.commentReply,
+            createdDate: x.createdDate,
+            user: x.user,
+          }))
+        );
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
+    })();
+  }, []);
 
   if (loading) {
     return (
@@ -79,6 +101,38 @@ function DetailPage() {
     }
   };
 
+  const handleCommentSubmit = async (values) => {
+    try {
+      if (values.hasOwnProperty('productId')) {
+        const { message, object } = await commentApi.addClient(values);
+        const objectResult = {
+          id: object.id,
+          message: object.message,
+          commentReply: object.commentReply,
+          createdDate: object.createdDate,
+          user: object.user,
+        };
+        const newCommentList = [...commentList, objectResult];
+        setCommentList(newCommentList);
+        enqueueSnackbar(message, { variant: 'success' });
+      } else {
+        const { message, object } = await commentApi.addClientReply(values);
+        // const objectResult = {
+        //   id: object.id,
+        //   message: object.message,
+        //   commentReply: object.commentReply,
+        //   createdDate: object.createdDate,
+        //   user: object.user,
+        // };
+        // const newCommentList = [...commentList, objectResult];
+        // setCommentList(newCommentList);
+        enqueueSnackbar(message, { variant: 'success' });
+      }
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
+  };
+
   return (
     <Box className={classes.root}>
       <Container>
@@ -101,6 +155,13 @@ function DetailPage() {
           </Route>
 
           <Route path={`${url}/evaluation`} component={ProductEvaluation} />
+          <Route path={`${url}/comment`}>
+            {commentList ? (
+              <ProductComment commentList={commentList} productId={productId} onSubmit={handleCommentSubmit} />
+            ) : (
+              ''
+            )}
+          </Route>
         </Switch>
       </Container>
     </Box>
