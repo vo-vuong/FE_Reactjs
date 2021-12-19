@@ -1,8 +1,9 @@
 import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@material-ui/core';
 import cartApi from 'api/cartApi';
+import commentApi from 'api/commentApi';
 import { useSnackbar } from 'notistack';
 // import { addToCart } from 'features/Cart/cartSlice';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import AddToCartForm from '../components/AddToCartForm';
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 function DetailPage() {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const [commentList, setCommentList] = useState([]);
   // const match = useRouteMatch();
   // console.log({ match }); get param do tren url
 
@@ -52,6 +54,25 @@ function DetailPage() {
 
   const { product, loading } = useProductDetail(productId);
   // const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { list } = await commentApi.get(productId);
+        setCommentList(
+          list.map((x) => ({
+            id: x.id,
+            message: x.message,
+            commentReply: x.commentReply,
+            createdDate: x.createdDate,
+            user: x.user,
+          }))
+        );
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
+    })();
+  }, []);
 
   if (loading) {
     return (
@@ -100,9 +121,9 @@ function DetailPage() {
           <Route exact path={url}>
             <ProductDescription product={product} />
           </Route>
-          
+
           <Route path={`${url}/evaluation`} component={ProductEvaluation} />
-          <Route path={`${url}/comment`} component={ProductComment} />
+          <Route path={`${url}/comment`}>{commentList ? <ProductComment commentList={commentList} /> : ''}</Route>
         </Switch>
       </Container>
     </Box>
