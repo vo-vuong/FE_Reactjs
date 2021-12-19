@@ -103,9 +103,20 @@ function DetailPage() {
 
   const handleCommentSubmit = async (values) => {
     try {
-      const result = await commentApi.addClient({ ...values, productId: productId });
+      const { message, object } = await commentApi.addClient({ ...values, productId: productId });
+      const objectResult = {
+        id: object.id,
+        message: object.message,
+        commentReply: object.commentReply,
+        createdDate: object.createdDate,
+        user: object.user,
+      };
 
-      enqueueSnackbar(result.message, { variant: 'success' });
+      const newCommentList = [...commentList, objectResult];
+
+      setCommentList(newCommentList);
+
+      enqueueSnackbar(message, { variant: 'success' });
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
     }

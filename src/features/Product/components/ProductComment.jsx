@@ -53,8 +53,8 @@ function ProductComment(props) {
     message: yup
       .string()
       .required('Vui lòng nhập Bình luận.')
-      .min(5, 'Vui lòng nhập Bình luận lớn hơn 3 kí tự.')
-      .max(255, 'Vui lòng nhập Bình luận nhỏ hơn 100 kí tự.'),
+      .min(3, 'Vui lòng nhập Bình luận lớn hơn 3 kí tự.')
+      .max(100, 'Vui lòng nhập Bình luận nhỏ hơn 100 kí tự.'),
   });
 
   const form = useForm({
@@ -70,6 +70,8 @@ function ProductComment(props) {
     if (onSubmit) {
       await onSubmit(values);
     }
+
+    form.reset();
   };
 
   // console.log(props.commentList);
