@@ -18,13 +18,16 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 1 0',
   },
 
-  imgbox: {
-    display: 'block',
-    width: '100%',
-    height: '300px',
+  boxImage: {
+    marginBottom: '20px',
   },
 
-  imgboxx: {
+  contentImage: {
+    backgroundSize: 'content',
+    marginTop: '15px',
+    marginLeft: '25%',
+    marginRight: '25%',
+    width: '50%',
     height: '300px',
   },
 }));
@@ -71,8 +74,8 @@ function DetailPage() {
 
           <Grid item className={classes.right}>
             <Paper elevation={0}>
-              <Box>
-                <img src={content.url} alt={content.name} width="50%" height="300px" />
+              <Box className={classes.boxImage}>
+                <img src={content.url} alt={content.name} className={classes.contentImage} />
               </Box>
               <ContentInfo content={content} />
             </Paper>

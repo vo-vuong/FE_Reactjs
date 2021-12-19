@@ -1,4 +1,4 @@
-import { Box, Typography } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import { STATIC_IMAGE } from 'constants/index';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -9,9 +9,17 @@ Product.propTypes = {
   product: PropTypes.object,
 };
 
+const useStyles = makeStyles((theme) => ({
+  productImage: {
+    backgroundSize: 'content',
+    width: '100%',
+    height: '220px',
+  },
+}));
+
 function Product({ product }) {
-  // console.log(product.images[0].url);
-  const thumbnailUrl = product.images.length > 0 ? product.images[0]?.url : STATIC_IMAGE; // dang nho
+  const classes = useStyles();
+  const thumbnailUrl = product.images[0].url ? product.images[0].url : STATIC_IMAGE; // dang nho
   const history = useHistory();
 
   const handleClick = () => {
@@ -21,7 +29,7 @@ function Product({ product }) {
   return (
     <Box padding={1} onClick={handleClick}>
       <Box padding={1} minHeight="215px">
-        <img src={thumbnailUrl} alt={product.name} width="100%"></img>
+        <img src={thumbnailUrl} alt={product.name} className={classes.productImage}></img>
       </Box>
       <Typography variant="body2">{product.name}</Typography>
       <Typography variant="body2">

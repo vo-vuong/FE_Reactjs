@@ -1,4 +1,4 @@
-import { Box, Typography } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import { STATIC_IMAGE } from 'constants/index';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,7 +8,16 @@ Content.propTypes = {
   content: PropTypes.object,
 };
 
+const useStyles = makeStyles((theme) => ({
+  contentImage: {
+    backgroundSize: 'content',
+    width: '100%',
+    height: '300px',
+  },
+}));
+
 function Content({ content }) {
+  const classes = useStyles();
   const thumbnailUrl = content.url ? content.url : STATIC_IMAGE;
   const history = useHistory();
 
@@ -18,7 +27,7 @@ function Content({ content }) {
   return (
     <Box padding={1} onClick={handleClick}>
       <Box padding={1} minHeight="215px">
-        <img src={thumbnailUrl} alt={content.name} width="100%"></img>
+        <img src={thumbnailUrl} alt={content.name} className={classes.contentImage}></img>
       </Box>
       <Typography variant="body2">
         <Box component="span" fontSize="16px" fontWeight="bold">

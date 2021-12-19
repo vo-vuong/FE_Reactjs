@@ -81,7 +81,6 @@ function ProductComment(props) {
       if (commentRepllyId) {
         await onSubmit({ ...values, commentId: commentRepllyId });
       } else {
-        console.log(props.productId);
         await onSubmit({ ...values, productId: props.productId });
       }
     }
