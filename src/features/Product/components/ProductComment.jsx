@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     height: '50px',
   },
   boxRight: { marginLeft: '10px' },
+  boxCommentReplly: { display: 'flex', alignItems: 'center', padding: theme.spacing(0, 0, 0, 4) },
   username: {
     fontWeight: '50px',
     fontSize: '18px',
@@ -82,18 +83,34 @@ function ProductComment(props) {
       </Typography>
       <Box>
         {props.commentList.map((item) => (
-          <Box key={item.id} className={classes.boxComment}>
-            <img src={item.user.url} className={classes.userImage} />
-            <Box className={classes.boxRight}>
-              <Box className={classes.boxInfo}>
-                <Typography className={classes.username}>{item.user.fullname}</Typography>
-                <span className={classes.timer}>{formatDateTime(item.createdDate)}</span>
-              </Box>
+          <div key={item.id}>
+            <Box className={classes.boxComment}>
+              <img src={item.user.url} className={classes.userImage} />
+              <Box className={classes.boxRight}>
+                <Box className={classes.boxInfo}>
+                  <Typography className={classes.username}>{item.user.fullname}</Typography>
+                  <span className={classes.timer}>{formatDateTime(item.createdDate)}</span>
+                </Box>
 
-              <span>{item.message}</span>
-              <Typography className={classes.replly}>Trả lời</Typography>
+                <span>{item.message}</span>
+                <Typography className={classes.replly}>Trả lời</Typography>
+              </Box>
             </Box>
-          </Box>
+            {item.commentReply.map((itemReplly) => (
+              <Box key={itemReplly.id} className={classes.boxCommentReplly}>
+                <img src={itemReplly.user.url} className={classes.userImage} />
+                <Box className={classes.boxRight}>
+                  <Box className={classes.boxInfo}>
+                    <Typography className={classes.username}>{itemReplly.user.fullname}</Typography>
+                    <span className={classes.timer}>{formatDateTime(itemReplly.createdDate)}</span>
+                  </Box>
+
+                  <span>{itemReplly.message}</span>
+                  <Typography className={classes.replly}>Trả lời</Typography>
+                </Box>
+              </Box>
+            ))}
+          </div>
         ))}
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <MultilineField name="message" label="Bình luận về sản phẩm..." multiline rows={2} form={form} />
