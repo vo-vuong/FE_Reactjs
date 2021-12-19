@@ -8,13 +8,14 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import React from 'react';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import PublicIcon from '@material-ui/icons/Public';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 
 MenuAdmin.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.grey[300],
-    width: '280px',
+    // width: '300px',
     height: '100vh',
     paddingTop: '50px',
 
@@ -89,6 +90,15 @@ function MenuAdmin(props) {
               <PublicIcon fontSize="small" />
             </ListItemIcon>
             <Typography variant="inherit">Xuất xứ</Typography>
+          </MenuItem>
+        </NavLink>
+
+        <NavLink to={`${url}/carts`}>
+          <MenuItem>
+            <ListItemIcon>
+              <TrendingUpIcon fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="inherit">Quản lý đơn đặt hàng</Typography>
           </MenuItem>
         </NavLink>
 

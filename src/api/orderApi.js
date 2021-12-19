@@ -7,6 +7,11 @@ const orderApi = {
     return axiosClient.get(url, { params });
   },
 
+  getAllAdmin(params) {
+    const url = '/manageOrder';
+    return axiosAdmin.get(url, { params });
+  },
+
   get(id) {
     const url = `/order/${id}`;
     return axiosClient.get(url);
@@ -25,6 +30,11 @@ const orderApi = {
   update(data) {
     const url = `/order/${data.id}`;
     return axiosClient.patch(url, data);
+  },
+
+  manageOrder(data) {
+    const url = '/manageOrder';
+    return axiosClient.put(url, data);
   },
 
   remove(id) {

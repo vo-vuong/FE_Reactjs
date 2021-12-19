@@ -16,20 +16,20 @@ import { useHistory } from 'react-router';
 import { formatPrice } from 'utils';
 
 const columns = [
-  { id: 'id', label: 'id', minWidth: 170 },
-  { id: 'name', label: 'Tên bài viết', minWidth: 100 },
-  { id: 'code', label: 'Định danh bài viết', minWidth: 100 },
+  { id: 'id', label: 'id', minWidth: 10 },
+  { id: 'name', label: 'Tên bài viết', minWidth: 100, align: 'center' },
+  { id: 'code', label: 'Định danh bài viết', minWidth: 100, align: 'center' },
   {
     id: 'title',
     label: 'Tiêu đề bài viết',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'shortdescription',
     label: 'Mô tả ngắn',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'action',
@@ -44,7 +44,7 @@ const useStyles = makeStyles({
     width: '100%',
   },
   container: {
-    maxHeight: 440,
+    maxHeight: '65vh',
   },
 
   root: {
@@ -159,6 +159,7 @@ export default function ContentsAdminPage() {
                                   variant="outlined"
                                   size="small"
                                   color="primary"
+                                  style={{ marginRight: '5px' }}
                                 >
                                   update
                                 </Button>
@@ -174,11 +175,15 @@ export default function ContentsAdminPage() {
                             );
                           } else if (column.id === 'price') {
                             {
-                              return <TableCell align={column.align}>{formatPrice(value)}</TableCell>;
+                              return (
+                                <TableCell key={column.id} align={column.align}>
+                                  {formatPrice(value)}
+                                </TableCell>
+                              );
                             }
                           } else {
                             return (
-                              <TableCell align={column.align}>
+                              <TableCell key={column.id} align={column.align}>
                                 {column.format && typeof value === 'number' ? column.format(value) : value}
                               </TableCell>
                             );
