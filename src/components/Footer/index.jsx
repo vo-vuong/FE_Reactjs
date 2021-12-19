@@ -12,10 +12,15 @@ const useStyles = makeStyles((theme) => ({
   containerFooter: {
     flexGrow: 1,
   },
+  containerCategory: {
+    '& a': {
+      color: '#fff',
+      textDecoration: 'none',
+    },
+  },
   paper: {
     padding: theme.spacing(1),
   },
-  title: {},
   item: {
     marginLeft: '70px',
   },
@@ -24,9 +29,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Footer() {
   const classes = useStyles();
 
-  const contentAbout = { email: '16musical@gmail.com', phoneNumber: '0977816666' };
-  const contentService = { category1: "Piano", category2: "Guitar", category3: "Violin", category4: "Phụ kiện", category5: "Các loại nhạc cụ khác"};
-  const contentInfo = { address: 'Đại học Duy Tân,Quận Hải Châu,Thành phố Đà Nẵng', phoneNumber: '0977816666' };
+  const contentAbout = { email: 'Email: 16musical@gmail.com', phoneNumber: 'Số điện thoại: 0977816666' };
+  const contentService = {
+    'products?category=2&page=1&sort=gia-thap-den-cao': 'Piano',
+    'products?category=1&page=1&sort=gia-thap-den-cao': 'Guitar',
+    'products?category=3&page=1&sort=gia-thap-den-cao': 'Phụ kiện',
+  };
+  const contentInfo = { address: 'Địa chỉ: Đại học Duy Tân,Quận Hải Châu,Thành phố Đà Nẵng' };
 
   function FormCustom({ title, content }) {
     return (
@@ -47,6 +56,25 @@ export default function Footer() {
     );
   }
 
+  function FormCustomCategory({ title, content }) {
+    return (
+      <div className={classes.item}>
+        <Grid item className={classes.paper}>
+          <Typography variant="h6" component="h2">
+            {title}
+          </Typography>
+        </Grid>
+        {Object.keys(content).map(function (key) {
+          return (
+            <Grid key={key} item className={classes.paper}>
+              <a href={key}>{content[key]}</a>
+            </Grid>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <Box className={classes.root}>
       <Container className={classes.containerFooter}>
@@ -54,8 +82,8 @@ export default function Footer() {
           <Grid item xs={4}>
             <FormCustom title="Về chúng tôi" content={contentAbout} />
           </Grid>
-          <Grid item xs={4}>
-            <FormCustom title="Danh mục" content={contentService} />
+          <Grid item xs={4} className={classes.containerCategory}>
+            <FormCustomCategory title="Danh mục" content={contentService} />
           </Grid>
           <Grid item xs={4}>
             <FormCustom title="Liên hệ" content={contentInfo} />
