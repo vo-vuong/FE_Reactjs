@@ -18,8 +18,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     backgroundColor: theme.palette.grey[800],
     color: theme.palette.common.white,
-    marginBottom: theme.spacing(4),
-    backgroundImage: 'url(https://images.pexels.com/photos/290660/pexels-photo-290660.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)',
+    marginBottom: theme.spacing(2),
+    backgroundImage:
+      'url(https://images.pexels.com/photos/290660/pexels-photo-290660.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',

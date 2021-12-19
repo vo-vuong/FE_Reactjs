@@ -12,7 +12,6 @@ ContentList.defaultProps = {
 };
 
 function ContentList({ data }) {
-  console.log(data);
 
   return (
     <Box>
