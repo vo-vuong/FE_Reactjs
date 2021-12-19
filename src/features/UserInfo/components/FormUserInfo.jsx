@@ -9,11 +9,12 @@ import {
   makeStyles,
   Radio,
   RadioGroup,
-  Typography,
+  Typography
 } from '@material-ui/core';
 import axios from 'axios';
 import InputField from 'components/form-controls/InputField';
 import PasswordField from 'components/form-controls/PasswordField';
+import { STATIC_IMAGE_AVATAR } from 'constants/index';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -68,6 +69,7 @@ function FormUserInfo(props) {
   const history = useHistory();
   const [selectedFile, setSelectedFile] = useState('');
   const [previewSource, setPreviewSource] = useState();
+  const imageAvtar = props.userInfo.url ? props.userInfo.url : STATIC_IMAGE_AVATAR;
 
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -157,7 +159,7 @@ function FormUserInfo(props) {
         </Typography>
         <div className={classes.avatarbody}>
           <img
-            src={previewSource || props.userInfo.url}
+            src={previewSource || imageAvtar}
             className={classes.avatar}
             alt="Chọn file ảnh "
             style={{ height: '130px' }}
