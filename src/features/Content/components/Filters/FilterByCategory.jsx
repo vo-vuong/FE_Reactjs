@@ -1,8 +1,9 @@
-import { Box, Typography, makeStyles } from '@material-ui/core';
+import { Box, Typography, makeStyles, Link } from '@material-ui/core';
 import categoryApi from 'api/categoryApi';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import categoryContentApi from 'api/categoryContentApi';
+import { NavLink } from 'react-router-dom';
 
 FilterByCategory.propTypes = {
   onChange: PropTypes.func,
@@ -50,7 +51,11 @@ function FilterByCategory({ onChange }) {
 
   const handleCategoryClick = (category) => {
     if (onChange) {
-      onChange(category.id);
+      if (category === 'all') {
+        onChange();
+      } else {
+        onChange(category.id);
+      }
     }
   };
 
@@ -59,6 +64,9 @@ function FilterByCategory({ onChange }) {
       <Typography variant="subtitle2">DANH MỤC BÀI VIẾT</Typography>
 
       <ul className={classes.menu}>
+        <li onClick={() => handleCategoryClick('all')}>
+          <Typography variant="body2">Tất cả danh mục</Typography>
+        </li>
         {categoryList.map((category) => (
           <li key={category.id} onClick={() => handleCategoryClick(category)}>
             <Typography variant="body2">{category.name}</Typography>

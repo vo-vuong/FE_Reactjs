@@ -175,26 +175,26 @@ function ContentCategoryPage(props) {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="right">ID</StyledTableCell>
-                  <StyledTableCell align="right">Tên danh mục</StyledTableCell>
-                  <StyledTableCell align="right">Code</StyledTableCell>
-                  <StyledTableCell align="right">Được tạo bởi</StyledTableCell>
-                  <StyledTableCell align="right">Ngày tạo</StyledTableCell>
-                  <StyledTableCell align="right">Tùy chọn</StyledTableCell>
+                  <StyledTableCell align="center">ID</StyledTableCell>
+                  <StyledTableCell align="center">Tên danh mục</StyledTableCell>
+                  <StyledTableCell align="center">Code</StyledTableCell>
+                  <StyledTableCell align="center">Được tạo bởi</StyledTableCell>
+                  <StyledTableCell align="center">Ngày tạo</StyledTableCell>
+                  <StyledTableCell align="center">Tùy chọn</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {categoryList.map((item) => (
                   <StyledTableRow key={item.id}>
-                    <StyledTableCell align="right" scope="row">
+                    <StyledTableCell align="center" scope="row">
                       {item.id}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{item.name}</StyledTableCell>
-                    <StyledTableCell align="right">{item.code}</StyledTableCell>
-                    <StyledTableCell align="right">{item.createdBy}</StyledTableCell>
-                    <StyledTableCell align="right">{formatDateTime(item.createdDate)}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      <Button onClick={() => handleUpdate(item)} variant="outlined" size="small" color="primary">
+                    <StyledTableCell align="center">{item.name}</StyledTableCell>
+                    <StyledTableCell align="center">{item.code}</StyledTableCell>
+                    <StyledTableCell align="center">{item.createdBy}</StyledTableCell>
+                    <StyledTableCell align="center">{formatDateTime(item.createdDate)}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Button onClick={() => handleUpdate(item)} variant="outlined" size="small" color="primary" style={{ marginRight: '5px' }}>
                         update
                       </Button>
                       <Button variant="outlined" size="small" color="secondary" onClick={() => handleDelete(item.id)}>

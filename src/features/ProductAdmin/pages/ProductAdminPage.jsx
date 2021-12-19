@@ -16,19 +16,19 @@ import { useHistory } from 'react-router';
 import { formatPrice } from 'utils';
 
 const columns = [
-  { id: 'id', label: 'id', minWidth: 170 },
-  { id: 'name', label: 'Tên sản phẩm', minWidth: 100 },
+  { id: 'id', label: 'id', minWidth: 10 },
+  { id: 'name', label: 'Tên sản phẩm', minWidth: 100, align: 'center' },
   {
     id: 'shortdescription',
     label: 'Mô tả ngắn',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'price',
     label: 'Giá sản phẩm',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'action',
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
     width: '100%',
   },
   container: {
-    maxHeight: 440,
+    maxHeight: '65vh',
   },
 
   root: {
@@ -93,14 +93,13 @@ export default function ProductAdminPage() {
   };
 
   const handleDelete = (rowId) => {
-    console.log(rowId);
-    const newProductList = [...rowsSate];
-    const index = rowsSate.findIndex((row) => row.id === rowId);
-    newProductList.splice(index, 1);
     (async () => {
       try {
         const result = await productApi.remove(rowId);
         enqueueSnackbar(result.message, { variant: 'success' });
+        const newProductList = [...rowsSate];
+        const index = rowsSate.findIndex((row) => row.id === rowId);
+        newProductList.splice(index, 1);
         SetRowsSate(newProductList);
       } catch (error) {
         enqueueSnackbar('Không thể xóa sản phẩm.', { variant: 'error' });
@@ -157,6 +156,7 @@ export default function ProductAdminPage() {
                                   variant="outlined"
                                   size="small"
                                   color="primary"
+                                  style={{ marginRight: '5px' }}
                                 >
                                   update
                                 </Button>
@@ -172,11 +172,15 @@ export default function ProductAdminPage() {
                             );
                           } else if (column.id === 'price') {
                             {
-                              return <TableCell align={column.align}>{formatPrice(value)}</TableCell>;
+                              return (
+                                <TableCell key={column.id} align={column.align}>
+                                  {formatPrice(value)}
+                                </TableCell>
+                              );
                             }
                           } else {
                             return (
-                              <TableCell align={column.align}>
+                              <TableCell key={column.id} align={column.align}>
                                 {column.format && typeof value === 'number' ? column.format(value) : value}
                               </TableCell>
                             );

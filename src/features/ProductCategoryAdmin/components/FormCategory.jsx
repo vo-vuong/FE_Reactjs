@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
       width: '30ch',
     },
     paddingBottom: '20px',
+    display: 'flex',
   },
 }));
 
