@@ -45,7 +45,7 @@ const columns = [
   {
     id: 'action',
     label: 'Tùy chọn',
-    minWidth: 200,
+    minWidth: 150,
     align: 'center',
   },
 ];
@@ -55,7 +55,7 @@ const useStyles = makeStyles({
     width: '100%',
   },
   container: {
-    maxHeight: 440,
+    maxHeight: '65vh',
   },
 
   root: {
@@ -107,27 +107,53 @@ function CartAdminPage(props) {
     setPage(0);
   };
 
-  const handleDelete = (rowId) => {
-    // console.log(rowId);
-    // const newProductList = [...rowsSate];
-    // const index = rowsSate.findIndex((row) => row.id === rowId);
-    // newProductList.splice(index, 1);
-    // (async () => {
-    //   try {
-    //     const result = await productApi.remove(rowId);
-    //     enqueueSnackbar(result.message, { variant: 'success' });
-    //     SetRowsSate(newProductList);
-    //   } catch (error) {
-    //     enqueueSnackbar('Không thể xóa sản phẩm.', { variant: 'error' });
-    //   }
-    // })();
+  const handleAgree = (rowId) => {
+    (async () => {
+      try {
+        const result = await orderApi.manageOrder({ id: rowId, status: '1' });
+        enqueueSnackbar(result.message, { variant: 'success' });
+        const newList = [...rowsSate];
+        const index = rowsSate.findIndex((row) => row.id === rowId);
+        const newOrder = { ...rowsSate[index], status: 1 };
+        newList[index] = newOrder;
+        SetRowsSate(newList);
+      } catch (error) {
+        enqueueSnackbar(error.response.data.message, { variant: 'error' });
+      }
+    })();
   };
 
-  const handleAgree = (rowId) => {};
+  const handleDestroy = (rowId) => {
+    (async () => {
+      try {
+        const result = await orderApi.manageOrder({ id: rowId, status: '-1' });
+        enqueueSnackbar(result.message, { variant: 'success' });
+        const newList = [...rowsSate];
+        const index = rowsSate.findIndex((row) => row.id === rowId);
+        const newOrder = { ...rowsSate[index], status: -1 };
+        newList[index] = newOrder;
+        SetRowsSate(newList);
+      } catch (error) {
+        enqueueSnackbar(error.response.data.message, { variant: 'error' });
+      }
+    })();
+  };
 
-  const handleDestroy = (rowId) => {};
-
-  const handleSuccess = (rowId) => {};
+  const handleSuccess = (rowId) => {
+    (async () => {
+      try {
+        const result = await orderApi.manageOrder({ id: rowId, status: '2' });
+        enqueueSnackbar(result.message, { variant: 'success' });
+        const newList = [...rowsSate];
+        const index = rowsSate.findIndex((row) => row.id === rowId);
+        const newOrder = { ...rowsSate[index], status: 2 };
+        newList[index] = newOrder;
+        SetRowsSate(newList);
+      } catch (error) {
+        enqueueSnackbar(error.response.data.message, { variant: 'error' });
+      }
+    })();
+  };
   return (
     <Box className={classes.root}>
       <Grid container spacing={3}>
@@ -169,14 +195,6 @@ function CartAdminPage(props) {
                                   style={{ marginRight: '5px' }}
                                 >
                                   Chi tiết
-                                </Button>
-                                <Button
-                                  variant="outlined"
-                                  size="small"
-                                  color="secondary"
-                                  onClick={() => handleDelete(rowId)}
-                                >
-                                  delete
                                 </Button>
                               </TableCell>
                             );

@@ -32,6 +32,11 @@ const orderApi = {
     return axiosClient.patch(url, data);
   },
 
+  manageOrder(data) {
+    const url = '/manageOrder';
+    return axiosClient.put(url, data);
+  },
+
   remove(id) {
     const url = `/order/${id}`;
     return axiosClient.delete(url);
