@@ -1,11 +1,12 @@
-import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import MultilineField from 'components/form-controls/MultilineField';
-import { useSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
-import { formatDateTime } from 'utils/date';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import MultilineField from 'components/form-controls/MultilineField';
+import { STATIC_IMAGE_AVATAR } from 'constants/index';
+import { useSnackbar } from 'notistack';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { formatDateTime } from 'utils/date';
 import * as yup from 'yup';
-import { Controller, useForm } from 'react-hook-form';
 
 ProductComment.propTypes = {};
 
@@ -48,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
 function ProductComment(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  // const thumbnailUrl = props.product.images > 0 ? props.product.images[0]?.url : STATIC_IMAGE;
   const [commentSubmit, setCommentSubmit] = useState('Thêm');
   const [commentRepllyId, setCommentRepllyId] = useState();
 
@@ -100,7 +100,7 @@ function ProductComment(props) {
         {props.commentList.map((item) => (
           <div key={item.id}>
             <Box className={classes.boxComment}>
-              <img src={item.user.url} className={classes.userImage} />
+              <img src={item.user.url || STATIC_IMAGE_AVATAR} className={classes.userImage} />
               <Box className={classes.boxRight}>
                 <Box className={classes.boxInfo}>
                   <Typography className={classes.username}>{item.user.fullname}</Typography>
@@ -115,7 +115,7 @@ function ProductComment(props) {
             </Box>
             {item.commentReply.map((itemReplly) => (
               <Box key={itemReplly.id} className={classes.boxCommentReplly}>
-                <img src={itemReplly.user.url} className={classes.userImage} />
+                <img src={itemReplly.user.url || STATIC_IMAGE_AVATAR} className={classes.userImage} />
                 <Box className={classes.boxRight}>
                   <Box className={classes.boxInfo}>
                     <Typography className={classes.username}>{itemReplly.user.fullname}</Typography>
