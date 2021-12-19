@@ -1,14 +1,14 @@
 import { Paper } from '@material-ui/core';
 import React from 'react';
 
-ProductEvaluation.propTypes = {};
+ProductComment.propTypes = {};
 
-function ProductEvaluation(props) {
+function ProductComment(props) {
   return (
     <Paper elevation={0} style={{ padding: '15px' }}>
-      ProductEvaluation
+      ProductComment
     </Paper>
   );
 }
 
-export default ProductEvaluation;
+export default ProductComment;

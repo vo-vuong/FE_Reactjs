@@ -6,6 +6,7 @@ import React from 'react';
 // import { useDispatch } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import AddToCartForm from '../components/AddToCartForm';
+import ProductComment from '../components/ProductComment';
 import ProductDescription from '../components/ProductDescription';
 import ProductEvaluation from '../components/ProductEvaluation';
 import ProductInfo from '../components/ProductInfo';
@@ -99,8 +100,9 @@ function DetailPage() {
           <Route exact path={url}>
             <ProductDescription product={product} />
           </Route>
-
+          
           <Route path={`${url}/evaluation`} component={ProductEvaluation} />
+          <Route path={`${url}/comment`} component={ProductComment} />
         </Switch>
       </Container>
     </Box>

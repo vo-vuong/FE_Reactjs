@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
     // & dai dien cho phan tu hien tai dang tro toi
     '& > li': {
-      marginTop: theme.spacing(1),
+      paddingTop: theme.spacing(1.5),
       transition: 'all .25s',
 
       '&:hover': { color: theme.palette.primary.dark, cursor: 'pointer' },
