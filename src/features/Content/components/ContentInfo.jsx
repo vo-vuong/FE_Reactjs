@@ -7,21 +7,9 @@ ContentInfo.propTypes = {
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: { paddingBottom: theme.spacing(2), borderBottom: `1px solid ${theme.palette.grey[200]}` },
-  description: {
-    margin: theme.spacing(2, 0),
-  },
-  priceBox: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.grey[100],
-  },
-  price: {
-    marginRight: theme.spacing(2),
-    fontSize: theme.typography.h4.fontSize,
-    fontWeight: 'bold',
-  },
-  detail: {},
-  quantity: {},
+  root: { paddingBottom: theme.spacing(2), borderBottom: `1px solid ${theme.palette.grey[200]}`, margin: '0 20px' },
+  name: { fontSize: '20px' },
+  shortdescription: { color: '#333' },
 }));
 
 function ContentInfo({ content = {} }) {
@@ -30,8 +18,8 @@ function ContentInfo({ content = {} }) {
 
   return (
     <Box className={classes.root}>
-      <Typography> {name}</Typography>
-      <Typography>{shortdescription}</Typography>
+      <Typography className={classes.name}> {name}</Typography>
+      <Typography className={classes.shortdescription}>{shortdescription}</Typography>
     </Box>
   );
 }
