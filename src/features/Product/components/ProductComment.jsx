@@ -1,7 +1,11 @@
-import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import MultilineField from 'components/form-controls/MultilineField';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { formatDateTime } from 'utils/date';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Controller, useForm } from 'react-hook-form';
 
 ProductComment.propTypes = {};
 
@@ -45,7 +49,30 @@ function ProductComment(props) {
   const { enqueueSnackbar } = useSnackbar();
   // const thumbnailUrl = props.product.images > 0 ? props.product.images[0]?.url : STATIC_IMAGE;
 
-  console.log(props.commentList);
+  const schema = yup.object({
+    message: yup
+      .string()
+      .required('Vui lòng nhập Bình luận.')
+      .min(5, 'Vui lòng nhập Bình luận lớn hơn 3 kí tự.')
+      .max(255, 'Vui lòng nhập Bình luận nhỏ hơn 100 kí tự.'),
+  });
+
+  const form = useForm({
+    defaultValues: {
+      message: '',
+    },
+
+    resolver: yupResolver(schema),
+  });
+
+  const handleSubmit = async (values) => {
+    const { onSubmit } = props;
+    if (onSubmit) {
+      await onSubmit(values);
+    }
+  };
+
+  // console.log(props.commentList);
   return (
     <Paper elevation={0} style={{ padding: '15px' }}>
       <Typography component="h3" variant="h6" color="inherit" className={classes.title}>
@@ -66,7 +93,12 @@ function ProductComment(props) {
             </Box>
           </Box>
         ))}
-        {/* <img src={props.commentList.user.url} /> */}
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <MultilineField name="message" label="Bình luận về sản phẩm..." multiline rows={2} form={form} />
+          <Button size="small" type="submit" variant="outlined" color="primary" className={classes.button}>
+            Thêm
+          </Button>
+        </form>
       </Box>
     </Paper>
   );

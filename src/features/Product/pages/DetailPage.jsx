@@ -101,6 +101,16 @@ function DetailPage() {
     }
   };
 
+  const handleCommentSubmit = async (values) => {
+    try {
+      const result = await commentApi.addClient({ ...values, productId: productId });
+
+      enqueueSnackbar(result.message, { variant: 'success' });
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
+  };
+
   return (
     <Box className={classes.root}>
       <Container>
@@ -123,7 +133,9 @@ function DetailPage() {
           </Route>
 
           <Route path={`${url}/evaluation`} component={ProductEvaluation} />
-          <Route path={`${url}/comment`}>{commentList ? <ProductComment commentList={commentList} /> : ''}</Route>
+          <Route path={`${url}/comment`}>
+            {commentList ? <ProductComment commentList={commentList} onSubmit={handleCommentSubmit} /> : ''}
+          </Route>
         </Switch>
       </Container>
     </Box>

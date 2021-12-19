@@ -12,7 +12,7 @@ MultilineField.propTypes = {
 };
 
 function MultilineField(props) {
-  const { form, name, label, disabled } = props;
+  const { form, name, label, disabled, rows } = props;
   const { errors } = form;
   const hasError = errors[name];
 
@@ -25,7 +25,7 @@ function MultilineField(props) {
           margin="normal"
           variant="outlined"
           multiline
-          rows={8}
+          rows={rows}
           fullWidth
           label={label}
           disabled={disabled}
