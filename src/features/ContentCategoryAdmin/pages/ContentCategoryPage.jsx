@@ -25,6 +25,7 @@ import React, { useEffect, useState } from 'react';
 import { formatDateTime } from 'utils/date';
 import FormCategory from '../components/FormCategory';
 import FormCategoryUpdate from '../components/FormCategoryUpdate';
+import WarningIcon from '@material-ui/icons/Warning';
 
 ContentCategoryPage.propTypes = {};
 
@@ -241,7 +242,7 @@ function ContentCategoryPage(props) {
       </Grid>
       <Dialog open={open} onClose={handleClose} aria-labelledby="draggable-dialog-title">
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          Cảnh báo!
+          <WarningIcon color="secondary" /> Cảnh báo!
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -249,10 +250,10 @@ function ContentCategoryPage(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
+          <Button autoFocus onClick={handleClose} color="primary" variant="outlined">
             Trở về
           </Button>
-          <Button onClick={handleAgreeDelete} color="primary">
+          <Button onClick={handleAgreeDelete} color="primary" variant="outlined">
             Đồng ý
           </Button>
         </DialogActions>
