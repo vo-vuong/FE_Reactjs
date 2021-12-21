@@ -1,4 +1,16 @@
-import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  makeStyles,
+  Paper,
+  Typography,
+} from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -13,6 +25,7 @@ import React, { useEffect, useState } from 'react';
 import { formatDateTime } from 'utils/date';
 import FormCategory from '../components/FormCategory';
 import FormCategoryUpdate from '../components/FormCategoryUpdate';
+import WarningIcon from '@material-ui/icons/Warning';
 
 ProductCategoryPage.propTypes = {};
 
@@ -62,6 +75,12 @@ function ProductCategoryPage(props) {
   const { enqueueSnackbar } = useSnackbar();
   const [category, setCategory] = useState({});
   const [editCategoryId, setEditCategorytId] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [idCategory, setIdCategory] = useState();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     (async () => {
@@ -82,19 +101,26 @@ function ProductCategoryPage(props) {
     })();
   }, []);
 
-  const handleDelete = (id) => {
+  const handleAgreeDelete = () => {
     (async () => {
       try {
-        const result = await categoryApi.removeAdmin(id);
+        const result = await categoryApi.removeAdmin(idCategory);
         enqueueSnackbar(result.message, { variant: 'success' });
         const newCategoryList = [...categoryList];
-        const index = categoryList.findIndex((row) => row.id === id);
+        const index = categoryList.findIndex((row) => row.id === idCategory);
         newCategoryList.splice(index, 1);
         setCategoryList(newCategoryList);
+        setIdCategory();
+        setOpen(false);
       } catch (error) {
         enqueueSnackbar('Không thể xóa danh mục sản phẩm.', { variant: 'error' });
       }
     })();
+  };
+
+  const handleDelete = (id) => {
+    setIdCategory(id);
+    setOpen(true);
   };
 
   const handleCreateCategory = async (values) => {
@@ -216,6 +242,24 @@ function ProductCategoryPage(props) {
           </TableContainer>
         </Grid>
       </Grid>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="draggable-dialog-title">
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          <WarningIcon color="secondary" /> Cảnh báo!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Bạn có chắc chắn muốn xóa danh mục không? Sau khi xóa sẽ không thể khôi phục.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose} color="primary" variant="outlined">
+            Trở về
+          </Button>
+          <Button onClick={handleAgreeDelete} color="primary" variant="outlined">
+            Đồng ý
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
