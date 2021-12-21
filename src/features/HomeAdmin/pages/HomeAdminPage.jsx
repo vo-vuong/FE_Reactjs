@@ -1,4 +1,4 @@
-import { Box, Grid, makeStyles } from '@material-ui/core';
+import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 
 HomeAdminPage.propTypes = {};
@@ -17,7 +17,15 @@ function HomeAdminPage(props) {
   return (
     <React.Fragment>
       <Box>
-        <Grid container></Grid>
+        <Grid container>
+          <Grid item xs={12}>
+            <Paper>
+              <Typography variant="h4" component="h3" className={classes.title}>
+                Trang chủ sẽ được cập nhật sau.
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
       </Box>
     </React.Fragment>
   );

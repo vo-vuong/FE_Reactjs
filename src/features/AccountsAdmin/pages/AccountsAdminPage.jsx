@@ -9,7 +9,6 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -183,7 +182,7 @@ export default function AccountsAdminPage() {
                           if (column.id === 'action') {
                             return (
                               <TableCell key={column.id} align={column.align}>
-                                <Button
+                                {/* <Button
                                   onClick={() => handleClick(rowId)}
                                   variant="outlined"
                                   size="small"
@@ -191,7 +190,7 @@ export default function AccountsAdminPage() {
                                   style={{ marginRight: '5px' }}
                                 >
                                   update
-                                </Button>
+                                </Button> */}
                                 <Button
                                   variant="outlined"
                                   size="small"
