@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   productImage: {
     backgroundSize: 'content',
     width: '100%',
-    height: '220px',
+    height: '250px',
   },
 }));
 
