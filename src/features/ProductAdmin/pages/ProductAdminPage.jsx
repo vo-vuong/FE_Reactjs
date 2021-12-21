@@ -1,4 +1,14 @@
-import { Box, Button, Grid, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Typography,
+} from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,9 +21,10 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import productApi from 'api/productApi';
 import { useSnackbar } from 'notistack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { formatPrice } from 'utils';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const columns = [
   { id: 'id', label: 'id', minWidth: 10 },
@@ -64,6 +75,12 @@ export default function ProductAdminPage() {
   const [rowsSate, SetRowsSate] = React.useState([]);
   const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [idProduct, setIdProduct] = useState();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     (async () => {
@@ -92,19 +109,27 @@ export default function ProductAdminPage() {
     setPage(0);
   };
 
-  const handleDelete = (rowId) => {
+  const handleAgreeDelete = () => {
     (async () => {
       try {
-        const result = await productApi.remove(rowId);
+        const result = await productApi.remove(idProduct);
         enqueueSnackbar(result.message, { variant: 'success' });
         const newProductList = [...rowsSate];
-        const index = rowsSate.findIndex((row) => row.id === rowId);
+        const index = rowsSate.findIndex((row) => row.id === idProduct);
         newProductList.splice(index, 1);
         SetRowsSate(newProductList);
+        setIdProduct();
+        setOpen(false);
       } catch (error) {
+        console.log(error);
         enqueueSnackbar('Không thể xóa sản phẩm.', { variant: 'error' });
       }
     })();
+  };
+
+  const handleDelete = (id) => {
+    setIdProduct(id);
+    setOpen(true);
   };
 
   const handleClick = (id) => {
@@ -204,6 +229,24 @@ export default function ProductAdminPage() {
           </Paper>
         </Grid>
       </Grid>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="draggable-dialog-title">
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          <WarningIcon color="secondary" /> Cảnh báo!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Bạn có chắc chắn muốn xóa sản phẩm không? Sau khi xóa sẽ không thể khôi phục.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose} color="primary" variant="outlined">
+            Trở về
+          </Button>
+          <Button onClick={handleAgreeDelete} color="primary" variant="outlined">
+            Đồng ý
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

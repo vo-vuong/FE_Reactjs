@@ -1,4 +1,14 @@
-import { Box, Button, Grid, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Typography,
+} from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,9 +21,10 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import contentApi from 'api/contentApi';
 import { useSnackbar } from 'notistack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { formatPrice } from 'utils';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const columns = [
   { id: 'id', label: 'id', minWidth: 10 },
@@ -65,6 +76,12 @@ export default function ContentsAdminPage() {
   const [rowsSate, SetRowsSate] = React.useState([]);
   const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [idContent, setIdContent] = useState();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     (async () => {
@@ -95,19 +112,26 @@ export default function ContentsAdminPage() {
     setPage(0);
   };
 
-  const handleDelete = (rowId) => {
+  const handleAgreeDelete = () => {
     (async () => {
       try {
-        const result = await contentApi.remove(rowId);
+        const result = await contentApi.remove(idContent);
         const newContentsList = [...rowsSate];
-        const index = rowsSate.findIndex((row) => row.id === rowId);
+        const index = rowsSate.findIndex((row) => row.id === idContent);
         newContentsList.splice(index, 1);
         enqueueSnackbar(result.message, { variant: 'success' });
         SetRowsSate(newContentsList);
+        setIdContent();
+        setOpen(false);
       } catch (error) {
         enqueueSnackbar('Không thể xóa bài viết.', { variant: 'error' });
       }
     })();
+  };
+
+  const handleDelete = (id) => {
+    setIdContent(id);
+    setOpen(true);
   };
 
   const handleClick = (id) => {
@@ -207,6 +231,24 @@ export default function ContentsAdminPage() {
           </Paper>
         </Grid>
       </Grid>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="draggable-dialog-title">
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          <WarningIcon color="secondary" /> Cảnh báo!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Bạn có chắc chắn muốn xóa bài viết không? Sau khi xóa sẽ không thể khôi phục.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose} color="primary" variant="outlined">
+            Trở về
+          </Button>
+          <Button onClick={handleAgreeDelete} color="primary" variant="outlined">
+            Đồng ý
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
