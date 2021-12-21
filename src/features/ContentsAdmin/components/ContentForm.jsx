@@ -127,7 +127,7 @@ function ContentForm(props) {
       };
       await onSubmit(object2);
     }
-    history.push('/admin/contents');
+    // history.push('/admin/contents');
   };
 
   return (

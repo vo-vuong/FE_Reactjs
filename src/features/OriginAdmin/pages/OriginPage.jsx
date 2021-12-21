@@ -1,4 +1,16 @@
-import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  makeStyles,
+  Paper,
+  Typography,
+} from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -7,13 +19,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import categoryContentApi from 'api/categoryContentApi';
+import WarningIcon from '@material-ui/icons/Warning';
+import originApi from 'api/originApi';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { formatDateTime } from 'utils/date';
 import FormCategory from '../components/FormCategory';
 import FormCategoryUpdate from '../components/FormCategoryUpdate';
-import originApi from 'api/originApi';
 
 OriginPage.propTypes = {};
 
@@ -63,6 +75,12 @@ function OriginPage(props) {
   const { enqueueSnackbar } = useSnackbar();
   const [category, setCategory] = useState({});
   const [editCategoryId, setEditCategorytId] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [idOrigin, setIdOrigin] = useState();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     (async () => {
@@ -83,19 +101,26 @@ function OriginPage(props) {
     })();
   }, []);
 
-  const handleDelete = (id) => {
+  const handleAgreeDelete = () => {
     (async () => {
       try {
-        const result = await originApi.removeAdmin(id);
+        const result = await originApi.removeAdmin(idOrigin);
         enqueueSnackbar(result.message, { variant: 'success' });
         const newCategoryList = [...categoryList];
-        const index = categoryList.findIndex((row) => row.id === id);
+        const index = categoryList.findIndex((row) => row.id === idOrigin);
         newCategoryList.splice(index, 1);
         setCategoryList(newCategoryList);
+        setIdOrigin();
+        setOpen(false);
       } catch (error) {
         enqueueSnackbar('Không thể xóa xuất xứ.', { variant: 'error' });
       }
     })();
+  };
+
+  const handleDelete = (id) => {
+    setIdOrigin(id);
+    setOpen(true);
   };
 
   const handleCreateCategory = async (values) => {
@@ -215,6 +240,24 @@ function OriginPage(props) {
           </TableContainer>
         </Grid>
       </Grid>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="draggable-dialog-title">
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          <WarningIcon color="secondary" /> Cảnh báo!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Bạn có chắc chắn muốn xóa Xuất xứ không? Sau khi xóa sẽ không thể khôi phục.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose} color="primary" variant="outlined">
+            Trở về
+          </Button>
+          <Button onClick={handleAgreeDelete} color="primary" variant="outlined">
+            Đồng ý
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
