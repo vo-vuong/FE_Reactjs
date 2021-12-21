@@ -71,7 +71,7 @@ function RegisterForm(props) {
     address: yup
       .string()
       .required('Vui lòng nhập Địa chỉ')
-      .min(5, 'Vui lòng nhập Địa chỉ lớn hơn 8 kí tự.')
+      .min(8, 'Vui lòng nhập Địa chỉ lớn hơn 8 kí tự.')
       .max(255, 'Vui lòng nhập Địa chỉ nhỏ hơn 255 kí tự.'),
     password: yup
       .string()
