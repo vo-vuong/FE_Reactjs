@@ -1,6 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  makeStyles,
+  Paper,
+  Radio,
+  RadioGroup,
+  Typography,
+} from '@material-ui/core';
 import ProductCart from './ProductCart';
 import { formatPrice } from 'utils';
 import { useSnackbar } from 'notistack';
@@ -33,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 function FormListCart(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const [value, setValue] = React.useState('female');
 
   const handleOrder = async () => {
     try {
@@ -73,22 +86,36 @@ function FormListCart(props) {
         ))}
       </Grid>
 
-      <Paper className={classes.listTotal}>
-        <Typography style={{ paddingLeft: '16px' }} component="h5" variant="h6">
-          Tổng số lượng sản phẩm: {props.totalQuantity}
-        </Typography>
-        <Typography style={{ paddingLeft: '16px', paddingRight: '16px' }} component="h5" variant="h6">
-          Tổng tiền: {formatPrice(props.totalPrice)}
-        </Typography>
-        <Button
-          onClick={handleOrder}
-          variant="contained"
-          color="primary"
-          style={{ width: '100px', marginRight: '16px' }}
-          size="small"
-        >
-          Mua hàng
-        </Button>
+      <Paper>
+        <Box style={{ paddingLeft: '16px' }}>
+          <Typography component="h5" variant="h6">
+            Chọn hình thức thanh toán:
+          </Typography>
+          <FormControl component="fieldset">
+            <RadioGroup aria-label="gender" name="gender1" value={value}>
+              <FormControlLabel value="female" control={<Radio />} label="Thanh toán khi nhận hàng" />
+              <FormControlLabel value="disabled" disabled control={<Radio />} label="Thanh toán online" />
+            </RadioGroup>
+          </FormControl>
+        </Box>
+
+        <Box className={classes.listTotal}>
+          <Typography style={{ paddingLeft: '16px' }} component="h5" variant="h6">
+            Tổng số lượng sản phẩm: {props.totalQuantity}
+          </Typography>
+          <Typography style={{ paddingLeft: '16px', paddingRight: '16px' }} component="h5" variant="h6">
+            Tổng tiền: {formatPrice(props.totalPrice)}
+          </Typography>
+          <Button
+            onClick={handleOrder}
+            variant="contained"
+            color="primary"
+            style={{ width: '100px', marginRight: '16px' }}
+            size="small"
+          >
+            Mua hàng
+          </Button>
+        </Box>
       </Paper>
     </div>
   );
