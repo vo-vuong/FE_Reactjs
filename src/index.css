@@ -13,3 +13,53 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+/* About us */
+.about-us {
+  color: #6e5e52;
+  font-weight: 400;
+  padding-bottom: 20px;
+  padding-left: 25px;
+  font-size: 1.1rem;
+}
+.title-infor{
+  text-align: center;
+  padding-bottom: 20px;
+  font-weight: 600;
+}
+.title-product{
+  color: #106e10;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.inform{
+  display: flex;
+  align-items: center;
+}
+.inform span{
+  color: #106e10;
+  font-weight: 500;
+}
+.inform p{
+  padding-left: 4px;
+}
+.container-img{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.product-img{
+  margin-top: 20px;
+  width: 80%;
+}
+.title-img{
+  color: #2f47ff;
+  font-size: 1.1rem;
+  margin-top: 15px;
+  width: 80%;
+}
+.product-content span{
+  color: red;
+  font-weight: 500;
+}
