@@ -58,10 +58,10 @@ function FormCategory(category) {
 
   return (
     <form className={classes.root} onSubmit={form.handleSubmit(handleSubmit)}>
-      <InputField name="name" label="Tên danh mục*" form={form} />
-      <InputField name="code" label="Mã định danh*" form={form} />
+      <InputField name="name" label="Tên danh mục*" size="small" form={form} />
+      <InputField name="code" label="Mã định danh*" size="small" form={form} />
 
-      <Button size="large" type="submit" fullWidth className={classes.submit} variant="contained" color="inherit">
+      <Button size="small" type="submit" fullWidth className={classes.submit} variant="contained" color="inherit">
         Tạo mới danh mục
       </Button>
     </form>

@@ -5,6 +5,7 @@ import { useSnackbar } from 'notistack';
 import { React, useEffect, useState } from 'react';
 import ContentForm from '../components/ContentForm';
 
+
 ContentsCreatePage.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
@@ -43,12 +44,11 @@ function ContentsCreatePage(props) {
 
   const handleContentFormSubmit = async (values) => {
     try {
-      console.log(values);
       const result = await contentApi.addAdmin(values);
 
       enqueueSnackbar(result.message, { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar(error.message, { variant: 'error' });
+      enqueueSnackbar(error.response.data.message, { variant: 'error' });
     }
   };
 
