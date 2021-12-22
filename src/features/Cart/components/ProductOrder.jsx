@@ -37,7 +37,7 @@ function ProductOrder(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   //const thumbnailUrl = props.product.images.length > 0 ? props.product.images[0]?.url : STATIC_IMAGE;
-  console.log(props);
+  // console.log(props);
   // const handleClick = () => {
   //   history.push(`/products/${props.product.id}`);
   // };
