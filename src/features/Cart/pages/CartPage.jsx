@@ -4,6 +4,9 @@ import { Container, makeStyles, Typography } from '@material-ui/core';
 import FormListCart from '../components/FormListCart';
 import { useSnackbar } from 'notistack';
 import cartApi from 'api/cartApi';
+import orderApi from 'api/orderApi';
+import FormListOrder from '../components/FormListOrder';
+
 
 CartPage.propTypes = {};
 
@@ -37,8 +40,13 @@ function CartPage(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [cartList, setCartList] = useState([]);
+  const [orderList, setOrderList] = useState([]);
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [totalOrderQuantity, setTotalOrderQuantity] = useState(0);
+  const [totalOrderPrice, setTotalOrderPrice] = useState(0);
+  const [statusOrder, setStatusOrder] = useState(0);
+  const [listOrder, setListOrder] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -59,6 +67,29 @@ function CartPage(props) {
     })();
   }, []);
   //   console.log(cartList);
+  useEffect(() => {
+    (async () => {
+      try {
+        const list = await orderApi.getAll();
+        // const list = await orderApi.getAll();
+        // console.log(list);
+        // setOrderList(
+        //   list.map((x) => ({
+        //     id: x.id,
+        //     product: x.product,
+        //     quantity: x.quantity,
+        //   }))
+        // );
+        // totalOrderQuantity(totalQuantity);
+        // totalOrderPrice(totalPrice);
+        // setStatusOrder(status);
+        setListOrder(list);
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
+    })();
+  }, []);
+  console.log(listOrder);
 
   return (
     <Container className={classes.root}>
@@ -70,7 +101,14 @@ function CartPage(props) {
         <FormListCart cartList={cartList} totalPrice={totalPrice} totalQuantity={totalQuantity} />
       ) : (
         <Typography className={classes.title} component="h1" variant="h5">
-          Giỏ hàng của bạn hiện đang trống
+          Giỏ hàng của bạn hiện đang trống.
+        </Typography>
+      )}
+      {listOrder ? (
+        <FormListOrder listOrder={listOrder} />
+      ) : (
+        <Typography className={classes.title} component="h1" variant="h5">
+          Bạn chưa đặt món hàng nào.
         </Typography>
       )}
     </Container>
