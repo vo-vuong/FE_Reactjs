@@ -1,6 +1,7 @@
-import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@material-ui/core';
+import { Box, Container, Grid, LinearProgress, makeStyles, Paper, Typography } from '@material-ui/core';
 import cartApi from 'api/cartApi';
 import commentApi from 'api/commentApi';
+import rateApi from 'api/rateApi';
 import { useSnackbar } from 'notistack';
 // import { addToCart } from 'features/Cart/cartSlice';
 import React, { useEffect, useState } from 'react';
@@ -37,12 +38,17 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
   },
+
+  wanrranty: {
+    marginTop: '15px',
+  },
 }));
 
 function DetailPage() {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [commentList, setCommentList] = useState([]);
+  const [rateList, setRateList] = useState([]);
   // const match = useRouteMatch();
   // console.log({ match }); get param do tren url
 
@@ -74,6 +80,27 @@ function DetailPage() {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const { list } = await rateApi.get(productId);
+        setRateList(
+          list.map((x) => ({
+            id: x.id,
+            message: x.message,
+            rateReply: x.rateReply,
+            createdDate: x.createdDate,
+            user: x.user,
+          }))
+        );
+      } catch (error) {
+        // enqueueSnackbar(error.message, { variant: 'error' });
+        console.log(error);
+      }
+    })();
+  }, []);
+  console.log(rateList);
+
   if (loading) {
     return (
       <Box className={classes.loading}>
@@ -97,7 +124,7 @@ function DetailPage() {
       console.log(values);
       enqueueSnackbar(result.message, { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar(error.message, { variant: 'error' });
+      enqueueSnackbar(error.response.data.message, { variant: 'error' });
     }
   };
 
@@ -133,6 +160,39 @@ function DetailPage() {
     }
   };
 
+  const handleRateSubmit = async (values) => {
+    console.log(values);
+    try {
+      if (values.hasOwnProperty('productId')) {
+        // const { message, object } = await rateApi.addClient(values);
+        // const objectResult = {
+        //   id: object.id,
+        //   message: object.message,
+        //   commentReply: object.commentReply,
+        //   createdDate: object.createdDate,
+        //   user: object.user,
+        // };
+        // const newCommentList = [...commentList, objectResult];
+        // setCommentList(newCommentList);
+        // enqueueSnackbar(message, { variant: 'success' });
+      } else {
+        const { message, object } = await rateApi.addClientReply(values);
+        // const objectResult = {
+        //   id: object.id,
+        //   message: object.message,
+        //   commentReply: object.commentReply,
+        //   createdDate: object.createdDate,
+        //   user: object.user,
+        // };
+        // const newCommentList = [...commentList, objectResult];
+        // setCommentList(newCommentList);
+        enqueueSnackbar(message, { variant: 'success' });
+      }
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
+  };
+
   return (
     <Box className={classes.root}>
       <Container>
@@ -143,7 +203,9 @@ function DetailPage() {
             </Grid>
             <Grid item className={classes.right}>
               <ProductInfo product={product} />
+
               <AddToCartForm onSubmit={handleAddToCartSubmit} />
+              <Typography className={classes.wanrranty}>Số lượng hàng còn: {product.wanrranty}</Typography>
             </Grid>
           </Grid>
         </Paper>
@@ -153,8 +215,13 @@ function DetailPage() {
           <Route exact path={url}>
             <ProductDescription product={product} />
           </Route>
-
-          <Route path={`${url}/evaluation`} component={ProductEvaluation} />
+          <Route path={`${url}/evaluation`}>
+            {rateList ? (
+              <ProductEvaluation rateList={rateList} productId={productId} onSubmit={handleRateSubmit} />
+            ) : (
+              ''
+            )}
+          </Route>
           <Route path={`${url}/comment`}>
             {commentList ? (
               <ProductComment commentList={commentList} productId={productId} onSubmit={handleCommentSubmit} />

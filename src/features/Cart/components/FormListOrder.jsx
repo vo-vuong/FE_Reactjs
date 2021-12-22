@@ -17,8 +17,9 @@ import ProductCart from './ProductCart';
 import { formatPrice } from 'utils';
 import { useSnackbar } from 'notistack';
 import orderApi from 'api/orderApi';
+import ProductOrder from './ProductOrder';
 
-FormListCart.propTypes = {};
+FormListOrder.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
   root: { marginBottom: '20px' },
@@ -42,22 +43,27 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px 0',
   },
 }));
-function FormListCart(props) {
+function FormListOrder(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [value, setValue] = React.useState('female');
 
-  const handleOrder = async () => {
-    try {
-      const { message, object } = await orderApi.addClient();
-      enqueueSnackbar(message, { variant: 'success' });
-    } catch (error) {
-      enqueueSnackbar(error.message, { variant: 'error' });
-    }
-  };
-  console.log(props);
+  // const handleOrder = async () => {
+  //   try {
+  //     const { message, object } = await orderApi.addClient();
+  //     enqueueSnackbar(message, { variant: 'success' });
+  //   } catch (error) {
+  //     enqueueSnackbar(error.message, { variant: 'error' });
+  //   }
+  // };
+  console.log(props.listOrder);
   return (
     <div className={classes.root}>
+      <Box style={{ paddingLeft: '16px' }}>
+        <Typography component="h5" variant="h6">
+          Danh sách hàng đã đặt
+        </Typography>
+      </Box>
       <Paper className={classes.listTitle}>
         <Typography style={{ flexGrow: '1', paddingLeft: '16px' }} component="h5" variant="h5">
           Sản phẩm
@@ -72,34 +78,22 @@ function FormListCart(props) {
           Thành tiền
         </Typography>
         <Typography className={classes.item} component="h5" variant="h5">
-          Thao tác
+          Trạng thái
         </Typography>
       </Paper>
 
       <Grid>
-        {props.cartList.map((item) => (
+        {props.listOrder.map((item) => (
           <Paper key={item.id} className={classes.itemProductCart}>
             <Grid item>
-              <ProductCart quantity={item.quantity} product={item.product} idCart={item.id} />
+              <ProductOrder status={item.status} orderDetail={item.orderDetail} idOrder={item.id} />
             </Grid>
           </Paper>
         ))}
       </Grid>
 
       <Paper>
-        <Box style={{ paddingLeft: '16px' }}>
-          <Typography component="h5" variant="h6">
-            Chọn hình thức thanh toán:
-          </Typography>
-          <FormControl component="fieldset">
-            <RadioGroup aria-label="gender" name="gender1" value={value}>
-              <FormControlLabel value="female" control={<Radio />} label="Thanh toán khi nhận hàng" />
-              <FormControlLabel value="disabled" disabled control={<Radio />} label="Thanh toán online" />
-            </RadioGroup>
-          </FormControl>
-        </Box>
-
-        <Box className={classes.listTotal}>
+        {/* <Box className={classes.listTotal}>
           <Typography style={{ paddingLeft: '16px' }} component="h5" variant="h6">
             Tổng số lượng sản phẩm: {props.totalQuantity}
           </Typography>
@@ -115,17 +109,11 @@ function FormListCart(props) {
           >
             Mua hàng
           </Button>
-        </Box>
+        </Box> */}
       </Paper>
 
-      {/* <Paper style={{ marginTop: '8px' }}>
-        <Box style={{ paddingLeft: '16px' }}>
-          <Typography component="h5" variant="h6">
-            Danh sách hàng đã đặt
-          </Typography>
-        </Box>
-
-        <Box className={classes.listTotal}>
+      <Paper style={{ marginTop: '8px' }}>
+        {/* <Box className={classes.listTotal}>
           <Typography style={{ paddingLeft: '16px' }} component="h5" variant="h6">
             Tổng số lượng sản phẩm: {props.totalQuantity}
           </Typography>
@@ -141,10 +129,10 @@ function FormListCart(props) {
           >
             Mua hàng
           </Button>
-        </Box>
-      </Paper> */}
+        </Box> */}
+      </Paper>
     </div>
   );
 }
 
-export default FormListCart;
+export default FormListOrder;

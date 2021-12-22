@@ -48,10 +48,10 @@ function ProductCart(props) {
       history.push('/');
       history.push('/cart');
     } catch (error) {
-      enqueueSnackbar(error.message, { variant: 'error' });
+      enqueueSnackbar(error.response.data.message, { variant: 'error' });
     }
   };
-  console.log(props);
+
   return (
     <Box className={classes.root} padding={1}>
       <Box style={{ flexGrow: '1', cursor: 'pointer' }} padding={1} onClick={handleClick}>

@@ -115,8 +115,8 @@ export default function HeaderAdmin() {
         }}
         getContentAnchorEl={null}
       >
-        <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-        <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+        {/* <MenuItem onClick={handleCloseMenu}>My account</MenuItem> */}
+        <MenuItem onClick={handleLogoutClick}>Đăng xuất</MenuItem>
       </Menu>
     </div>
   );
