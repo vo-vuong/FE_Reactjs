@@ -9,7 +9,7 @@ ProductInfo.propTypes = {
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: { paddingBottom: theme.spacing(2), borderBottom: `1px solid ${theme.palette.grey[200]}` },
+  root: { paddingBottom: theme.spacing(1), borderBottom: `1px solid ${theme.palette.grey[200]}` },
   nameCode: {
     margin: theme.spacing(0, 0, 1, 0),
   },
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
   ratingBox: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     display: 'flex',
   },
   detail: {},
@@ -54,7 +54,7 @@ function ProductInfo({ product = {} }) {
       </Box>
 
       <Typography className={classes.shortdescription}>{shortdescription}</Typography>
-
+    
       <Box className={classes.priceBox}>
         <Box className={classes.price} component="span">
           {formatPrice(price)}
@@ -64,6 +64,7 @@ function ProductInfo({ product = {} }) {
         <Typography className={classes.code}>Đánh giá</Typography>
         <Rating name="half-rating-read" defaultValue={rate || 5} precision={0.1} readOnly />
       </Box>
+      
     </Box>
   );
 }

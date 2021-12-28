@@ -27,14 +27,14 @@ function FormCategory(category) {
   const schema = yup.object({
     name: yup
       .string()
-      .required('Vui lòng nhập Tên danh mục sản phẩm.')
-      .min(5, 'Vui lòng nhập Tên danh mục sản phẩm lớn hơn 5 kí tự.')
-      .max(255, 'Vui lòng nhập Tên danh mục sản phẩm nhỏ hơn 255 kí tự.'),
+      .required('Vui lòng nhập Tên danh mục xuất sứ.')
+      .min(5, 'Vui lòng nhập Tên danh mục xuất sứ lớn hơn 5 kí tự.')
+      .max(255, 'Vui lòng nhập Tên danh mục xuất sứ nhỏ hơn 255 kí tự.'),
     code: yup
       .string()
-      .required('Vui lòng nhập Mã định danh.')
-      .min(5, 'Vui lòng nhập Mã định danh lớn hơn 5 kí tự.')
-      .max(255, 'Vui lòng nhập Mã định danh nhỏ hơn 255 kí tự.'),
+      .required('Vui lòng nhập code.')
+      .min(5, 'Vui lòng nhập Code lớn hơn 5 kí tự.')
+      .max(255, 'Vui lòng nhập Code nhỏ hơn 255 kí tự.'),
   });
 
   const form = useForm({
