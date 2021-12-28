@@ -205,7 +205,7 @@ function DetailPage() {
               <ProductInfo product={product} />
 
               <AddToCartForm onSubmit={handleAddToCartSubmit} />
-              <Typography className={classes.wanrranty}>Số lượng hàng còn: {product.wanrranty}</Typography>
+              <Typography className={classes.wanrranty}>Số lượng hàng còn: {product.quantity}</Typography>
             </Grid>
           </Grid>
         </Paper>

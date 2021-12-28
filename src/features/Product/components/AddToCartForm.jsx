@@ -2,8 +2,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@material-ui/core';
 import QuantityField from 'components/form-controls/QuantityField';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 AddToCartForm.propTypes = {
@@ -11,6 +12,10 @@ AddToCartForm.propTypes = {
 };
 
 function AddToCartForm({ onSubmit = null }) {
+  const dispatch = useDispatch();
+  const loggedInUser = useSelector((state) => state.user.current);
+  const isLoggedIn = !!loggedInUser.id;
+
   const schema = yup.object().shape({
     quantity: yup
       .number()
@@ -35,9 +40,17 @@ function AddToCartForm({ onSubmit = null }) {
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <QuantityField name="quantity" label="Số lượng" form={form} />
 
-      <Button type="submit" variant="contained" color="primary" style={{ width: '180px' }} size="small">
-        Thêm vào giỏ hàng
-      </Button>
+      {!isLoggedIn && (
+        <Button disabled type="submit" variant="contained" color="primary" style={{ width: '180px' }} size="small">
+          Thêm vào giỏ hàng
+        </Button>
+      )}
+
+      {isLoggedIn && (
+        <Button type="submit" variant="contained" color="primary" style={{ width: '180px' }} size="small">
+          Thêm vào giỏ hàng
+        </Button>
+      )}
     </form>
   );
 }

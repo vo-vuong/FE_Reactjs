@@ -142,9 +142,9 @@ export default function AccountsAdminPage() {
     history.push(`/admin/accounts/${id}`);
   };
 
-  // const handleCreate = () => {
-  //   history.push('/admin/accounts/create');
-  // };
+  const handleCreate = () => {
+    history.push('/admin/accounts/create');
+  };
 
   return (
     <Box className={classes.root}>
@@ -157,9 +157,9 @@ export default function AccountsAdminPage() {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          {/* <Button variant="contained" size="small" style={{ color: green[500] }} onClick={handleCreate}>
+          <Button variant="contained" size="small" onClick={handleCreate}>
             Tạo mới tài khoản
-          </Button> */}
+          </Button>
           <Paper className={classes.table}>
             <TableContainer className={classes.container}>
               <Table stickyHeader aria-label="sticky table">
@@ -182,7 +182,7 @@ export default function AccountsAdminPage() {
                           if (column.id === 'action') {
                             return (
                               <TableCell key={column.id} align={column.align}>
-                                {/* <Button
+                                <Button
                                   onClick={() => handleClick(rowId)}
                                   variant="outlined"
                                   size="small"
@@ -190,7 +190,7 @@ export default function AccountsAdminPage() {
                                   style={{ marginRight: '5px' }}
                                 >
                                   update
-                                </Button> */}
+                                </Button>
                                 <Button
                                   variant="outlined"
                                   size="small"
